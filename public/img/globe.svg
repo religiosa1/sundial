@@ -1,0 +1,16 @@
+<svg viewbox="0 0 100 100" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+  <style type="text/css">
+    .l {
+      stroke-width: 4px;
+      stroke: #000;
+      fill: none;
+    }
+  </style>
+  <circle cx="50" cy="50" r="48" class="l" />
+  <line x1="2" y1="50" x2="98" y2="50" class="l" />
+  <line x1="50" y1="2" x2="50" y2="98" class="l" />
+  <path d="M19.146194 13.229866 A75 75 0 0 0 80.853805 13.229866" class="l" />
+  <path d="M19.146194 86.770133 A75 75 0 0 1 80.853805 86.770133" class="l" />
+  <path d="M50 2 A57 57 0 0 1 50 98" class="l" />
+  <path d="M50 2 A57 57 0 0 0 50 98" class="l" />
+</svg>
