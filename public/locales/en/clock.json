@@ -1,0 +1,15 @@
+{
+  "dialDesc": "Sunset, sunrise and different twilight times",
+  "latitude": "latitude",
+  "longitude": "longitude",
+  "sunrise": "sunrise",
+  "sunset": "sunset",
+  "day": "day",
+  "civilTwilight": "civil twilight",
+  "nauticalTwilight": "nautical twilight",
+  "astronomicalTwilight": "astronomical twilight",
+  "night": "night",
+  "noon": "noon",
+  "nadir": "nadir",
+  "goldenHour": "golden hour"
+}

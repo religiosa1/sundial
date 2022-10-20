@@ -1,11 +1,11 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-
+  import { i18n } from '$/stores/i18n';
   import { suncalc } from "$/stores/suncalc";
+  import type { ClockSection } from "$/models/ClockSection"
 
   import { timeToDeg } from "$/utils/timeToDeg";
-  import { timeRingSections } from "../timeRingSections";
-  import type { ClockSection } from "$/models/ClockSection"
+  import { timeRingSections } from "./timeRingSections";
 
   import Markers from "./Markers.svelte";
   import RingSections from "./RingSections.svelte";
@@ -30,7 +30,7 @@
 </script>
 
 <svg class="dial" viewBox="0 0 {conf.size} {conf.size}" xmlns="http://www.w3.org/2000/svg">
-  <desc>Отображение времени заката, рассвета и различных состояний сумерек</desc>
+  <desc>{$i18n.t`dialDesc`}</desc>
   <linearGradient id="grd-astro" x1="0" y1="1" x2="0" y2="0">
     <stop offset="0%" stop-color="#0000aa"></stop>
     <stop offset="100%" stop-color="#000044"></stop>

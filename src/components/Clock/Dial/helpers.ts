@@ -1,4 +1,5 @@
 import * as conf from "./config";
+import type { DefaultTFuncReturn } from "i18next";
 
 /**
  * Рассчёт пути полигона секции
@@ -23,12 +24,15 @@ export function calculatePath(section): string {
   return `M${start_x} ${start_y} A${conf.radius} ${conf.radius} 0 ${largeArcFlag} 1 ${end_x} ${end_y}`;
 }
 
-export function colorizeSections<T extends { id: string }>(times: Array<T>): Array<T & { stroke: string, name: string }> {
+export function colorizeSections<T extends { id: string }>(
+  times: Array<T>,
+  colors: Record<string, { stroke: string, name: string | DefaultTFuncReturn }>
+): Array<T & { stroke: string, name: string | DefaultTFuncReturn }> {
   if (!Array.isArray(times)) return [];
 
   return times.map(i => ({
     ...i,
-    stroke: conf.colors[i.id]?.stroke,
-    name: conf.colors[i.id]?.name,
+    stroke: colors[i.id]?.stroke,
+    name: colors[i.id]?.name,
   }));
 }

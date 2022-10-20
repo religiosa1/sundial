@@ -3,17 +3,19 @@
   import { timeToDeg } from "$/utils/timeToDeg";
   import { suncalc } from "$/stores/suncalc";
   import * as config from "./config";
+  import { i18n } from '$/stores/i18n';
+
   const dispatch = createEventDispatcher();
 
   $: markers = [
     {
-      name: "солнечный полдень",
+      name: $i18n.t`noon`,
       time: $suncalc.solarNoon,
       offset: timeToDeg($suncalc.solarNoon),
       class: "time-mark-noon",
     },
     {
-      name: "надир",
+      name: $i18n.t`nadir`,
       time: $suncalc.nadir,
       offset: timeToDeg($suncalc.nadir),
       class: "time-mark-nadir",

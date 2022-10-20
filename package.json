@@ -25,6 +25,10 @@
   },
   "dependencies": {
     "date-fns": "^2.29.3",
-    "suncalc": "^1.9.0"
+    "i18next": "^22.0.1",
+    "i18next-browser-languagedetector": "^6.1.8",
+    "i18next-http-backend": "^1.4.4",
+    "suncalc": "^1.9.0",
+    "svelte-i18next": "^1.2.2"
   }
 }

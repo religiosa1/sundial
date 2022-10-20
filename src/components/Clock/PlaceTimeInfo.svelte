@@ -1,11 +1,12 @@
 <script lang="ts">
   import { latitude, longitude } from "$/stores/location";
   import { latToDegree, longToDegree } from "$/utils/latlong";
+  import { i18n } from '$/stores/i18n';
 </script>
 
 <div class="placetime-info">
-  <span title="широта" class="lat">{latToDegree($latitude)}</span>,
-  <span title="долгота" class="long">{longToDegree($longitude)}</span>
+  <span title={$i18n.t`latitude`} class="lat">{latToDegree($latitude)}</span>,
+  <span title={$i18n.t`longitude`} class="long">{longToDegree($longitude)}</span>
 </div>
 
 <style>

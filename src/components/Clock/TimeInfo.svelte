@@ -2,6 +2,7 @@
   import { format } from "date-fns";
   import { suncalc } from "$/stores/suncalc";
   import { date } from "$/stores/date";
+  import { i18n } from '$/stores/i18n';
   export let time: Date;
 
 </script>
@@ -15,7 +16,7 @@
   </time>
 
   <dl class="sunset-sunrise">
-    <div class="sunset-sunrise__entry" title="восход">
+    <div class="sunset-sunrise__entry" title={$i18n.t`sunrise`}>
       <dt>↑</dt>
       <dd>
         <time class="sunset-sunrise__value" datetime={$suncalc?.sunrise?.toISOString?.()}>
@@ -23,7 +24,7 @@
         </time>
       </dd>
     </div>
-    <div class="sunset-sunrise__entry" title="закат">
+    <div class="sunset-sunrise__entry" title={$i18n.t`sunset`}>
       <dt>↓</dt>
       <dd>
         <time class="sunset-sunrise__value" datetime={$suncalc.sunset.toISOString?.()}>

@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { format, startOfDay, endOfDay } from "date-fns";
   import * as conf from "./config";
+  import { colors } from "./config";
   import { calculatePath } from "./helpers";
   import type { ClockSection } from "$/models/ClockSection";
   import { colorizeSections } from "./helpers";
@@ -16,7 +17,7 @@
 
   let ringSections;
   $: if (sections && sections.length > 0) {
-    ringSections = colorizeSections(sections);
+    ringSections = colorizeSections(sections, $colors);
   } else {
     // let cm = new Date($suncalc.nadir); // check
     let s = {
@@ -24,7 +25,7 @@
       start: startOfDay($suncalc.nadir),
       end: endOfDay($suncalc.nadir),
     };
-    ringSections = colorizeSections([s]);
+    ringSections = colorizeSections([s], $colors);
   }
 </script>
 
