@@ -5,13 +5,18 @@
 </script>
 
 <div class="placetime-info">
-  <span title={$i18n.t`latitude`} class="lat">{latToDegree($latitude)}</span>,
-  <span title={$i18n.t`longitude`} class="long">{longToDegree($longitude)}</span>
+  <span title={$i18n.t`clock.latitude`} class="lat">{latToDegree($latitude)}</span>,
+  <span title={$i18n.t`clock.longitude`} class="long">{longToDegree($longitude)}</span>
 </div>
 
 <style>
   .placetime-info {
     font-size: 0.6em;
     margin: 1em;
+  }
+  @media (max-width: 700px) {
+    .placetime-info {
+      font-size: 0.8em;
+    }
   }
 </style>

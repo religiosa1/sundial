@@ -1,15 +1,26 @@
 {
-  "dialDesc": "Sunset, sunrise and different twilight times",
-  "latitude": "latitude",
-  "longitude": "longitude",
-  "sunrise": "sunrise",
-  "sunset": "sunset",
-  "day": "day",
-  "civilTwilight": "civil twilight",
-  "nauticalTwilight": "nautical twilight",
-  "astronomicalTwilight": "astronomical twilight",
-  "night": "night",
-  "noon": "noon",
-  "nadir": "nadir",
-  "goldenHour": "golden hour"
+  "title": "Sundial",
+  "clock": {
+    "astronomicalTwilight": "astronomical twilight",
+    "civilTwilight": "civil twilight",
+    "day": "day",
+    "dialDesc": "Sunset, sunrise and different twilight times",
+    "eveningGoldenHour": "evening golden hour",
+    "goldenHour": "golden hour",
+    "latitude": "latitude",
+    "longitude": "longitude",
+    "morningGoldenHour": "morning golden hour",
+    "nadir": "nadir",
+    "nauticalTwilight": "nautical twilight",
+    "night": "night",
+    "noon": "noon",
+    "sunrise": "sunrise",
+    "sunset": "sunset"
+  },
+  "menu": {
+    "place": "choose place",
+    "date": "choose date",
+    "dial": "dial",
+    "table": "table view"
+  }
 }

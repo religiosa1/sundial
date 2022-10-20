@@ -1,7 +1,5 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { slide } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
 
   import Dial from "./Dial/Dial.svelte";
   import SectionInfo from "./SectionInfo.svelte";
@@ -32,8 +30,7 @@
 
 </script>
 
-
-<div class="clock" transition:slide="{{ duration: 300, easing: quintOut }}">
+<div class="clock">
   <div class="top-marker" class:top-marker-visible={rotated}></div>
   <button class="dial-wrapper"
     type="button"

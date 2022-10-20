@@ -9,13 +9,13 @@
 
   $: markers = [
     {
-      name: $i18n.t`noon`,
+      name: $i18n.t`clock.noon`,
       time: $suncalc.solarNoon,
       offset: timeToDeg($suncalc.solarNoon),
       class: "time-mark-noon",
     },
     {
-      name: $i18n.t`nadir`,
+      name: $i18n.t`clock.nadir`,
       time: $suncalc.nadir,
       offset: timeToDeg($suncalc.nadir),
       class: "time-mark-nadir",

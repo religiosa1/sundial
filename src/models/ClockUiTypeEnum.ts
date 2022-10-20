@@ -1,4 +1,4 @@
-export enum ClockUiType {
+export enum ClockUiTypeEnum {
   "default",
   "placeform",
   "dateform",

@@ -12,50 +12,50 @@ export const FORMAT = "H:mm:ss";
 export const colors = derived([i18n], ([$i18n]) => ({
   "astronomical-twilight-morning": {
     stroke: "url(#grd-astro)",
-    name: $i18n.t`astronomicalTwilight`,
+    name: $i18n.t`clock.astronomicalTwilight`,
   },
   "nautical-dawn": {
     stroke: "url(#grd-nautic)",
-    name: $i18n.t`nauticalTwilight`,
+    name: $i18n.t`clock.nauticalTwilight`,
   },
   "dawn": {
     stroke: "url(#grd-dusk)",
-    name: $i18n.t`civilTwilight`,
+    name: $i18n.t`clock.civilTwilight`,
   },
   "sunrise": {
     stroke: "url(#grd-sun)",
-    name: $i18n.t`sunrise`,
+    name: $i18n.t`clock.sunrise`,
   },
   "golden-hour-morning": {
     stroke: "url(#grd-golden)",
-    name: $i18n.t`goldenHour`,
+    name: $i18n.t`clock.goldenHour`,
   },
   "day": {
     stroke: "url(#grd-day)",
-    name: $i18n.t`day`,
+    name: $i18n.t`clock.day`,
   },
   "golden-hour-evening": {
     stroke: "url(#grd-golden)",
-    name: $i18n.t`goldenHour`,
+    name: $i18n.t`clock.goldenHour`,
   },
   "sunset": {
     stroke: "url(#grd-sun)",
-    name: $i18n.t`sunset`,
+    name: $i18n.t`clock.sunset`,
   },
   "dusk": {
     stroke: "url(#grd-dusk)",
-    name: $i18n.t`civilTwilight`,
+    name: $i18n.t`clock.civilTwilight`,
   },
   "nautical-dusk": {
     stroke: "url(#grd-nautic)",
-    name: $i18n.t`nauticalTwilight`,
+    name: $i18n.t`clock.nauticalTwilight`,
   },
   "astronomical-twilight-eveing": {
     stroke: "url(#grd-astro)",
-    name: $i18n.t`astronomicalTwilight`,
+    name: $i18n.t`clock.astronomicalTwilight`,
   },
   "night": {
     stroke: "url(#grd-night)",
-    name: $i18n.t`night`,
+    name: $i18n.t`clock.night`,
   },
 }));

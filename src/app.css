@@ -59,11 +59,19 @@
 :root {
   --bg-color: #FFF;
   --txt-color: #020202;
+
+  --table-border-color: #AAA;
+  --table-bg-main: var(--bg-color);
+  --table-bg-secondary: #EFEFEF;
+
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #1e1e1e;
+    --bg-color: #1E1E1E;
     --txt-color: #FFF;
+
+    --table-border-color: #AAA;
+    --table-bg-secondary: #2E2E2E;
   }
 }
 
@@ -83,7 +91,6 @@ button { color: var(--txt-color); }
   box-sizing: border-box;
 }
 
-
 .table-responsive {
   display: block;
   width: 100%;
@@ -100,25 +107,20 @@ button { color: var(--txt-color); }
   text-align: center;
   vertical-align: middle;
   border: 1px solid var(--table-border-color);
-  background: white;
+  background: var(--table-bg-main);
 }
 .table th {
   font-weight: 600;
 }
 .table tr:nth-child(even) th,
 .table tr:nth-child(even) td {
-  background: #EFEFEF;
+  background: var(--table-bg-secondary);
 }
 .table th:first-child,
 .table td:first-child {
   text-align: right;
 }
 .table td { min-width: 5em; }
-
-:root {
-  --table-border-color: #aaa;
-}
-
 
 @media (max-width: 500px) {
   .table th, .table td { font-size: 0.7em; }

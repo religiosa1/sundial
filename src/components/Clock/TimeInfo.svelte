@@ -16,7 +16,7 @@
   </time>
 
   <dl class="sunset-sunrise">
-    <div class="sunset-sunrise__entry" title={$i18n.t`sunrise`}>
+    <div class="sunset-sunrise__entry" title={$i18n.t`clock.sunrise`}>
       <dt>↑</dt>
       <dd>
         <time class="sunset-sunrise__value" datetime={$suncalc?.sunrise?.toISOString?.()}>
@@ -24,7 +24,7 @@
         </time>
       </dd>
     </div>
-    <div class="sunset-sunrise__entry" title={$i18n.t`sunset`}>
+    <div class="sunset-sunrise__entry" title={$i18n.t`clock.sunset`}>
       <dt>↓</dt>
       <dd>
         <time class="sunset-sunrise__value" datetime={$suncalc.sunset.toISOString?.()}>

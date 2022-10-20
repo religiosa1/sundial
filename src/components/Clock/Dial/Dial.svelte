@@ -30,7 +30,7 @@
 </script>
 
 <svg class="dial" viewBox="0 0 {conf.size} {conf.size}" xmlns="http://www.w3.org/2000/svg">
-  <desc>{$i18n.t`dialDesc`}</desc>
+  <desc>{$i18n.t`clock.dialDesc`}</desc>
   <linearGradient id="grd-astro" x1="0" y1="1" x2="0" y2="0">
     <stop offset="0%" stop-color="#0000aa"></stop>
     <stop offset="100%" stop-color="#000044"></stop>
