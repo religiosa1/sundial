@@ -5,7 +5,7 @@
   import { calculatePath } from "./helpers";
   import type { ClockSection } from "$/models/ClockSection";
   import { colorizeSections } from "./helpers";
-  import { suncalc } from "../clock.store";
+  import { suncalc } from "$/stores/suncalc";
 
   import Hours from "./Hours.svelte";
 

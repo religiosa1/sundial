@@ -1,5 +1,8 @@
-import SunCalc from "suncalc";
+import { derived } from "svelte/store";
 import { set, isBefore, isAfter } from "date-fns";
+import { latitude, longitude } from "./location";
+import { date } from "./date";
+import sunCalc from "suncalc";
 
 const isWinter = function(date: Date, latitude: number): boolean {
   // TODO правильный просчёт равноденствия ?
@@ -13,9 +16,10 @@ const isWinter = function(date: Date, latitude: number): boolean {
   }
 }
 
-export function getTimes(time: Date, latitude: number, longitude: number) {
-  return {
-    isWinter: isWinter(time, latitude),
-    ...SunCalc.getTimes(time, latitude, longitude)
-  }
-}
+export const suncalc = derived(
+  [date, latitude, longitude],
+  ([ $date, $latitude, $longitude ]) => ({
+    isWinter: isWinter($date, $latitude),
+    ...sunCalc.getTimes($date, $latitude, $longitude)
+  })
+);

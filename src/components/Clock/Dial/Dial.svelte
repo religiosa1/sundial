@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
 
-  import { suncalc } from "../clock.store";
+  import { suncalc } from "$/stores/suncalc";
 
   import { timeToDeg } from "$/utils/timeToDeg";
   import { timeRingSections } from "../timeRingSections";

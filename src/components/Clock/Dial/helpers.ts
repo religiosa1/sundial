@@ -1,4 +1,3 @@
-import type { ClockSection } from "$/models/ClockSection";
 import * as conf from "./config";
 
 /**

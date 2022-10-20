@@ -5,6 +5,7 @@
 
   import Dial from "./Dial/Dial.svelte";
   import SectionInfo from "./SectionInfo.svelte";
+  import PlaceTimeInfo from "./PlaceTimeInfo.svelte";
 
   import { timeToDeg } from "$/utils/timeToDeg";
   import { onKbdCode } from "$/utils/onKbd";
@@ -63,6 +64,7 @@
     </div>
   </button>
   <SectionInfo {section} />
+  <PlaceTimeInfo />
 </div>
 
 <style>
