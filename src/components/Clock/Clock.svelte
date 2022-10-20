@@ -6,6 +6,7 @@
   import Dial from "./Dial/Dial.svelte";
   import SectionInfo from "./SectionInfo.svelte";
   import PlaceTimeInfo from "./PlaceTimeInfo.svelte";
+  import TimeInfo from "./TimeInfo.svelte";
 
   import { timeToDeg } from "$/utils/timeToDeg";
   import { onKbdCode } from "$/utils/onKbd";
@@ -13,12 +14,7 @@
   let time = new Date();
 
   let rotated = true;
-  $: rotationStyles = getRotationStyles(rotated);
-
-  function getRotationStyles(rotated) {
-    if (rotated) return `transform: rotate(-${timeToDeg(time)}deg)`
-    return "";
-  }
+  $: rotationStyles = rotated ? `transform: rotate(-${timeToDeg(time)}deg)` : '';
 
   function toggleRotation() {
     rotated = !rotated;
@@ -26,24 +22,13 @@
 
   $: section = null;
   function updateSectionInfo(e) {
-    if (e && e.detail) {
-      section = e.detail;
-    }
-    else {
-      section = null;
-    }
+    section = e?.detail || null;
   }
 
   onMount(()=>{
-    const interval = setInterval(() => {
-      time = new Date();
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
+    const interval = setInterval(() => { time = new Date() }, 1000);
+    return () => { clearInterval(interval) };
   });
-
 
 </script>
 
@@ -60,11 +45,13 @@
     </div>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="dial-overlay" on:click|stopPropagation>
-      <slot></slot>
+      <slot>
+        <TimeInfo {time} />
+        <PlaceTimeInfo />
+      </slot>
     </div>
   </button>
   <SectionInfo {section} />
-  <PlaceTimeInfo />
 </div>
 
 <style>
@@ -77,6 +64,7 @@
     border-radius: 50%;
     width: 85vmin;
     max-height: 85vmin;
+    background: transparent;
   }
   .dial-wrapper {
     position: relative;

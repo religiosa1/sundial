@@ -15,7 +15,6 @@
 
   const dispatch = createEventDispatcher();
 
-
   let selectedSection = null;
   function sectionHover(ev: CustomEvent<DaySection | undefined>) {
     selectedSection = ev.detail;
