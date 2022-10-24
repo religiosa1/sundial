@@ -1,37 +1,52 @@
 <script>
-  import { ClockUiTypeEnum } from '$/models/ClockUiTypeEnum';
-  import { tableView, state } from '$/stores/clockUi';
+  // import { ClockUiTypeEnum } from '$/models/ClockUiTypeEnum';
   import { i18n } from '$/stores/i18n';
+  import { AppRouteEnum } from "$/routes";
+  import { currentRoute } from "$/stores/clockUi";
 
-  function toggleTableView() {
-    tableView.update(n => !n);
-  }
+  // function togglePlaceForm() {
+  //   if ($state === ClockUiTypeEnum.placeform) {
+  //     $state = ClockUiTypeEnum.default;
+  //   } else {
+  //     $state = ClockUiTypeEnum.placeform;
+  //   }
+  // }
 
-  function togglePlaceForm() {
-    if ($state === ClockUiTypeEnum.placeform) {
-      $state = ClockUiTypeEnum.default;
-    } else {
-      $state = ClockUiTypeEnum.placeform;
-    }
-  }
-
-  function toggleDateForm() {
-    if ($state === ClockUiTypeEnum.dateform) {
-      $state = ClockUiTypeEnum.default;
-    } else {
-      $state = ClockUiTypeEnum.dateform;
-    }
-  }
+  // function toggleDateForm() {
+  //   if ($state === ClockUiTypeEnum.dateform) {
+  //     $state = ClockUiTypeEnum.default;
+  //   } else {
+  //     $state = ClockUiTypeEnum.dateform;
+  //   }
+  // }
 </script>
 
 <aside class="menu">
-  <button
-    type="button"
-    class="menu__button display-type"
-    class:display-type-dial={$tableView}
-    title={$i18n.t($tableView ? "menu.dial" : "menu.table")}
-    on:click={toggleTableView}
-  />
+  <nav class="menu__nav">
+    <button
+      type="button"
+      class="menu__button display-type display-type_dial"
+      title={$i18n.t`menu.dial`}
+      class:active={ $currentRoute === AppRouteEnum.dialView}
+      on:click={() => $currentRoute = AppRouteEnum.dialView }
+    />
+
+    <button
+      type="button"
+      class="menu__button display-type display-type_table"
+      title={$i18n.t`menu.table`}
+      class:active={ $currentRoute === AppRouteEnum.tableView}
+      on:click={() => $currentRoute = AppRouteEnum.tableView }
+    />
+
+    <button
+      type="button"
+      class="menu__button display-type display-type_yearly"
+      title={$i18n.t`menu.yearly`}
+      class:active={ $currentRoute === AppRouteEnum.yearlyView}
+      on:click={() => $currentRoute = AppRouteEnum.yearlyView }
+    />
+  </nav>
   <!--
     Комментируем, пока не прикрутим нужные формы
   <button
@@ -56,11 +71,12 @@
   top: 10px;
   right: 30px;
   background: transparent;
-  transition: background-color 0.4s, box-shadow 0.4s;
-  display: flex;
-  flex-flow: column nowrap;
-  gap: 10px
 }
+  .menu__nav {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+  }
   .menu__button {
     display: block;
     width:50px;
@@ -77,7 +93,6 @@
     align-items: center;
     justify-content: center;
   }
-  .menu__button:last-of-type { margin-bottom: 0; }
   .menu__button:focus {
     border-color: #88f;
   }
@@ -90,10 +105,13 @@
   }
 
   .menu__button:active { transform: translate(1px, 1px); }
-  /* .menu__button.active { background-color: #999; } */
+  .menu__button.active { background-color: #999; }
 
-  .display-type::after { background-image: url("/img/table.svg"); }
-  .display-type-dial { background-image: url("/img/dial.svg"); }
+  .display-type_table::after { background-image: url("/img/table.svg"); }
+  .display-type_dial::after { background-image: url("/img/dial.svg"); }
+  /* FIXME отдельная картинка для этого раздела  */
+  .display-type_yearly::after { background-image: url("/img/calendar.svg"); }
+
 
   /* .placeform { background-image: url("/img/globe.svg"); }
   .dateform { background-image: url("/img/calendar.svg"); } */
@@ -112,6 +130,8 @@
     bottom: 10px;
     right: 10px;
     left: 10px;
+  }
+  .menu__nav {
     flex-direction: row;
     gap: 25px;
     justify-content: space-around;

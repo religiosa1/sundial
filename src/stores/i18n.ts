@@ -8,6 +8,7 @@ i18next
   .use(LanguageDetector)
   .init({
     debug: true,
+    load: 'languageOnly',
     detection: {
       order: ["querystring", "localStorage", "navigator"],
       caches: ["localStorage"],
@@ -23,5 +24,10 @@ i18next
       escapeValue: false, // not needed for svelte as it escapes by default
     }
   });
+
+i18next.on('languageChanged', (lngRegExt) => {
+  const [lng] = lngRegExt.split(',');
+  document.documentElement.setAttribute("lang", lng);
+});
 
 export const i18n = createI18nStore(i18next);
