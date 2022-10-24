@@ -1,13 +1,12 @@
 <script lang="ts">
   import sunCalc from "suncalc";
   import { setDayOfYear } from "date-fns";
-  import { date } from "$/stores/date";
   import { latitude, longitude } from "$/stores/location";
   import { range } from "$/utils/range";
   import { dayToX, timeToY } from "./helpers";
 
   $: days = Array.from(range(364), (_, i) => {
-    const d = setDayOfYear(new Date($date.getFullYear(), 0, 1), i+1);
+    const d = setDayOfYear(new Date(new Date().getFullYear(), 0, 1), i+1);
     const t = sunCalc.getTimes(d, $latitude, $longitude);
     return {
       date: d,

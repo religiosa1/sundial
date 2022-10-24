@@ -10,9 +10,9 @@
   import { AppRouteEnum } from "./routes";
 </script>
 
-<!-- <svelte:head>
-	<title>{$i18n.t`title`}</title>
-</svelte:head> -->
+<svelte:head>
+	<title>{$i18n.isInitialized ? $i18n.t`title` : 'Sundial'}</title>
+</svelte:head>
 
 {#if $i18n.isInitialized}
 <div class="content-wrap">

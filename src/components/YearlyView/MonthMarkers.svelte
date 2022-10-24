@@ -1,6 +1,5 @@
 <script lang="ts">
   import { i18n } from "$/stores/i18n";
-  import { date } from "$/stores/date";
   import * as conf from "./config";
   import { range } from "$/utils/range";
   import { dayToX } from "./helpers";
@@ -9,9 +8,8 @@
   const fieldBottom = conf.fieldHeight;
   const textTop = fieldBottom + 10;
 
-  $: year = $date.getFullYear();
   $:months = Array.from(range(12), (i) => {
-    const startDate = new Date(year, i, 1);
+    const startDate = new Date(new Date().getFullYear(), i, 1);
     const endDate = endOfMonth(startDate);
     return {
       idx: i,

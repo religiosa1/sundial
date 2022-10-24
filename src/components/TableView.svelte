@@ -54,7 +54,7 @@
         <td>{ format($suncalc.sunsetStart) }</td>
       </tr>
       <tr>
-        <th>{$i18n.t`clock.sunfall`}</th>
+        <th>{$i18n.t`clock.sunset`}</th>
         <td>{ format($suncalc.sunsetStart) }</td>
         <td>{ format($suncalc.sunset) }</td>
       </tr>
