@@ -4,8 +4,7 @@
   import * as conf from "./config";
   import { dayToX } from "./helpers";
 
-  const fieldBottom = conf.fieldHeight;
-  const textTop = fieldBottom + 10;
+  const textTop = conf.fieldHeight + 10;
 
   $:months = Array.from(range(12), (i) => {
     const startDate = new Date(new Date().getFullYear(), i, 1);
@@ -26,7 +25,7 @@
         x1={month.end}
         x2={month.end}
         y1={conf.yPad}
-        y2={fieldBottom}
+        y2={conf.fieldHeight}
       />
     {/if}
     <text

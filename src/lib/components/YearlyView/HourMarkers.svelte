@@ -7,8 +7,8 @@
   {@const y = conf.fieldHeight / 24 * hour + conf.yPad}
   <line
     class="hour-line"
-    x1={conf.xPad + 14}
-    x2={conf.width-conf.xPad}
+    x1={conf.lineStartX}
+    x2={conf.lineEndX}
     y1={y}
     y2={y}
   />
@@ -29,8 +29,8 @@
   }
   .hour-label {
     font-size: 9px;
-    text-anchor: left;
+    text-anchor: start;
     stroke: var(--txt-color);
-    stroke-width: 1;
+    stroke-width: 0.5px;
   }
 </style>

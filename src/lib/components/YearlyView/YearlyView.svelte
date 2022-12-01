@@ -2,6 +2,7 @@
   import HourMarkers from "./HourMarkers.svelte";
   import DayLength from "./DayLength.svelte";
   import MonthMarkers from "./MonthMarkers.svelte";
+  import CurrentDayTime from "./CurrentDayTime.svelte";
   import * as conf from "./config";
 </script>
 
@@ -9,6 +10,7 @@
   <desc>Daytime duration in a year</desc>
   <HourMarkers />
   <MonthMarkers />
+  <CurrentDayTime />
   <DayLength />
 </svg>
 

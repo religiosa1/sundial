@@ -1,12 +1,12 @@
-<script>
+<script lang="ts">
     import Menu from "$lib/components/Menu";
     import "./layout.css";
 </script>
 
 <div class="content-wrap">
     <slot />
-    <Menu />
 </div>
+<Menu />
 
 <style>
     .content-wrap {

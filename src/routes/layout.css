@@ -59,7 +59,7 @@
 :root {
   --bg-color: #FFF;
   --txt-color: #020202;
-
+  --clr-highlight: #9b2423;
   --table-border-color: #AAA;
   --table-bg-main: var(--bg-color);
   --table-bg-secondary: #EFEFEF;
