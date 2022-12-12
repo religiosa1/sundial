@@ -1,20 +1,11 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { date } from "$lib/stores/date";
   import { dayToX, timeToY } from "./helpers";
-  import { yPad, fieldHeight, lineStartX, lineEndX, xPad } from "./config";
-    import { format } from "date-fns";
+  import { yPad, fieldHeight, lineStartX, lineEndX } from "./config";
+  import { format } from "date-fns";
 
-  let dt = new Date();
-  $: x = dayToX(dt);
-  $: y = timeToY(dt);
-
-  onMount(()=>{
-    const interval = setInterval(() => {
-      dt = new Date();
-    }, 1000);
-
-    return () => { clearInterval(interval) };
-  });
+  $: x = dayToX($date);
+  $: y = timeToY($date);
 </script>
 
 
@@ -24,7 +15,7 @@
     y={yPad - 3}
     class="current-day-time__text"
   >
-    {format(dt, "yyyy.MM.dd H:mm")}
+    {format($date, "yyyy.MM.dd H:mm")}
   </text>
   <line
     class="current-day-time__line current-day-time__line_date"

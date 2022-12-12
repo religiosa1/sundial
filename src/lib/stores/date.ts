@@ -3,8 +3,9 @@ import { getDayOfYear, setDayOfYear } from "date-fns";
 import { DateType } from "$lib/models/DateTypeEnum";
 
 export const dateType = writable<DateType>(DateType.auto);
-export const manualDow = writable(getDayOfYear(new Date()));
-export const today = readable(new Date(), set=>{
+export const manualDayOfYear = writable(getDayOfYear(new Date()));
+
+const today = readable(new Date(), set=>{
   let day_to: ReturnType<typeof setTimeout>;
   let setDayTO = () => {
     let now = new Date();
@@ -25,10 +26,10 @@ export const today = readable(new Date(), set=>{
 });
 
 export const date = derived(
-  [ dateType, manualDow, today ],
-  ([ $dateType, $manualDow, $today] )=> {
+  [ dateType, manualDayOfYear, today ],
+  ([ $dateType, $manualDayOfYear, $today] )=> {
     if ($dateType === DateType.manual) {
-      return setDayOfYear(new Date($today), $manualDow);
+      return setDayOfYear(new Date($today), $manualDayOfYear);
     } else {
       return $today;
     }

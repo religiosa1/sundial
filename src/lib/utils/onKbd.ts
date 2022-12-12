@@ -11,7 +11,7 @@ interface OnKbdFieldProps {
 }
 /** Generic helper-decorator, for checking any existing KeyboardEvent field */
 export function onKbdField<TRet, K extends keyof KeyboardEvent>(
-  cb: (e: KeyboardEvent) => TRet,
+  cb: (this: Element, e: KeyboardEvent) => TRet,
   fieldName: K,
   fieldValue: KeyboardEvent[K] | KeyboardEvent[K][],
   {...opts}: OnKbdFieldProps= {}
@@ -22,7 +22,7 @@ export function onKbdField<TRet, K extends keyof KeyboardEvent>(
   if (typeof fieldName !== "string" || !fieldName) {
     throw new TypeError("Expecting to get the name of the event field to check!");
   }
-  return function(e: KeyboardEvent): TRet | undefined {
+  return function(this: Element, e: KeyboardEvent): TRet | undefined {
     if (!e || typeof e[fieldName] === "undefined") return;
     if (Array.isArray(fieldValue)) {
       if (fieldValue.some(i => i !== e[fieldName])) return;
@@ -30,30 +30,41 @@ export function onKbdField<TRet, K extends keyof KeyboardEvent>(
       if (fieldValue !== e[fieldName]) return;
     }
 
-    for (const modifier of ["altKey", "ctrlKey", "shiftKey", "metaKey"]) {
+    for (const modifier of ["altKey", "ctrlKey", "shiftKey", "metaKey"] as const) {
       if (opts[modifier] && e[modifier]) {
         return;
       }
     }
 
-    for (const action of [ "preventDefault", "stopPropagation", "stopImmediatePropagation"]) {
+    for (const action of [ "preventDefault", "stopPropagation", "stopImmediatePropagation"] as const) {
       if (opts[action] && e[action] instanceof Function) {
         e[action]();
       }
     }
 
-    return cb.call(this, arguments);
+    return cb.call(this, e);
   }
 }
 
+/** Function decorator for handling specific keys  */
+export const onKbdCode = (
+  cb: (e: KeyboardEvent) => void,
+  codes: string | string[],
+  opts?: OnKbdFieldProps,
+) => onKbdField(cb, "code", codes, opts);
 /**
- * @deprecated use onKbdCode instead
  * Function decorator for handling specific keys
  */
-export const onKbdKey = (cb: (e: KeyboardEvent) => void, keys: string | string[] ) => onKbdField(cb, "key", keys);
+export const onKbdKey = (
+  cb: (e: KeyboardEvent) => void,
+  keys: string | string[],
+  opts?: OnKbdFieldProps,
+) => onKbdField(cb, "key", keys, opts);
 /**
  * @deprecated use onKbdCode instead
  * Function decorator for handling specific keyCodes */
-export const onKbdKeycode = (cb: (e: KeyboardEvent) => void, keycodes: number | number[]) => onKbdField(cb, "keyCode", keycodes);
-/** Function decorator for handling specific keys  */
-export const onKbdCode = (cb: (e: KeyboardEvent) => void, codes: string | string[]) => onKbdField(cb, "code", codes);
+export const onKbdKeycode = (
+  cb: (e: KeyboardEvent) => void,
+  keycodes: number | number[],
+  opts?: OnKbdFieldProps,
+) => onKbdField(cb, "keyCode", keycodes, opts);
