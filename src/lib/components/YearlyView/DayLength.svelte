@@ -44,11 +44,11 @@
 
 <style>
   .hour-line {
-    stroke: var(--txt-color);
+    stroke: var(--clr-txt);
     stroke-width: 1px;
   }
   .marker {
-    stroke: var(--txt-color);
-    fill: var(--txt-color);
+    stroke: var(--clr-txt);
+    fill: var(--clr-txt);
   }
 </style>

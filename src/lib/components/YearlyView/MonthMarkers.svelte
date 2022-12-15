@@ -40,14 +40,14 @@
 
 <style>
   .month-line {
-    stroke: var(--txt-color);
+    stroke: var(--clr-txt);
     stroke-width: 1px;
     stroke-dasharray: 1px;
   }
   .month-label {
     font-size: 9px;
     text-anchor: middle;
-    stroke: var(--txt-color);
+    stroke: var(--clr-txt);
     stroke-width: 1;
   }
 </style>

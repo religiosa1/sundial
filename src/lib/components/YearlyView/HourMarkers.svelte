@@ -23,14 +23,14 @@
 </g>
 <style>
   .hour-line {
-    stroke: var(--txt-color);
+    stroke: var(--clr-txt);
     stroke-width: 1px;
     stroke-dasharray: 1px;
   }
   .hour-label {
     font-size: 9px;
     text-anchor: start;
-    stroke: var(--txt-color);
+    stroke: var(--clr-txt);
     stroke-width: 0.5px;
   }
 </style>

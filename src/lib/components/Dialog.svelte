@@ -1,71 +1,73 @@
-<script context="module" lang="ts">
-	let nDialogs = 0;
-</script>
-
 <script lang="ts">
   import { onKbdKey } from "$lib/utils/onKbd";
-  import { onMount, createEventDispatcher } from "svelte";
 
-  const dispatch = createEventDispatcher();
-  let buttonRef: HTMLButtonElement;
+  export let open = true;
+  let dialogRef: HTMLDialogElement;
 
-  onMount(() => {
-    nDialogs++;
-    document.body.classList.add("dialog-opened");
-    buttonRef?.focus();
-    return () => {
-      nDialogs--;
-      if (nDialogs <= 0) {
-        document.body.classList.remove("dialog-opened")
+  function modal(el: HTMLDialogElement, open: boolean) {
+    function handler(open: boolean) {
+      if (open) {
+        el.showModal();
+      } else {
+        el.close();
       }
     }
-  });
-
-  function onClose() {
-    dispatch("close");
+    handler(open);
+    return {
+      update(open: boolean) { handler(open) },
+      destroy() { handler(false) },
+    };
   }
 
-  const handleKeydown = onKbdKey(() => { onClose() }, "Escape");
+  function close() {
+    dialogRef.close();
+  }
+  const handleKeydown = onKbdKey(close, "Escape");
+  function handleBackdropClick(e: MouseEvent) {
+    const rect = dialogRef.getBoundingClientRect();
+    const isClickOutside = !(
+      rect.top <= e.clientY &&
+      e.clientY <= rect.top + rect.height &&
+      rect.left <= e.clientX &&
+      e.clientX <= rect.left + rect.width
+    );
+    if (isClickOutside) {
+      close();
+    }
+  }
 </script>
 
-
-<div
-  tabindex="-1"
-  class="dialog-backdrop"
-  on:click|self={onClose}
+<dialog
+  class="dialog"
+  bind:this={dialogRef}
+  use:modal={open}
+  on:close
   on:keydown={handleKeydown}
+  on:click|self={handleBackdropClick}
 >
-  <dialog
-    class="dialog"
-    open
-    on:close
-  >
-    <button
-      type="button"
-      title="close"
-      class="btn-close"
-      bind:this={buttonRef}
-      on:click={onClose}
-    >🗙</button>
-    <slot />
-  </dialog>
-</div>
+  <button
+    type="button"
+    title="close"
+    class="btn-close"
+    on:click={close}
+  >🗙</button>
+  <slot />
+</dialog>
 
 <style>
   .dialog {
-    border: 1px solid gray;
-    box-shadow: 0 0 5px rgba(0, 0, 10, 0.25);
+    background-color: var(--clr-bg-main, #FFF);
+    border: 1px solid var(--clr-border, #AAA);
+    box-shadow: 0 0 5px var(--clr-shadow, #00000020);
   }
-  .dialog-backdrop {
-    position:fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 10, 0.05);
+  .dialog::backdrop {
+    background-color: #00000020;
     backdrop-filter: blur(2px);
-    display: flex;
-    place-items: center center;
+  }
+  @media (prefers-color-scheme: dark) {
+    .dialog::backdrop {
+      background-color: #FFFFFF20;
+    }
   }
   .btn-close {
     position: absolute;
