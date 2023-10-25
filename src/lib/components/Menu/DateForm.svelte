@@ -6,7 +6,7 @@
 </script>
 
 <!-- TODO visuals -->
-<Dialog on:close>
+<Dialog noBackDrop on:close>
   <p class="form-group">
     <label>
       <input type="radio" bind:group={$dateType} value={DateType.auto} />
@@ -19,22 +19,15 @@
       Selected date
     </label>
 
-    <label>
-      <input
-        type="date"
-        min="{$date.getFullYear()}-01-01"
-        max="{$date.getFullYear()}-12-31"
-        value={format(setDayOfYear($date, $manualDayOfYear), "yyyy-MM-dd")}
-        on:change={(e) => {
-          $manualDayOfYear = getDayOfYear(new Date(e.currentTarget.value));
-        }}
-      />
-      <input
-        type="range"
-        min={1}
-        max={365}
-        bind:value={$manualDayOfYear}
-      />
-    </label>
+    <input
+      type="date"
+      min="{$date.getFullYear()}-01-01"
+      max="{$date.getFullYear()}-12-31"
+      value={format(setDayOfYear($date, $manualDayOfYear), "yyyy-MM-dd")}
+      on:change={(e) => {
+        $manualDayOfYear = getDayOfYear(new Date(e.currentTarget.value));
+      }}
+    />
+    <input type="range" min={1} max={365} bind:value={$manualDayOfYear} />
   </p>
 </Dialog>

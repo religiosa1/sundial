@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onKbdKey } from "$lib/utils/onKbd";
 
+  export let noBackDrop = true;
   export let open = true;
   let dialogRef: HTMLDialogElement;
 
@@ -39,6 +40,7 @@
 
 <dialog
   class="dialog"
+  class:dialog_nobackdrop={noBackDrop}
   bind:this={dialogRef}
   use:modal={open}
   on:close
@@ -58,17 +60,29 @@
   .dialog {
     background-color: var(--clr-bg-main, #FFF);
     border: 1px solid var(--clr-border, #AAA);
-    box-shadow: 0 0 5px var(--clr-shadow, #00000020);
+    box-shadow: 0 0 5px var(--clr-shadow, rgba(0,0,0,0.10));
   }
   .dialog::backdrop {
-    background-color: #00000020;
+    background-color: rgba(0,0,0,0.10);
     backdrop-filter: blur(2px);
   }
+
   @media (prefers-color-scheme: dark) {
     .dialog::backdrop {
-      background-color: #FFFFFF20;
+      background-color: rgba(255,255,255,0.10)
     }
   }
+
+  .dialog_nobackdrop::backdrop {
+    background-color: rgba(0,0,0,0.075);
+    backdrop-filter: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    .dialog_nobackdrop::backdrop {
+      background-color: rgba(255,255,255,0.075);
+    }
+  }
+
   .btn-close {
     position: absolute;
     top: 0.5em;

@@ -13,28 +13,34 @@
   let time = new Date();
 
   let rotated = true;
-  $: rotationStyles = rotated ? `transform: rotate(-${timeToDeg(time)}deg)` : '';
+  $: rotationStyles = rotated
+    ? `transform: rotate(-${timeToDeg(time)}deg)`
+    : "";
 
   function toggleRotation() {
     rotated = !rotated;
   }
 
-  let section:  DaySection | null;
+  let section: DaySection | null;
   $: section = null;
   function updateSectionInfo(e: CustomEvent<DaySection>) {
     section = e?.detail || null;
   }
 
-  onMount(()=>{
-    const interval = setInterval(() => { time = new Date() }, 1000);
-    return () => { clearInterval(interval) };
+  onMount(() => {
+    const interval = setInterval(() => {
+      time = new Date();
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
   });
-
 </script>
 
 <div class="clock">
-  <div class="top-marker" class:top-marker-visible={rotated}></div>
-  <button class="dial-wrapper"
+  <div class="top-marker" class:top-marker-visible={rotated} />
+  <button
+    class="dial-wrapper"
     type="button"
     on:click={toggleRotation}
     on:keydown={onKbdCode(toggleRotation, ["Space", "Enter", "NumpadEnter"])}
@@ -43,7 +49,12 @@
       <Dial on:sectionHover={updateSectionInfo} />
     </div>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div class="dial-overlay" on:click|stopPropagation>
+    <div
+      class="dial-overlay"
+      role="button"
+      tabindex="0"
+      on:click|stopPropagation
+    >
       <slot>
         <TimeInfo {time} />
         <PlaceTimeInfo />
@@ -70,15 +81,17 @@
     margin: auto;
     overflow: hidden;
   }
-  .dial-rotater { transition: transform 0.4s ease; }
+  .dial-rotater {
+    transition: transform 0.4s ease;
+  }
   .dial-overlay {
     position: absolute;
     top: 20%;
     bottom: 20%;
-    left:20%;
+    left: 20%;
     right: 20%;
     margin: auto;
-    display:flex;
+    display: flex;
     flex-flow: column;
     align-items: center;
     justify-content: center;
