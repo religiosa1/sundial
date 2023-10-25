@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from "$app/stores";
   import { SubMenuEnum } from "$lib/models/SubMenuEnum";
   import { AppRouteEnum } from "$lib/models/routes";
 
@@ -22,6 +23,7 @@
     <a
       href={AppRouteEnum.dialView}
       class="menu__button display-type display-type_dial"
+      class:active={$page.url.pathname === AppRouteEnum.dialView}
       title="dial view"
     >
       dial view
@@ -30,6 +32,7 @@
     <a
       href={AppRouteEnum.tableView}
       class="menu__button display-type display-type_table"
+      class:active={$page.url.pathname === AppRouteEnum.tableView}
       title="table view"
     >
       table view
@@ -38,6 +41,7 @@
     <a
       href={AppRouteEnum.yearlyView}
       class="menu__button display-type display-type_yearly"
+      class:active={$page.url.pathname === AppRouteEnum.yearlyView}
       title="yearly view"
     >
       yearly view
@@ -94,7 +98,8 @@
     font-size: 0;
     background: #eee;
     box-shadow: 0 0 20px #ccc inset;
-    transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out;
+    transition: 0.25s ease-in-out;
+    transition-property: background-color, border-color;
     outline: 0;
     display: flex;
     align-items: center;
