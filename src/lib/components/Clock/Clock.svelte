@@ -10,7 +10,7 @@
   import { timeToDeg } from "$lib/utils/timeToDeg";
   import { onKbdCode } from "$lib/utils/onKbd";
 
-  let time = new Date();
+  export let time: Date = new Date();
 
   let rotated = true;
   $: rotationStyles = rotated
