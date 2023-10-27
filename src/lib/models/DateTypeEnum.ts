@@ -1,4 +1,4 @@
 export enum DateType {
-  auto,
-  manual
+	auto,
+	manual
 }

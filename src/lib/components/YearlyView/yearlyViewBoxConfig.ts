@@ -11,16 +11,16 @@ export const fieldHeight = height - yPad * 2;
 export const fieldWidth = width - xPad * 2 - fieldLeftPad;
 
 export const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-]
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December",
+];
