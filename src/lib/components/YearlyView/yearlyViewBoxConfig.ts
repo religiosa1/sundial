@@ -4,7 +4,6 @@ export const yPad = 10;
 export const xPad = 10;
 export const fieldLeftPad = 18;
 
-
 export const lineStartX = xPad + 14;
 export const lineEndX = width - xPad;
 

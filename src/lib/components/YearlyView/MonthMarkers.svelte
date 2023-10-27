@@ -1,19 +1,19 @@
 <script lang="ts">
   import { endOfMonth } from "date-fns";
   import { range } from "$lib/utils/range";
-  import * as conf from "./config";
+  import * as conf from "./yearlyViewBoxConfig";
   import { dayToX } from "./helpers";
 
   const textTop = conf.fieldHeight + 10;
 
-  $:months = Array.from(range(12), (i) => {
+  $: months = Array.from(range(12), (i) => {
     const startDate = new Date(new Date().getFullYear(), i, 1);
     const endDate = endOfMonth(startDate);
     return {
       idx: i,
       start: dayToX(startDate),
-      end: dayToX(endDate)
-    }
+      end: dayToX(endDate),
+    };
   });
 </script>
 
@@ -28,11 +28,7 @@
         y2={conf.fieldHeight}
       />
     {/if}
-    <text
-      x={(month.end + month.start) / 2}
-      y={textTop}
-      class="month-label"
-    >
+    <text x={(month.end + month.start) / 2} y={textTop} class="month-label">
       {conf.monthNames[month.idx]}
     </text>
   {/each}

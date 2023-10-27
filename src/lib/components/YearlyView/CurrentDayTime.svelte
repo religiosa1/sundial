@@ -1,20 +1,20 @@
 <script lang="ts">
   import { date } from "$lib/stores/date";
   import { dayToX, timeToY } from "./helpers";
-  import { yPad, fieldHeight, lineStartX, lineEndX } from "./config";
+  import {
+    yPad,
+    fieldHeight,
+    lineStartX,
+    lineEndX,
+  } from "./yearlyViewBoxConfig";
   import { format } from "date-fns";
 
   $: x = dayToX($date);
   $: y = timeToY($date);
 </script>
 
-
 <g class="current-day-time">
-  <text
-    x={lineEndX - 3}
-    y={yPad - 3}
-    class="current-day-time__text"
-  >
+  <text x={lineEndX - 3} y={yPad - 3} class="current-day-time__text">
     {format($date, "yyyy.MM.dd H:mm")}
   </text>
   <line
@@ -32,6 +32,7 @@
     y2={y}
   />
 </g>
+
 <style>
   .current-day-time__line {
     stroke: var(--clr-highlight);
