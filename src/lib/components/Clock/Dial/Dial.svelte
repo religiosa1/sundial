@@ -14,16 +14,17 @@
 	const dispatch = createEventDispatcher();
 
 	let selectedSection: ClockSection | null = null;
-	function sectionHover(ev: CustomEvent<ClockSection | undefined>) {
-		selectedSection = ev.detail ?? null;
-		dispatch("sectionHover", ev.detail);
-	}
 
 	$: trsections = timeRingSections($suncalc).map((i) => ({
 		...i,
 		startDeg: timeToDeg(i.start),
 		endDeg: timeToDeg(i.end),
 	}));
+
+	function sectionHover(ev: CustomEvent<ClockSection | undefined>) {
+		selectedSection = ev.detail ?? null;
+		dispatch("sectionHover", ev.detail);
+	}
 </script>
 
 <svg

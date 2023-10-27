@@ -24,10 +24,17 @@ export function calculatePath(section: ClockSection): string {
 	return `M${start_x} ${start_y} A${conf.radius} ${conf.radius} 0 ${largeArcFlag} 1 ${end_x} ${end_y}`;
 }
 
+export type Colorized<T extends object> = {
+	[k in keyof T]: T[k];
+} & {
+	stroke?: string;
+	name?: string;
+}
+
 export function colorizeSections<T extends { id: string }>(
 	times: Array<T>,
 	colors: Record<string, { stroke: string, name: string }>
-): Array<T & { stroke: string, name: string }> {
+): Array<Colorized<T>> {
 	if (!Array.isArray(times)) return [];
 
 	return times.map(i => ({

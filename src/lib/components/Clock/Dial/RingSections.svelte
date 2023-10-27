@@ -1,48 +1,37 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
 	import { format } from "date-fns";
 	import * as conf from "./config";
 	import { colors } from "./config";
-	import { calculatePath } from "./helpers";
+	import type { Colorized } from "./helpers";
 	import type { ClockSection } from "$lib/models/ClockSection";
 	import { colorizeSections } from "./helpers";
 
 	import Hours from "./Hours.svelte";
+	import RingSection from "./RingSection.svelte";
 
 	export let sections: ClockSection[] = [];
 	export let selectedSection: ClockSection | null;
 
-	const dispatch = createEventDispatcher();
-
-	let ringSections: ClockSection[];
+	let ringSections: Colorized<ClockSection>[];
 	$: ringSections = sections?.length ? colorizeSections(sections, $colors) : [];
 </script>
 
 <g class="ring-sections">
 	{#each ringSections as section}
-		<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<path
-			id={section.id}
-			d={calculatePath(section)}
-			stroke={section.stroke}
-			class={"ring-section ring-section-" + section.id}
-			class:highlight={selectedSection === section}
-			on:mouseover={() => dispatch("sectionMouseOver", section)}
-			on:mouseleave={() => dispatch("sectionMouseLeave")}
+		<RingSection
+			on:sectionMouseOver
+			on:sectionMouseLeave
+			{section}
+			selected={selectedSection === section}
 		>
 			<desc>
 				{section.name}
-				{#if section.time}
-					{format(section.time, conf.FORMAT)}
-				{:else}
-					{format(section.start, conf.FORMAT)}&mdash;{format(
-						section.end,
-						conf.FORMAT
-					)}
-				{/if}
+				{format(section.start, conf.FORMAT)}&mdash;{format(
+					section.end,
+					conf.FORMAT
+				)}
 			</desc>
-		</path>
+		</RingSection>
 	{/each}
 </g>
 <Hours
@@ -51,13 +40,3 @@
 	on:sectionMouseOver
 	on:sectionMouseLeave
 />
-
-<style>
-	.ring-section {
-		stroke-width: 20px;
-		fill: none;
-	}
-	.ring-section.highlight {
-		filter: drop-shadow(0 0 2px blue);
-	}
-</style>

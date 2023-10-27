@@ -1,5 +1,3 @@
-import type { GetTimesResult } from "suncalc";
+import type { GetTimesResult, GetSunPositionResult } from "suncalc";
 
-export interface SuncalcData extends GetTimesResult {
-	isWinter: boolean;
-}
+export type SuncalcData = GetTimesResult & GetSunPositionResult;

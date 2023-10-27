@@ -1,86 +1,24 @@
 import { circular } from "$lib/utils/circular";
-import type { DaySection } from "$lib/models/DaySection";
+import { SECTIONS, type DaySection } from "$lib/models/DaySection";
 import type { SuncalcData } from "$lib/models/SuncalcData";
 import { isValid } from "date-fns";
-
-const SECTIONS = [
-	{
-		id: "astronomical-twilight-morning",
-		start: "nightEnd",
-		end: "nauticalDawn",
-	},
-	{
-		id: "nautical-dawn",
-		start: "nauticalDawn",
-		end: "dawn",
-	},
-	{
-		id: "dawn",
-		start: "dawn",
-		end: "sunrise",
-	},
-	{
-		id: "sunrise",
-		start: "sunrise",
-		end: "sunriseEnd",
-	},
-	{
-		id: "golden-hour-morning",
-		start: "sunriseEnd",
-		end: "goldenHourEnd",
-	},
-	{
-		id: "day",
-		start: "goldenHourEnd",
-		end: "goldenHour",
-	},
-	{
-		id: "golden-hour-evening",
-		start: "goldenHour",
-		end: "sunsetStart",
-	},
-	{
-		id: "sunset",
-		start: "sunsetStart",
-		end: "sunset",
-	},
-	{
-		id: "dusk",
-		start: "sunset",
-		end: "dusk",
-	},
-	{
-		id: "nautical-dusk",
-		start: "dusk",
-		end: "nauticalDusk",
-	},
-	{
-		id: "astronomical-twilight-eveing",
-		start: "nauticalDusk",
-		end: "night",
-	},
-	{
-		id: "night",
-		start: "night",
-		end: "nightEnd",
-	},
-] as const;
 
 export function timeRingSections(times: SuncalcData) {
 	const retval: DaySection[] = [];
 	for (let i = 0; i < SECTIONS.length; i++) {
 		const s = SECTIONS[i];
 
-		if (!s || isValid(times[s.start])) {
+		if (!s || !isValid(times[s.start])) {
 			continue;
 		}
 
-		const r = {
+		const r: DaySection = {
 			id: s.id,
 			start: times[s.start],
-		} as DaySection;
+			end: new Date("INVALID"),
+		};
 
-		if (isValid(times[s.end])) {
+		if (s && isValid(times[s.end])) {
 			r.end = times[s.end];
 		} else {
 			for (let nr of circular(SECTIONS, i, { omitFirst: true })) {
@@ -91,8 +29,23 @@ export function timeRingSections(times: SuncalcData) {
 				}
 			}
 		}
-		if (!r.end) continue;
+		if (!isValid(r.end)) continue;
 		retval.push(r);
+	}
+	if (!retval.length) {
+		const isNight = times.altitude < 0;
+		const item: DaySection = isNight ? {
+			id: "night",
+			start: times.nadir,
+			end: times.nadir,
+			overspanned: true,
+		} : {
+			id: "day",
+			start: times.nadir,
+			end: times.nadir,
+			overspanned: true,
+		};
+		retval.push(item);
 	}
 	return retval;
 }
