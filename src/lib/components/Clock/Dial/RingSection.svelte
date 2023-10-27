@@ -2,6 +2,7 @@
 	import { createEventDispatcher } from "svelte";
 	import { calculatePath, type Colorized } from "./helpers";
 	import type { ClockSection } from "$lib/models/ClockSection";
+	import * as config from "./config";
 
 	export let section: Colorized<ClockSection>;
 	export let selected: boolean;
@@ -14,17 +15,33 @@
 
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<path
-	id={section.id}
-	d={calculatePath(section)}
-	stroke={section.stroke}
-	class={"ring-section ring-section-" + section.id}
-	class:highlight={selected}
-	on:mouseover={() => dispatch("sectionMouseOver", section)}
-	on:mouseleave={() => dispatch("sectionMouseLeave")}
->
-	<slot />
-</path>
+{#if section.endDeg !== section.startDeg}
+	<path
+		id={section.id}
+		d={calculatePath(section)}
+		stroke={section.stroke}
+		class={"ring-section ring-section-" + section.id}
+		class:highlight={selected}
+		on:mouseover={() => dispatch("sectionMouseOver", section)}
+		on:mouseleave={() => dispatch("sectionMouseLeave")}
+	>
+		<slot />
+	</path>
+{:else}
+	<circle
+		id={section.id}
+		cx={config.hsize}
+		cy={config.hsize}
+		r={config.radius}
+		stroke={section.stroke}
+		class={"ring-section ring-section-" + section.id}
+		class:highlight={selected}
+		on:mouseover={() => dispatch("sectionMouseOver", section)}
+		on:mouseleave={() => dispatch("sectionMouseLeave")}
+	>
+		<slot />
+	</circle>
+{/if}
 
 <style>
 	.ring-section {
