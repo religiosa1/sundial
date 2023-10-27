@@ -150,11 +150,13 @@
 	@media (max-width: 700px) {
 		.menu {
 			top: auto;
-			bottom: 10px;
-			right: 10px;
-			left: 10px;
+			position: static;
 		}
 		.menu__nav {
+			position: fixed;
+			top: 10px;
+			right: 10px;
+			left: 10px;
 			flex-direction: row;
 			gap: 25px;
 			justify-content: space-around;
@@ -163,6 +165,17 @@
 		.menu__button {
 			width: 40px;
 			height: 40px;
+		}
+
+		.controls {
+			position: fixed;
+			bottom: 10px;
+			left: 10px;
+			right: 10px;
+			display: flex;
+			flex-flow: row nowrap;
+			justify-content: space-around;
+			justify-content: space-evenly;
 		}
 	}
 </style>

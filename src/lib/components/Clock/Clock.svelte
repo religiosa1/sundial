@@ -98,6 +98,11 @@
 		text-align: center;
 		font-size: 3vmin;
 	}
+	@media (max-width: 700px) {
+		.dial-overlay {
+			font-size: 4.5vmin;
+		}
+	}
 	.top-marker {
 		width: 0.8vmin;
 		height: 0.8vmin;

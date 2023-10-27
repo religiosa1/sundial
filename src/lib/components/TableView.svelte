@@ -93,4 +93,16 @@
 	.table {
 		margin: auto;
 	}
+
+	@media (max-width: 700px) {
+		.table {
+			font-size: 1.4em;
+		}
+	}
+
+	@media (max-width: 320px) {
+		.table {
+			font-size: 1.2em;
+		}
+	}
 </style>

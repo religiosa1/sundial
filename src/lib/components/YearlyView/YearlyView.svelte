@@ -21,7 +21,17 @@
 <style>
 	.year {
 		display: block;
-		max-width: calc(100vw - 200px);
+		max-width: calc(100vw - 20px);
 		margin: auto;
+	}
+	@media (min-width: 1000px) {
+		.year {
+			max-width: calc(100vw - 100px);
+		}
+	}
+	@media (min-width: 1200px) {
+		.year {
+			max-width: calc(100vw - 200px);
+		}
 	}
 </style>
