@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { onKbdKey } from "$lib/utils/onKbd";
-
-  export let noBackDrop = true;
+  import { scale } from "svelte/transition";
+  export let noBackDrop = false;
   export let open = true;
   let dialogRef: HTMLDialogElement;
 
@@ -15,15 +14,18 @@
     }
     handler(open);
     return {
-      update(open: boolean) { handler(open) },
-      destroy() { handler(false) },
+      update(open: boolean) {
+        handler(open);
+      },
+      destroy() {
+        handler(false);
+      },
     };
   }
 
   function close() {
     dialogRef.close();
   }
-  const handleKeydown = onKbdKey(close, "Escape");
   function handleBackdropClick(e: MouseEvent) {
     const rect = dialogRef.getBoundingClientRect();
     const isClickOutside = !(
@@ -38,48 +40,50 @@
   }
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog
+  transition:scale
   class="dialog"
   class:dialog_nobackdrop={noBackDrop}
   bind:this={dialogRef}
   use:modal={open}
   on:close
-  on:keydown={handleKeydown}
   on:click|self={handleBackdropClick}
 >
-  <button
-    type="button"
-    title="close"
-    class="btn-close"
-    on:click={close}
-  >🗙</button>
-  <slot />
+  <button type="button" title="close" class="btn-close" on:click={close}
+    >🗙</button
+  >
+  <slot {close} />
 </dialog>
 
 <style>
   .dialog {
-    background-color: var(--clr-bg-main, #FFF);
-    border: 1px solid var(--clr-border, #AAA);
-    box-shadow: 0 0 5px var(--clr-shadow, rgba(0,0,0,0.10));
+    color: var(--clr-txt);
+    background-color: var(--clr-bg-main, #fff);
+    border: 1px solid var(--clr-border, #aaa);
+    box-shadow: 0 0 5px var(--clr-shadow, rgba(0, 0, 0, 0.1));
+    transition: display 0.3s ease-in-out;
   }
   .dialog::backdrop {
-    background-color: rgba(0,0,0,0.10);
-    backdrop-filter: blur(2px);
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease-in-out;
   }
 
   @media (prefers-color-scheme: dark) {
     .dialog::backdrop {
-      background-color: rgba(255,255,255,0.10)
+      background-color: rgba(255, 255, 255, 0.1);
     }
   }
 
   .dialog_nobackdrop::backdrop {
-    background-color: rgba(0,0,0,0.075);
+    background-color: rgba(0, 0, 0, 0.075);
     backdrop-filter: none;
   }
   @media (prefers-color-scheme: dark) {
     .dialog_nobackdrop::backdrop {
-      background-color: rgba(255,255,255,0.075);
+      background-color: rgba(255, 255, 255, 0.075);
     }
   }
 

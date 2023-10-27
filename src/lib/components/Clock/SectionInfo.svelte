@@ -3,12 +3,16 @@
   import type { DaySection } from "$lib/models/DaySection";
   export let section: DaySection | null = null;
 
-  const invalidDate = new Date('');
-  const FORMAT = "H:mm:ss"
+  const invalidDate = new Date("");
+  const FORMAT = "H:mm:ss";
   const NA = "--/--";
 
-  $:start = isValid(section?.start) ? format(section?.start || invalidDate, FORMAT) : NA;
-  $:end = isValid(section?.end) ? format(section?.end || invalidDate, FORMAT) : NA;
+  $: start = isValid(section?.start)
+    ? format(section?.start || invalidDate, FORMAT)
+    : NA;
+  $: end = isValid(section?.end)
+    ? format(section?.end || invalidDate, FORMAT)
+    : NA;
 </script>
 
 <div class="section-info">
@@ -18,7 +22,7 @@
     </p>
     <p class="section-time">
       {#if section.time}
-        { format(section.time, FORMAT) }
+        {format(section.time, FORMAT)}
       {:else}
         <time datetime={start}>{start}</time> &mdash;
         <time datetime={end}>{end}</time>
@@ -26,7 +30,6 @@
     </p>
   {/if}
 </div>
-
 
 <style>
   .section-info {
@@ -44,4 +47,4 @@
     margin: 0;
     font-size: 0.85em;
   }
-  </style>
+</style>

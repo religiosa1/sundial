@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { format } from "date-fns";
+  import { format, isValid } from "date-fns";
   import { suncalc } from "$lib/stores/suncalc";
   import { date } from "$lib/stores/date";
   export let time: Date;
-
+  const NA = "—/—";
 </script>
 
 <div class="time-info">
-  <time class="selectedDate" datetime={format($date, 'yyyy-MM-dd')}>
-    {format($date, 'dd.MM.yyyy')}
+  <time class="selectedDate" datetime={format($date, "yyyy-MM-dd")}>
+    {format($date, "dd.MM.yyyy")}
   </time>
-  <time class="currentTime" datetime={format(time, 'HH:mm')}>
+  <time class="currentTime" datetime={format(time, "HH:mm")}>
     {format(time, "H:mm")}
   </time>
 
@@ -18,17 +18,35 @@
     <div class="sunset-sunrise__entry" title="sunrise">
       <dt>↑</dt>
       <dd>
-        <time class="sunset-sunrise__value" datetime={$suncalc?.sunrise?.toISOString?.()}>
-          {format($suncalc?.sunrise, "H:mm:ss")}
-        </time>
+        {#if isValid($suncalc?.sunrise)}
+          <time
+            class="sunset-sunrise__value"
+            datetime={$suncalc.sunrise.toISOString()}
+          >
+            {format($suncalc?.sunrise, "H:mm:ss")}
+          </time>
+        {:else}
+          <time class="sunset-sunrise__value">
+            {NA}
+          </time>
+        {/if}
       </dd>
     </div>
     <div class="sunset-sunrise__entry" title="sunset">
       <dt>↓</dt>
       <dd>
-        <time class="sunset-sunrise__value" datetime={$suncalc.sunset.toISOString?.()}>
-          {format($suncalc?.sunset, "H:mm:ss")}
-        </time>
+        {#if isValid($suncalc?.sunrise)}
+          <time
+            class="sunset-sunrise__value"
+            datetime={$suncalc.sunset.toISOString()}
+          >
+            {format($suncalc?.sunset, "H:mm:ss")}
+          </time>
+        {:else}
+          <time class="sunset-sunrise__value">
+            {NA}
+          </time>
+        {/if}
       </dd>
     </div>
   </dl>

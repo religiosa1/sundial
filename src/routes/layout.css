@@ -1,58 +1,57 @@
 @font-face {
   font-family: "Lato";
   src: url("/fonts/Lato-Regular.woff2") format("woff2"),
-       url("/fonts/Lato-Regular.woff") format("woff"),
-       url("/fonts/Lato-Regular.ttf") format("truetype")
-  ;
+    url("/fonts/Lato-Regular.woff") format("woff"),
+    url("/fonts/Lato-Regular.ttf") format("truetype");
   font-weight: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Lato";
   src: url("/fonts/Lato-Light.woff2") format("woff2"),
-       url("/fonts/Lato-Light.woff") format("woff"),
-       url("/fonts/Lato-Light.ttf") format("truetype")
-  ;
+    url("/fonts/Lato-Light.woff") format("woff"),
+    url("/fonts/Lato-Light.ttf") format("truetype");
   font-weight: 300;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Lato";
   src: url("/fonts/Lato-Bold.woff2") format("woff2"),
-       url("/fonts/Lato-Bold.woff") format("woff"),
-       url("/fonts/Lato-Bold.ttf") format("truetype")
-  ;
+    url("/fonts/Lato-Bold.woff") format("woff"),
+    url("/fonts/Lato-Bold.ttf") format("truetype");
   font-weight: bold;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Lato";
   src: url("/fonts/Lato-Italic.woff2") format("woff2"),
-       url("/fonts/Lato-Italic.woff") format("woff"),
-       url("/fonts/Lato-Italic.ttf") format("truetype")
-  ;
+    url("/fonts/Lato-Italic.woff") format("woff"),
+    url("/fonts/Lato-Italic.ttf") format("truetype");
   font-weight: normal;
-	font-style: italic;
+  font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Lato";
   src: url("/fonts/Lato-BoldItalic.woff2") format("woff2"),
-       url("/fonts/Lato-BoldItalic.woff") format("woff"),
-       url("/fonts/Lato-BoldItalic.ttf") format("truetype")
-  ;
+    url("/fonts/Lato-BoldItalic.woff") format("woff"),
+    url("/fonts/Lato-BoldItalic.ttf") format("truetype");
   font-weight: bold;
-	font-style: italic;
+  font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Lato";
   src: url("/fonts/Lato-Semibold.woff2") format("woff2"),
-       url("/fonts/Lato-Semibold.woff") format("woff"),
-       url("/fonts/Lato-Semibold.ttf") format("truetype")
-  ;
+    url("/fonts/Lato-Semibold.woff") format("woff"),
+    url("/fonts/Lato-Semibold.ttf") format("truetype");
   font-weight: 600;
-	font-style: normal;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -66,6 +65,7 @@
   --clr-bg-secondary: #EFEFEF;
 
 }
+
 @media (prefers-color-scheme: dark) {
   :root {
     --clr-bg: #1E1E1E;
@@ -76,7 +76,8 @@
   }
 }
 
-html, body {
+html,
+body {
   width: 100%;
   min-height: 100%;
   margin: 0;
@@ -86,7 +87,32 @@ html, body {
   font-size: 16px;
   font-family: "Lato", sans-serif;
 }
-button { color: var(--clr-txt); }
+
+h3 {
+  margin: 0.3rem 0 1rem;
+}
+
+h4 {
+  margin: 0.6rem 0 0.3rem;
+}
+
+p {
+  margin: 0.3rem 0;
+}
+
+button,
+.btn {
+  all: unset;
+  color: var(--clr-txt);
+  cursor: pointer;
+  display: inline-block;
+  padding: 0.3rem;
+  border: 1px solid var(--clr-border);
+}
+
+button:active {
+  transform: translate(1px, 1px);
+}
 
 * {
   box-sizing: border-box;
@@ -103,26 +129,38 @@ button { color: var(--clr-txt); }
 .table {
   border-collapse: collapse;
 }
-.table th, .table td {
+
+.table th,
+.table td {
   padding: 7px 5px;
   text-align: center;
   vertical-align: middle;
   border: 1px solid var(--clr-border);
   background: var(--clr-bg-main);
 }
+
 .table th {
   font-weight: 600;
 }
+
 .table tr:nth-child(even) th,
 .table tr:nth-child(even) td {
   background: var(--clr-bg-secondary);
 }
+
 .table th:first-child,
 .table td:first-child {
   text-align: right;
 }
-.table td { min-width: 5em; }
+
+.table td {
+  min-width: 5em;
+}
 
 @media (max-width: 500px) {
-  .table th, .table td { font-size: 0.7em; }
+
+  .table th,
+  .table td {
+    font-size: 0.7em;
+  }
 }

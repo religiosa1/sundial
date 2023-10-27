@@ -1,21 +1,12 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { SubMenuEnum } from "$lib/models/SubMenuEnum";
   import { AppRouteEnum } from "$lib/models/routes";
 
   import DateForm from "./DateForm.svelte";
+  import PlaceForm from "./PlaceForm.svelte";
 
-  let submenu = SubMenuEnum.none;
-
-  function toggleSubmenu(type: SubMenuEnum) {
-    return () => {
-      if (submenu !== type) {
-        submenu = type;
-      } else {
-        submenu = SubMenuEnum.none;
-      }
-    };
-  }
+  let showDateForm = false;
+  let showPlaceForm = false;
 </script>
 
 <aside class="menu">
@@ -25,6 +16,7 @@
       class="menu__button display-type display-type_dial"
       class:active={$page.url.pathname === AppRouteEnum.dialView}
       title="dial view"
+      aria-label="dial view"
     >
       dial view
     </a>
@@ -34,6 +26,7 @@
       class="menu__button display-type display-type_table"
       class:active={$page.url.pathname === AppRouteEnum.tableView}
       title="table view"
+      aria-label="table view"
     >
       table view
     </a>
@@ -43,42 +36,48 @@
       class="menu__button display-type display-type_yearly"
       class:active={$page.url.pathname === AppRouteEnum.yearlyView}
       title="yearly view"
+      aria-label="yearly view"
     >
       yearly view
     </a>
   </nav>
   <slot />
   <div class="controls">
-    <!--
-      Комментируем, пока не прикрутим нужные формы
     <button
       type="button"
       class="menu__button placeform"
-      class:active={ $state === ClockUiTypeEnum.placeform }
+      class:active={showPlaceForm}
       title="place"
-      on:click={togglePlaceForm}
+      on:click={() => (showPlaceForm = !showPlaceForm)}
     />
-    -->
-    <!-- <button
+    <button
       type="button"
       class="menu__button dateform"
-      class:active={ submenu === SubMenuEnum.dateform }
+      class:active={showDateForm}
       title="date"
-      on:click={toggleSubmenu(SubMenuEnum.dateform)}
-    /> -->
+      on:click={() => (showDateForm = !showDateForm)}
+    />
   </div>
 </aside>
 
-{#if submenu === SubMenuEnum.dateform}
-  <DateForm on:close={() => (submenu = SubMenuEnum.none)} />
+{#if showPlaceForm}
+  <PlaceForm on:close={() => (showPlaceForm = false)} />
+{/if}
+
+{#if showDateForm}
+  <DateForm on:close={() => (showDateForm = false)} />
 {/if}
 
 <style>
   .menu {
     position: absolute;
     top: 10px;
+    bottom: 10px;
     right: 30px;
     background: transparent;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
   }
   .menu__nav,
   .controls {
@@ -105,7 +104,7 @@
     align-items: center;
     justify-content: center;
   }
-  .menu__button:focus {
+  .menu__button:focus-visible {
     border-color: #88f;
   }
 
@@ -129,12 +128,13 @@
   .display-type_dial::after {
     background-image: url("/img/dial.svg");
   }
-  /* FIXME отдельная картинка для этого раздела  */
   .display-type_yearly::after {
-    background-image: url("/img/calendar.svg");
+    background-image: url("/img/yearly-view.svg");
   }
 
-  /* .placeform { background-image: url("/img/globe.svg"); } */
+  .placeform::after {
+    background-image: url("/img/globe.svg");
+  }
   .dateform::after {
     background-image: url("/img/calendar.svg");
   }
