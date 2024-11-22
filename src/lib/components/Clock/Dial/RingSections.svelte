@@ -3,7 +3,6 @@
 	import type { ClockSection } from "$lib/components/Clock/Dial/ClockSection";
 	import Hours from "./Hours.svelte";
 	import RingSection from "./RingSection.svelte";
-	import * as conf from "./config";
 
 	interface Props {
 		sections: ClockSection[];
@@ -18,7 +17,7 @@
 		<RingSection {section} selected={selectedSection?.id === section.id} {onSectionSelect}>
 			<desc>
 				{section.name}
-				{format(section.start, conf.FORMAT)}&mdash;{format(section.end, conf.FORMAT)}
+				{format(section.start, "HH:mm")}&mdash;{format(section.end, "HH:mm")}
 			</desc>
 		</RingSection>
 	{/each}

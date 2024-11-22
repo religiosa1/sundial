@@ -1,42 +1,23 @@
 <script lang="ts">
+	import Time from "$lib/components/Time.svelte";
 	import type { SuncalcData } from "$lib/models/SuncalcData";
-	import { format, isValid } from "date-fns";
-
 	interface Props {
 		suncalc: SuncalcData;
 	}
 	const { suncalc }: Props = $props();
-
-	const NA = "—/—";
 </script>
 
 <dl class="sunset-sunrise">
 	<div class="sunset-sunrise__entry" title="sunrise">
-		<dt>↑</dt>
+		<dt aria-label="sunrise">↑</dt>
 		<dd>
-			{#if isValid(suncalc.sunrise)}
-				<time class="sunset-sunrise__value" datetime={suncalc.sunrise.toISOString()}>
-					{format(suncalc.sunrise, "H:mm:ss")}
-				</time>
-			{:else}
-				<time class="sunset-sunrise__value">
-					{NA}
-				</time>
-			{/if}
+			<Time value={suncalc.sunrise} />
 		</dd>
 	</div>
 	<div class="sunset-sunrise__entry" title="sunset">
-		<dt>↓</dt>
+		<dt aria-label="sunset">↓</dt>
 		<dd>
-			{#if isValid(suncalc?.sunrise)}
-				<time class="sunset-sunrise__value" datetime={suncalc.sunset.toISOString()}>
-					{format(suncalc.sunset, "H:mm:ss")}
-				</time>
-			{:else}
-				<time class="sunset-sunrise__value">
-					{NA}
-				</time>
-			{/if}
+			<Time value={suncalc.sunset} />
 		</dd>
 	</div>
 </dl>

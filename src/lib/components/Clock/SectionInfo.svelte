@@ -1,14 +1,11 @@
 <script lang="ts">
-	import { format, isValid } from "date-fns";
 	import type { ClockSection } from "$lib/components/Clock/Dial/ClockSection";
+	import Time from "$lib/components/Time.svelte";
 
 	interface Props {
 		section: ClockSection | undefined;
 	}
 	const { section }: Props = $props();
-
-	const FORMAT = "H:mm:ss";
-	const NA = "--/--";
 </script>
 
 <div class="section-info">
@@ -17,17 +14,13 @@
 			{section.name}
 		</p>
 		<p class="section-time">
-			{@render time(section?.start)}
+			<Time value={section.start} />
 			{#if section?.start !== section?.end}
-				&mdash; {@render time(section?.end)}
+				&mdash; <Time value={section.end} />
 			{/if}
 		</p>
 	{/if}
 </div>
-
-{#snippet time(time: Date)}
-	<time datetime={time.toISOString()}>{isValid(time) ? format(time, FORMAT) : NA}</time>
-{/snippet}
 
 <style>
 	.section-info {

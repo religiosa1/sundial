@@ -6,8 +6,6 @@ export const hsize = size / 2;
 export const width = 20;
 export const radius = hsize - width / 2 - padding;
 
-export const FORMAT = "H:mm:ss";
-
 export const colors: Record<DaySectionId, string> = {
 	astronomicalTwilightMorning: "url(#grd-astro)",
 	nauticalDawn: "url(#grd-nautic)",

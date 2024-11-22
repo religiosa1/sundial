@@ -16,7 +16,7 @@
 
 	let rotated = $state(true);
 	const rotationStyles = $derived(
-		rotated ? `transform: rotate(-${timeToDeg(currentTime)}deg)` : ""
+		rotated ? `transform: rotate(-${timeToDeg(currentTime).toFixed(3)}deg)` : ""
 	);
 
 	let selectedSection: ClockSection | undefined = $state(undefined);

@@ -1,14 +1,7 @@
 <script lang="ts">
-	import { format as dateFormat, isValid } from "date-fns";
-
 	import { suncalc } from "$lib/stores/suncalc";
 	import { APP_TITLE } from "$lib/constants";
-
-	const NA = "—/—";
-
-	function format(time: Date) {
-		return isValid(time) ? dateFormat(time, "H:mm:ss") : NA;
-	}
+	import Time from "$lib/components/Time.svelte";
 </script>
 
 <svelte:head>
@@ -20,71 +13,71 @@
 		<tbody>
 			<tr>
 				<th>astronomical twilight</th>
-				<td>{format($suncalc.nightEnd)}</td>
-				<td>{format($suncalc.nauticalDawn)}</td>
+				<td><Time value={$suncalc.nightEnd} /></td>
+				<td><Time value={$suncalc.nauticalDawn} /></td>
 			</tr>
 			<tr>
 				<th>nautical twilight</th>
-				<td>{format($suncalc.nauticalDawn)}</td>
-				<td>{format($suncalc.dawn)}</td>
+				<td><Time value={$suncalc.nauticalDawn} /></td>
+				<td><Time value={$suncalc.dawn} /></td>
 			</tr>
 			<tr>
 				<th>civil twilight</th>
-				<td>{format($suncalc.dawn)}</td>
-				<td>{format($suncalc.sunrise)}</td>
+				<td><Time value={$suncalc.dawn} /></td>
+				<td><Time value={$suncalc.sunrise} /></td>
 			</tr>
 			<tr>
 				<th>sunrise</th>
-				<td>{format($suncalc.sunrise)}</td>
-				<td>{format($suncalc.sunriseEnd)}</td>
+				<td><Time value={$suncalc.sunrise} /></td>
+				<td><Time value={$suncalc.sunriseEnd} /></td>
 			</tr>
 			<tr>
 				<th>morning golden hour</th>
-				<td>{format($suncalc.sunriseEnd)}</td>
-				<td>{format($suncalc.goldenHourEnd)}</td>
+				<td><Time value={$suncalc.sunriseEnd} /></td>
+				<td><Time value={$suncalc.goldenHourEnd} /></td>
 			</tr>
 			<tr>
 				<th>day</th>
-				<td>{format($suncalc.goldenHourEnd)}</td>
-				<td>{format($suncalc.goldenHour)}</td>
+				<td><Time value={$suncalc.goldenHourEnd} /></td>
+				<td><Time value={$suncalc.goldenHour} /></td>
 			</tr>
 			<tr>
 				<th>noon</th>
-				<td colspan="2">{format($suncalc.solarNoon)}</td>
+				<td colspan="2"><Time value={$suncalc.solarNoon} /></td>
 			</tr>
 			<tr>
 				<th>evening golden hour</th>
-				<td>{format($suncalc.goldenHour)}</td>
-				<td>{format($suncalc.sunsetStart)}</td>
+				<td><Time value={$suncalc.goldenHour} /></td>
+				<td><Time value={$suncalc.sunsetStart} /></td>
 			</tr>
 			<tr>
 				<th>sunset</th>
-				<td>{format($suncalc.sunsetStart)}</td>
-				<td>{format($suncalc.sunset)}</td>
+				<td><Time value={$suncalc.sunsetStart} /></td>
+				<td><Time value={$suncalc.sunset} /></td>
 			</tr>
 			<tr>
 				<th>civil twilight</th>
-				<td>{format($suncalc.sunset)}</td>
-				<td>{format($suncalc.dusk)}</td>
+				<td><Time value={$suncalc.sunset} /></td>
+				<td><Time value={$suncalc.dusk} /></td>
 			</tr>
 			<tr>
 				<th>nautical twilight</th>
-				<td>{format($suncalc.dusk)}</td>
-				<td>{format($suncalc.nauticalDusk)}</td>
+				<td><Time value={$suncalc.dusk} /></td>
+				<td><Time value={$suncalc.nauticalDusk} /></td>
 			</tr>
 			<tr>
 				<th>astronomical twilight</th>
-				<td>{format($suncalc.nauticalDusk)}</td>
-				<td>{format($suncalc.night)}</td>
+				<td><Time value={$suncalc.nauticalDusk} /></td>
+				<td><Time value={$suncalc.night} /></td>
 			</tr>
 			<tr>
 				<th>night</th>
-				<td>{format($suncalc.night)}</td>
-				<td>{NA}</td>
+				<td><Time value={$suncalc.night} /></td>
+				<td><Time value={$suncalc.nightEnd} /></td>
 			</tr>
 			<tr>
 				<th>nadir</th>
-				<td colspan="2">{format($suncalc.nadir)}</td>
+				<td colspan="2"><Time value={$suncalc.nadir} /></td>
 			</tr>
 		</tbody>
 	</table>
