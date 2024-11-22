@@ -1,10 +1,13 @@
 /** Generate a range of integers from 0 to end */
 export function range(end: number): Generator<number>;
+
 /** Generate a range of integers with given start, end and optional step. */
 export function range(start: number, end: number, step?: number): Generator<number>;
+
 export function* range(start: number, end?: number, step = 1) {
-	if (!Number.isInteger(start)) throw new TypeError("Expect to recieve an integer as the first arg of range");
-	if (typeof end === "undefined" || end === null) {
+	if (!Number.isInteger(start))
+		throw new TypeError("Expect to recieve an integer as the first arg of range");
+	if (end == null) {
 		end = start;
 		start = 0;
 	} else if (!Number.isInteger(end)) {
@@ -16,4 +19,4 @@ export function* range(start: number, end?: number, step = 1) {
 	for (let i = start; i < end; i += step) {
 		yield i;
 	}
-};
+}

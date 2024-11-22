@@ -7,7 +7,7 @@ describe("circular", () => {
 	it("circularly traverses an array from given index", () => {
 		const result = circular(initial, 2);
 		expect(Array.from(result)).toEqual([3, 4, 5, 1, 2]);
-	})
+	});
 
 	it("omits zero index if asked", () => {
 		const result = circular(initial, 2, { omitFirst: true });
@@ -15,7 +15,7 @@ describe("circular", () => {
 	});
 
 	it("Returns an empty array, if called on 1-element array with omit flag", () => {
-		const result = Array.from(circular([1], 0, { omitFirst: true }))
+		const result = Array.from(circular([1], 0, { omitFirst: true }));
 		expect(result).toEqual([]);
 	});
 
@@ -28,15 +28,14 @@ describe("circular", () => {
 			0: "a",
 			1: "b",
 			2: "c",
-			length: 3
+			length: 3,
 		};
 		const result = Array.from(circular(obj, 2));
 		expect(result).toEqual(["c", "a", "b"]);
 	});
 
 	it("throws a TypeError if called object isn't array-like", () => {
-		///@ts-expect-error
+		///@ts-expect-error invalid arg
 		expect(() => Array.from(circular(NaN, 0))).toThrow(TypeError);
 	});
 });
-

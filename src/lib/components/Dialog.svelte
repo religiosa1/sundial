@@ -1,32 +1,30 @@
 <script lang="ts">
-	import { scale } from "svelte/transition";
-	export let noBackDrop = false;
-	export let open = true;
+	import type { Snippet } from "svelte";
+	import type { EventHandler } from "svelte/elements";
+	import { fly } from "svelte/transition";
+
+	interface Props {
+		noBackDrop?: boolean;
+		open?: boolean;
+		children?: Snippet;
+		onclose?: EventHandler<Event, HTMLDialogElement>;
+	}
+	let { open = $bindable(), noBackDrop, children, onclose }: Props = $props();
+
 	let dialogRef: HTMLDialogElement;
-
-	function modal(el: HTMLDialogElement, open: boolean) {
-		function handler(open: boolean) {
-			if (open) {
-				el.showModal();
-			} else {
-				el.close();
-			}
+	$effect(() => {
+		if (!dialogRef) return;
+		if (open) {
+			dialogRef.showModal();
+		} else {
+			dialogRef.close();
 		}
-		handler(open);
-		return {
-			update(open: boolean) {
-				handler(open);
-			},
-			destroy() {
-				handler(false);
-			},
-		};
-	}
+	});
 
-	function close() {
-		dialogRef.close();
-	}
 	function handleBackdropClick(e: MouseEvent) {
+		if (e.target !== dialogRef) {
+			return;
+		}
 		const rect = dialogRef.getBoundingClientRect();
 		const isClickOutside = !(
 			rect.top <= e.clientY &&
@@ -35,26 +33,23 @@
 			e.clientX <= rect.left + rect.width
 		);
 		if (isClickOutside) {
-			close();
+			open = false;
 		}
 	}
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
-	transition:scale
+	transition:fly={{ y: 200 }}
+	bind:this={dialogRef}
 	class="dialog"
 	class:dialog_nobackdrop={noBackDrop}
-	bind:this={dialogRef}
-	use:modal={open}
-	on:close
-	on:click|self={handleBackdropClick}
+	onclick={handleBackdropClick}
+	{onclose}
 >
-	<button type="button" title="close" class="btn-close" on:click={close}
-		>🗙</button
-	>
-	<slot {close} />
+	<button type="button" title="close" class="btn-close" onclick={() => (open = false)}>🗙</button>
+	{@render children?.()}
 </dialog>
 
 <style>

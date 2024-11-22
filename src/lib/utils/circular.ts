@@ -9,7 +9,11 @@ interface CircularProps {
  * @param opts.omitFirst excluding the first item from traversal
  * @returns array items in the order, they presented from the starting index
  */
-export function* circular<T>(array: ArrayLike<T>, index: number, { omitFirst = false }: CircularProps = {}) {
+export function* circular<T>(
+	array: ArrayLike<T>,
+	index: number,
+	{ omitFirst = false }: CircularProps = {}
+) {
 	if (!Number.isInteger(array?.length)) {
 		throw new TypeError("Expecting an array-like object as the first argument");
 	}
@@ -20,7 +24,7 @@ export function* circular<T>(array: ArrayLike<T>, index: number, { omitFirst = f
 	let i;
 	if (omitFirst) {
 		if (array.length <= 1) return;
-		i = (index < array.length - 2) ? index + 1 : 0;
+		i = index < array.length - 2 ? index + 1 : 0;
 	} else {
 		i = index;
 	}
@@ -33,4 +37,4 @@ export function* circular<T>(array: ArrayLike<T>, index: number, { omitFirst = f
 			i = 0;
 		}
 	} while (i != index);
-};
+}

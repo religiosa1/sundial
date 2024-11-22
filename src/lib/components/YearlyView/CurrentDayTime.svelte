@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { date } from "$lib/stores/date";
-	import { dayToX, timeToY } from "./helpers";
-	import {
-		yPad,
-		fieldHeight,
-		lineStartX,
-		lineEndX,
-	} from "./yearlyViewBoxConfig";
 	import { format } from "date-fns";
+	import { dayToX, timeToY } from "./helpers";
 
-	$: x = dayToX($date);
-	$: y = timeToY($date);
+	import { yPad, fieldHeight, lineStartX, lineEndX } from "./yearlyViewBoxConfig";
+
+	interface Props {
+		currentTime: Date;
+	}
+	const { currentTime }: Props = $props();
+
+	const x = $derived(dayToX(currentTime));
+	const y = $derived(timeToY(currentTime));
 </script>
 
 <g class="current-day-time">
 	<text x={lineEndX - 3} y={yPad - 3} class="current-day-time__text">
-		{format($date, "yyyy.MM.dd H:mm")}
+		{format(currentTime, "yyyy.MM.dd H:mm")}
 	</text>
 	<line
 		class="current-day-time__line current-day-time__line_date"

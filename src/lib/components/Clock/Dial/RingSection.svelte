@@ -1,45 +1,49 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
-	import { calculatePath, type Colorized } from "./helpers";
-	import type { ClockSection } from "$lib/models/ClockSection";
+	import type { Snippet } from "svelte";
+	import type { ClockSection } from "./ClockSection";
+	import { calculatePath } from "./helpers";
 	import * as config from "./config";
 
-	export let section: Colorized<ClockSection>;
-	export let selected: boolean;
-
-	const dispatch = createEventDispatcher<{
-		sectionMouseOver: Colorized<ClockSection>;
-		sectionMouseLeave: undefined;
-	}>();
+	interface Props {
+		section: ClockSection;
+		selected: boolean;
+		children: Snippet;
+		onSectionSelect: (s: ClockSection | undefined) => void;
+	}
+	const { section, selected, children, onSectionSelect }: Props = $props();
 </script>
 
-<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 {#if section.endDeg !== section.startDeg}
 	<path
+		role="img"
+		aria-label={section.name}
 		id={section.id}
 		d={calculatePath(section)}
-		stroke={section.stroke}
+		stroke={section.color}
 		class={"ring-section ring-section-" + section.id}
 		class:highlight={selected}
-		on:mouseover={() => dispatch("sectionMouseOver", section)}
-		on:mouseleave={() => dispatch("sectionMouseLeave")}
+		onfocus={() => onSectionSelect(section)}
+		onmouseover={() => onSectionSelect(section)}
+		onmouseleave={() => onSectionSelect(undefined)}
 	>
-		<slot />
+		{@render children()}
 	</path>
 {:else}
 	<circle
+		role="img"
+		aria-label={section.name}
 		id={section.id}
 		cx={config.hsize}
 		cy={config.hsize}
 		r={config.radius}
-		stroke={section.stroke}
+		stroke={section.color}
 		class={"ring-section ring-section-" + section.id}
 		class:highlight={selected}
-		on:mouseover={() => dispatch("sectionMouseOver", section)}
-		on:mouseleave={() => dispatch("sectionMouseLeave")}
+		onfocus={() => onSectionSelect(section)}
+		onmouseover={() => onSectionSelect(section)}
+		onmouseleave={() => onSectionSelect(undefined)}
 	>
-		<slot />
+		{@render children()}
 	</circle>
 {/if}
 

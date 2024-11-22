@@ -1,16 +1,18 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
-	import * as conf from "./config";
-	import type { ClockSection } from "$lib/models/ClockSection";
 	import { range } from "$lib/utils/range";
+	import type { ClockSection } from "./ClockSection";
 
-	export let selectedSection: ClockSection | null;
-	export let ringSections: ClockSection[];
+	import * as conf from "./config";
 
-	const dispatch = createEventDispatcher();
+	interface Props {
+		selectedSection: ClockSection | undefined;
+		sections: ClockSection[];
+		onSectionSelect: (s: ClockSection | undefined) => void;
+	}
+	const { selectedSection, sections, onSectionSelect }: Props = $props();
 
-	function findSectionByDegree(d: number, sections: ClockSection[]) {
-		if (!Array.isArray(sections)) return null;
+	function findSectionByDegree(d: number, sections: ClockSection[]): ClockSection | undefined {
+		if (!Array.isArray(sections)) return undefined;
 		return sections.find((i) => {
 			if (i.startDeg <= i.endDeg) {
 				return i.startDeg <= d && d < i.endDeg;
@@ -20,25 +22,28 @@
 		});
 	}
 
-	$: hours = Array.from(range(24)).map((h) => {
-		const degree = 15 * h;
-		return {
-			value: h,
-			degree,
-			section: findSectionByDegree(degree, ringSections),
-		};
-	});
+	const hours = $derived(
+		Array.from(range(24)).map((h) => {
+			const degree = 15 * h;
+			return {
+				value: h,
+				degree,
+				section: findSectionByDegree(degree, sections),
+			};
+		})
+	);
 </script>
 
 <g class="hours">
 	{#each hours as hour}
-		<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<g
+			role="img"
+			aria-label="{hour.value} hour mark"
 			class="hour"
-			class:highlight={selectedSection && hour.section === selectedSection}
-			on:mouseover={() => dispatch("sectionMouseOver", hour.section)}
-			on:mouseleave={() => dispatch("sectionMouseLeave")}
+			class:highlight={selectedSection && hour.section?.id === selectedSection.id}
+			onfocus={() => onSectionSelect(hour.section)}
+			onmouseover={() => onSectionSelect(hour.section)}
+			onmouseleave={() => onSectionSelect(undefined)}
 		>
 			<line
 				class="hour-line"

@@ -1,37 +1,37 @@
-import { writable, readable, derived } from 'svelte/store';
-import { getDayOfYear, setDayOfYear } from "date-fns";
-import { DateType } from "$lib/models/DateTypeEnum";
+import { endOfDay, setDayOfYear } from "date-fns";
+import { derived, readable, writable } from "svelte/store";
 
-export const dateType = writable<DateType>(DateType.auto);
-export const manualDayOfYear = writable(getDayOfYear(new Date()));
+export const manualDayOfYear = writable<number | undefined>(undefined);
 
-const today = readable(new Date(), set => {
-	let day_to: ReturnType<typeof setTimeout>;
-	let setDayTO = () => {
-		let now = new Date();
-		let tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-		tomorrow.setHours(0);
-		tomorrow.setMinutes(0);
-		tomorrow.setSeconds(0);
-		tomorrow.setMilliseconds(0);
-		return setTimeout(() => {
-			set(new Date());
-			setDayTO();
-		}, tomorrow.getTime() - now.getTime());
+export const $today = readable<Date>(new Date(), (set) => {
+	set(new Date());
+	let to: ReturnType<typeof setTimeout> | undefined;
+
+	armTimeout();
+
+	return () => {
+		if (to != null) {
+			clearTimeout(to);
+		}
 	};
 
-	day_to = setDayTO();
+	function armTimeout() {
+		const now = new Date();
+		const tomorrow = endOfDay(now);
+		const toValue = tomorrow.getTime() - now.getTime();
 
-	return () => clearTimeout(day_to);
+		to = setTimeout(() => {
+			set(new Date());
+			armTimeout();
+		}, toValue);
+	}
 });
 
-export const date = derived(
-	[dateType, manualDayOfYear, today],
-	([$dateType, $manualDayOfYear, $today]) => {
-		if ($dateType === DateType.manual) {
-			return setDayOfYear(new Date($today), $manualDayOfYear);
-		} else {
-			return $today;
-		}
+export const date = derived([manualDayOfYear, $today], ([$manualDayOfYear, $today]) => {
+	const d = $manualDayOfYear;
+	if (d != null) {
+		return setDayOfYear($today, d);
+	} else {
+		return $today;
 	}
-);
+});

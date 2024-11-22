@@ -15,10 +15,10 @@ describe("circular", () => {
 	});
 
 	it("throw a TypeError if args are not integers", () => {
-		///@ts-expect-error
+		///@ts-expect-error invalid arg
 		expect(() => range("asdfasdf").next()).toThrow(TypeError);
 		expect(() => range(1.2).next()).toThrow(TypeError);
-		///@ts-expect-error
+		///@ts-expect-error invalid arg
 		expect(() => range(3, "asdfdf").next()).toThrow(TypeError);
 	});
 
@@ -28,4 +28,3 @@ describe("circular", () => {
 		expect(() => range(3, 10, 0.2).next()).toThrow(Error);
 	});
 });
-

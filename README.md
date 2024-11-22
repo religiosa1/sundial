@@ -1,19 +1,13 @@
-# Fancy sundial clock
+# Sundial clock and sunlight phases calculations
 
-Just some RPG-style clock dial, showing different sections of the day, sunset/sunrise times etc.
-
-Sveltekit based sundial migrated from an old simple svelte project.
-
-Actual calculations of different sections of the day performed by the wonderful suncalc library.
+A webapp for displaying sunlight phases (times for sunrise, sunset, dusk, etc.) 
+on per day or per year basis for the provided date and location.
 
 Actual calculations of different sections of the day performed by the wonderful
-[suncalc](https://github.com/mourner/suncalc) library.
+[suncalc](https://github.com/mourner/suncalc) library written by 
+[Vladimir Agafonkin](http://agafonkin.com/en) 
+([@mourner](https://github.com/mourner))
 
-Currently localization was removed, as there's no native support in sveltekit itself,
-and all of the current solutions seem half-assed.
-Currently i18n is moved post 1.0: https://github.com/sveltejs/kit/issues/1274
-
-```
 
 ## Developing
 
@@ -35,8 +29,6 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
 
 ## License
 Sundial is MIT licensed.

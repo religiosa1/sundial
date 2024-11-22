@@ -1,37 +1,38 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
-	import { suncalc } from "$lib/stores/suncalc";
-	import type { ClockSection } from "$lib/models/ClockSection";
+	import type { SuncalcData } from "$lib/models/SuncalcData";
 
 	import { timeToDeg } from "$lib/utils/timeToDeg";
-	import { timeRingSections } from "./timeRingSections";
 
-	import Markers from "./Markers.svelte";
+	import { makeClockSectionsArray, type ClockSection } from "./ClockSection";
+	import NoonNadirMarkers from "./NoonNadirMarkers.svelte";
 	import RingSections from "./RingSections.svelte";
 
 	import * as conf from "./config";
 
-	const dispatch = createEventDispatcher();
+	interface Props {
+		suncalc: SuncalcData;
+		selectedSection: ClockSection | undefined;
+		onSectionSelect: (v: ClockSection | undefined) => void;
+	}
+	const { suncalc, onSectionSelect: onSectionHover }: Props = $props();
 
-	let selectedSection: ClockSection | null = null;
+	let selectedSection: ClockSection | undefined = $state();
 
-	$: trsections = timeRingSections($suncalc).map((i) => ({
-		...i,
-		startDeg: timeToDeg(i.start),
-		endDeg: timeToDeg(i.end),
-	}));
+	const clockSections = $derived(
+		makeClockSectionsArray(suncalc).map((i) => ({
+			...i,
+			startDeg: timeToDeg(i.start),
+			endDeg: timeToDeg(i.end),
+		}))
+	);
 
-	function sectionHover(ev: CustomEvent<ClockSection | undefined>) {
-		selectedSection = ev.detail ?? null;
-		dispatch("sectionHover", ev.detail);
+	function onSectionSelect(s: ClockSection | undefined) {
+		selectedSection = s;
+		onSectionHover(s);
 	}
 </script>
 
-<svg
-	class="dial"
-	viewBox="0 0 {conf.size} {conf.size}"
-	xmlns="http://www.w3.org/2000/svg"
->
+<svg class="dial" viewBox="0 0 {conf.size} {conf.size}" xmlns="http://www.w3.org/2000/svg">
 	<desc>Sunset, sunrise and different twilight times</desc>
 	<linearGradient id="grd-astro" x1="0" y1="1" x2="0" y2="0">
 		<stop offset="0%" stop-color="#0000aa" />
@@ -62,17 +63,9 @@
 		<stop offset="100%" stop-color="#000033" />
 	</linearGradient>
 
-	<RingSections
-		{selectedSection}
-		sections={trsections}
-		on:sectionMouseOver={sectionHover}
-		on:sectionMouseLeave={sectionHover}
-	/>
+	<RingSections {selectedSection} sections={clockSections} {onSectionSelect} />
 
-	<Markers
-		on:sectionMouseOver={sectionHover}
-		on:sectionMouseLeave={sectionHover}
-	/>
+	<NoonNadirMarkers {suncalc} {onSectionSelect} />
 </svg>
 
 <style>

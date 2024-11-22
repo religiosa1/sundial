@@ -6,10 +6,12 @@ export function isValidLongitude(val: number | undefined): val is number {
 	return typeof val === "number" && Number.isFinite(val) && val <= 180 && val >= -180;
 }
 
-export function toDegree(val: number): readonly [degrees: number, minutes: number, seconds: number] {
+export function toDegree(
+	val: number
+): readonly [degrees: number, minutes: number, seconds: number] {
 	const remainder = val % 1;
 	const minutes = remainder * 60;
-	const seconds = minutes % 1 * 60;
+	const seconds = (minutes % 1) * 60;
 	return [Math.trunc(val), Math.trunc(minutes), seconds];
 }
 
@@ -23,7 +25,7 @@ function treq(val: number, minus: string, plus: string, zero = "") {
 		return minus;
 	}
 	if (val > 0) {
-		return plus
+		return plus;
 	}
 	return zero;
 }

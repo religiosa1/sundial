@@ -11,8 +11,8 @@ describe("latlong", () => {
 	it("converts decimal to degree", () => {
 		const [deg, min, sec] = toDegree(52.23);
 
-		expect(deg).toEqual(52)
-		expect(min).toEqual(13)
+		expect(deg).toEqual(52);
+		expect(min).toEqual(13);
 		expect(sec).toBeCloseTo(48);
 	});
 

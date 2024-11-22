@@ -1,18 +1,14 @@
 <script lang="ts">
 	import { format, isValid } from "date-fns";
-	import type { DaySection } from "$lib/models/DaySection";
-	export let section: DaySection | null = null;
+	import type { ClockSection } from "$lib/components/Clock/Dial/ClockSection";
 
-	const invalidDate = new Date("");
+	interface Props {
+		section: ClockSection | undefined;
+	}
+	const { section }: Props = $props();
+
 	const FORMAT = "H:mm:ss";
 	const NA = "--/--";
-
-	$: start = isValid(section?.start)
-		? format(section?.start || invalidDate, FORMAT)
-		: NA;
-	$: end = isValid(section?.end)
-		? format(section?.end || invalidDate, FORMAT)
-		: NA;
 </script>
 
 <div class="section-info">
@@ -21,15 +17,17 @@
 			{section.name}
 		</p>
 		<p class="section-time">
-			{#if section.time}
-				{format(section.time, FORMAT)}
-			{:else}
-				<time datetime={start}>{start}</time> &mdash;
-				<time datetime={end}>{end}</time>
+			{@render time(section?.start)}
+			{#if section?.start !== section?.end}
+				&mdash; {@render time(section?.end)}
 			{/if}
 		</p>
 	{/if}
 </div>
+
+{#snippet time(time: Date)}
+	<time datetime={time.toISOString()}>{isValid(time) ? format(time, FORMAT) : NA}</time>
+{/snippet}
 
 <style>
 	.section-info {

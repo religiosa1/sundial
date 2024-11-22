@@ -1,55 +1,61 @@
 <script lang="ts">
-	import { DateType } from "$lib/models/DateTypeEnum";
-	import { dateType, date, manualDayOfYear } from "$lib/stores/date";
 	import Dialog from "$lib/components/Dialog.svelte";
+	import { date, manualDayOfYear } from "$lib/stores/date";
 	import { getDayOfYear, setDayOfYear, format } from "date-fns";
+
+	function handleDateTypeChange(e: Event & { currentTarget: HTMLInputElement }) {
+		switch (e.currentTarget.value) {
+			case "auto":
+				$manualDayOfYear = undefined;
+				break;
+			case "manual":
+				$manualDayOfYear = getDayOfYear(new Date());
+		}
+	}
+
+	let { open = $bindable() }: { open: boolean } = $props();
 </script>
 
 <!-- TODO visuals -->
-<Dialog noBackDrop on:close let:close>
+<Dialog noBackDrop bind:open>
 	<div class="form-group checkbox-group">
 		<div class="checkbox-group__checkbox">
-			<input
-				id="current-date"
-				type="radio"
-				bind:group={$dateType}
-				value={DateType.auto}
-			/>
+			<input type="radio" name="dateType" value="auto" onchange={handleDateTypeChange} />
 		</div>
 		<div class="checkbox-group__content">
-			<label class="checkbox-group__label" for="current-date">
-				Current date
-			</label>
+			<label class="checkbox-group__label" for="current-date"> Current date </label>
 		</div>
 	</div>
 	<div class="form-group checkbox-group">
 		<div class="checkbox-group__checkbox">
-			<input
-				id="selected-date"
-				type="radio"
-				bind:group={$dateType}
-				value={DateType.manual}
-			/>
+			<input type="radio" name="dateType" value="manual" onchange={handleDateTypeChange} />
 		</div>
 		<div class="checkbox-group__content">
-			<label class="checkbox-group__label" for="selected-date">
-				Selected date
-			</label>
+			<label class="checkbox-group__label" for="selected-date"> Selected date </label>
 			<input
 				type="date"
 				min="{$date.getFullYear()}-01-01"
 				max="{$date.getFullYear()}-12-31"
-				value={format(setDayOfYear($date, $manualDayOfYear), "yyyy-MM-dd")}
-				on:change={(e) => {
+				value={$manualDayOfYear != null
+					? format(setDayOfYear(new Date($date), $manualDayOfYear), "yyyy-MM-dd")
+					: ""}
+				onchange={(e) => {
+					console.log("ON CHANGE");
 					$manualDayOfYear = getDayOfYear(new Date(e.currentTarget.value));
 				}}
 			/>
 			<br />
-			<input type="range" min={1} max={365} bind:value={$manualDayOfYear} />
+			<input
+				type="range"
+				min={1}
+				max={365}
+				value={$manualDayOfYear}
+				onchange={() => console.log("RANGE CHANGE")}
+			/>
 		</div>
 	</div>
 	<p>
-		<button type="button" on:click={close}>close</button>
+		<button type="button" onclick={() => (open = false)}>close</button>
 	</p>
 </Dialog>
 

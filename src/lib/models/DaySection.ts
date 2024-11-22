@@ -1,71 +1,87 @@
-export const SECTIONS = [
-	{
-		id: "astronomical-twilight-morning",
+import type { GetTimesResult } from "suncalc";
+
+/** sections in between GetTimesResult keys */
+export const DaySectionEnum = createDaySectionDictionary({
+	astronomicalTwilightMorning: {
+		name: "astronomical twilight",
 		start: "nightEnd",
 		end: "nauticalDawn",
 	},
-	{
-		id: "nautical-dawn",
+	nauticalDawn: {
+		stroke: "url(#grd-nautic)",
+		name: "nautical twilight",
 		start: "nauticalDawn",
 		end: "dawn",
 	},
-	{
-		id: "dawn",
+	dawn: {
+		name: "civil twilight",
 		start: "dawn",
 		end: "sunrise",
 	},
-	{
-		id: "sunrise",
+	sunrise: {
+		name: "sunrise",
 		start: "sunrise",
 		end: "sunriseEnd",
 	},
-	{
-		id: "golden-hour-morning",
+	goldenHourMorning: {
+		name: "golden hour",
 		start: "sunriseEnd",
 		end: "goldenHourEnd",
 	},
-	{
-		id: "day",
+	day: {
+		name: "day",
 		start: "goldenHourEnd",
 		end: "goldenHour",
 	},
-	{
-		id: "golden-hour-evening",
+	goldenHourEvening: {
+		name: "golden hour",
 		start: "goldenHour",
 		end: "sunsetStart",
 	},
-	{
-		id: "sunset",
+	sunset: {
+		name: "sunset",
 		start: "sunsetStart",
 		end: "sunset",
 	},
-	{
-		id: "dusk",
+	dusk: {
+		name: "civil twilight",
 		start: "sunset",
 		end: "dusk",
 	},
-	{
-		id: "nautical-dusk",
+	nauticalDusk: {
+		name: "nautical twilight",
 		start: "dusk",
 		end: "nauticalDusk",
 	},
-	{
-		id: "astronomical-twilight-eveing",
+	astronomicalTwilightEveing: {
+		name: "astronomical twilight",
 		start: "nauticalDusk",
 		end: "night",
 	},
-	{
-		id: "night",
+	night: {
+		name: "night",
 		start: "night",
 		end: "nightEnd",
 	},
-] as const;
+});
+export type DaySectionId = keyof typeof DaySectionEnum;
+export type DaySection = Prettify<DaySectionData & { id: DaySectionId }>;
 
-export interface DaySection {
-	id: (typeof SECTIONS)[number]['id'];
-	// name: string;
-	// time: Date;
-	start: Date;
-	end: Date;
-	overspanned?: boolean;
+interface DaySectionData {
+	name: string;
+	start: keyof GetTimesResult;
+	end: keyof GetTimesResult;
 }
+function createDaySectionDictionary<const T extends Record<string, DaySectionData>>(
+	payload: T
+): { [K in keyof T]: T[K] & { readonly id: K } } {
+	const retValue = structuredClone(payload) as { [k in keyof T]: T[k] & { readonly id: k } };
+	for (const [key, value] of Object.entries(retValue)) {
+		value.id = key;
+	}
+	return retValue;
+}
+
+type Prettify<T> = {
+	[K in keyof T]: T[K];
+} & {};

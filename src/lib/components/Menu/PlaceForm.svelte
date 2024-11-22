@@ -1,21 +1,11 @@
 <script lang="ts">
 	import Dialog from "$lib/components/Dialog.svelte";
-	import {
-		latitude,
-		longitude,
-		saveLocation,
-		LOCATION_LSKEY,
-	} from "$lib/stores/location";
-	import {
-		isValidLatitude,
-		isValidLongitude,
-		latToDegree,
-		longToDegree,
-	} from "$lib/utils/latlong";
-	import { loadLocation } from "$lib/stores/location";
-	import { onMount } from "svelte";
+	import { latitude, longitude, saveLocation, loadLocation } from "$lib/stores/location";
+	import { isValidLatitude, isValidLongitude, latToDegree, longToDegree } from "$lib/utils/latlong";
 
-	let storedValue = loadLocation();
+	let { open = $bindable() }: { open: boolean } = $props();
+
+	let storedValue = $state(loadLocation());
 
 	function useMyLocation() {
 		navigator.geolocation.getCurrentPosition((position) => {
@@ -27,26 +17,18 @@
 			}
 		});
 	}
-
-	function handleSubmit() {
-		saveLocation();
-		storedValue = loadLocation();
-	}
-
-	onMount(() => {
-		function watchLS(e: StorageEvent) {
-			if (e.key === null || e.key === LOCATION_LSKEY) {
-				storedValue = loadLocation();
-			}
-		}
-		addEventListener("storage", watchLS);
-		return () => removeEventListener("storage", watchLS);
-	});
 </script>
 
-<Dialog on:close let:close>
+<Dialog bind:open>
 	<h3>Current place</h3>
-	<form name="placeform" on:submit|preventDefault={handleSubmit}>
+	<form
+		name="placeform"
+		onsubmit={(e) => {
+			e.preventDefault();
+			saveLocation();
+			storedValue = loadLocation();
+		}}
+	>
 		<div class="form-group">
 			<label>
 				Latitude
@@ -58,13 +40,7 @@
 					bind:value={$latitude}
 					step="any"
 				/>
-				<input
-					name="latitude"
-					type="range"
-					min={-90}
-					max={90}
-					bind:value={$latitude}
-				/>
+				<input name="latitude" type="range" min={-90} max={90} bind:value={$latitude} />
 			</label>
 		</div>
 		<div class="form-group">
@@ -78,31 +54,25 @@
 					bind:value={$longitude}
 					step="any"
 				/>
-				<input
-					name="longitude"
-					type="range"
-					min={-180}
-					max={180}
-					bind:value={$longitude}
-				/>
+				<input name="longitude" type="range" min={-180} max={180} bind:value={$longitude} />
 			</label>
 		</div>
 		<h4>Default location:</h4>
 		<p>
 			<span title="latitude" class="lat">
-				{latToDegree(storedValue.latitude)}
+				{storedValue && latToDegree(storedValue.latitude)}
 			</span>,
 			<span title="longitude" class="long">
-				{longToDegree(storedValue.longitude)}
+				{storedValue && longToDegree(storedValue.longitude)}
 			</span>
 		</p>
 		{#if "geolocation" in navigator}
 			<p>
-				<button on:click={useMyLocation}>Use my location</button>
+				<button onclick={useMyLocation}>Use my location</button>
 			</p>
 		{/if}
 
 		<button>Save as the default position</button>
-		<button type="button" on:click={close}>Close</button>
+		<button type="button" onclick={close}>Close</button>
 	</form>
 </Dialog>

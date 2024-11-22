@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { page } from "$app/stores";
-	import { AppRouteEnum } from "$lib/models/routes";
+	import { AppRouteEnum } from "$lib/models/AppRouteEnum";
 
 	import DateForm from "./DateForm.svelte";
 	import PlaceForm from "./PlaceForm.svelte";
 
-	let showDateForm = false;
-	let showPlaceForm = false;
+	let showDateForm = $state(false);
+	let showPlaceForm = $state(false);
 </script>
 
 <aside class="menu">
@@ -41,31 +41,34 @@
 			yearly view
 		</a>
 	</nav>
-	<slot />
 	<div class="controls">
 		<button
 			type="button"
 			class="menu__button placeform"
 			class:active={showPlaceForm}
 			title="place"
-			on:click={() => (showPlaceForm = !showPlaceForm)}
-		/>
+			onclick={() => (showPlaceForm = !showPlaceForm)}
+		>
+			location settings
+		</button>
 		<button
 			type="button"
 			class="menu__button dateform"
 			class:active={showDateForm}
 			title="date"
-			on:click={() => (showDateForm = !showDateForm)}
-		/>
+			onclick={() => (showDateForm = !showDateForm)}
+		>
+			date settings
+		</button>
 	</div>
 </aside>
 
 {#if showPlaceForm}
-	<PlaceForm on:close={() => (showPlaceForm = false)} />
+	<PlaceForm bind:open={showPlaceForm} />
 {/if}
 
 {#if showDateForm}
-	<DateForm on:close={() => (showDateForm = false)} />
+	<DateForm bind:open={showDateForm} />
 {/if}
 
 <style>

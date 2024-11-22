@@ -1,6 +1,7 @@
 @font-face {
 	font-family: "Lato";
-	src: url("/fonts/Lato-Regular.woff2") format("woff2"),
+	src:
+		url("/fonts/Lato-Regular.woff2") format("woff2"),
 		url("/fonts/Lato-Regular.woff") format("woff"),
 		url("/fonts/Lato-Regular.ttf") format("truetype");
 	font-weight: normal;
@@ -9,7 +10,8 @@
 
 @font-face {
 	font-family: "Lato";
-	src: url("/fonts/Lato-Light.woff2") format("woff2"),
+	src:
+		url("/fonts/Lato-Light.woff2") format("woff2"),
 		url("/fonts/Lato-Light.woff") format("woff"),
 		url("/fonts/Lato-Light.ttf") format("truetype");
 	font-weight: 300;
@@ -18,7 +20,8 @@
 
 @font-face {
 	font-family: "Lato";
-	src: url("/fonts/Lato-Bold.woff2") format("woff2"),
+	src:
+		url("/fonts/Lato-Bold.woff2") format("woff2"),
 		url("/fonts/Lato-Bold.woff") format("woff"),
 		url("/fonts/Lato-Bold.ttf") format("truetype");
 	font-weight: bold;
@@ -27,7 +30,8 @@
 
 @font-face {
 	font-family: "Lato";
-	src: url("/fonts/Lato-Italic.woff2") format("woff2"),
+	src:
+		url("/fonts/Lato-Italic.woff2") format("woff2"),
 		url("/fonts/Lato-Italic.woff") format("woff"),
 		url("/fonts/Lato-Italic.ttf") format("truetype");
 	font-weight: normal;
@@ -37,7 +41,8 @@
 
 @font-face {
 	font-family: "Lato";
-	src: url("/fonts/Lato-BoldItalic.woff2") format("woff2"),
+	src:
+		url("/fonts/Lato-BoldItalic.woff2") format("woff2"),
 		url("/fonts/Lato-BoldItalic.woff") format("woff"),
 		url("/fonts/Lato-BoldItalic.ttf") format("truetype");
 	font-weight: bold;
@@ -47,7 +52,8 @@
 
 @font-face {
 	font-family: "Lato";
-	src: url("/fonts/Lato-Semibold.woff2") format("woff2"),
+	src:
+		url("/fonts/Lato-Semibold.woff2") format("woff2"),
 		url("/fonts/Lato-Semibold.woff") format("woff"),
 		url("/fonts/Lato-Semibold.ttf") format("truetype");
 	font-weight: 600;
@@ -56,23 +62,22 @@
 }
 
 :root {
-	--clr-bg: #FFF;
+	--clr-bg: #fff;
 	--clr-txt: #020202;
 	--clr-highlight: #9b2423;
 	--clr-shadow: #00000a80;
-	--clr-border: #AAA;
+	--clr-border: #aaa;
 	--clr-bg-main: var(--clr-bg);
-	--clr-bg-secondary: #EFEFEF;
-
+	--clr-bg-secondary: #efefef;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--clr-bg: #1E1E1E;
-		--clr-txt: #FFF;
-		--clr-shadow: #FFFFC040;
-		--clr-border: #AAA;
-		--clr-bg-secondary: #2E2E2E;
+		--clr-bg: #1e1e1e;
+		--clr-txt: #fff;
+		--clr-shadow: #ffffc040;
+		--clr-border: #aaa;
+		--clr-bg-secondary: #2e2e2e;
 	}
 }
 
@@ -164,7 +169,6 @@ button:focus-visible,
 }
 
 @media (max-width: 500px) {
-
 	.table th,
 	.table td {
 		font-size: 0.7em;

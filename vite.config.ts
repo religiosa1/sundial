@@ -1,8 +1,17 @@
-import { sveltekit } from '@sveltejs/kit/vite';
-import type { UserConfig } from 'vite';
+import { defineConfig } from "vitest/config";
+import { sveltekit } from "@sveltejs/kit/vite";
 
-const config: UserConfig = {
-	plugins: [sveltekit()]
-};
+export default defineConfig({
+	plugins: [sveltekit()],
 
-export default config;
+	test: {
+		include: ["src/**/*.{test,spec}.{js,ts}"],
+	},
+	server: {
+		fs: {
+			// Allow serving files from one level up to the project root
+			// to get version out of package json
+			allow: [".."],
+		},
+	},
+});

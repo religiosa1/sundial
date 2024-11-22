@@ -1,67 +1,47 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import type { Snippet } from "svelte";
+	import type { SuncalcData } from "$lib/models/SuncalcData";
+	import { timeToDeg } from "$lib/utils/timeToDeg";
 
 	import Dial from "./Dial/Dial.svelte";
 	import SectionInfo from "./SectionInfo.svelte";
-	import PlaceTimeInfo from "./PlaceTimeInfo.svelte";
-	import TimeInfo from "./TimeInfo.svelte";
-	import type { DaySection } from "$lib/models/DaySection";
+	import type { ClockSection } from "$lib/components/Clock/Dial/ClockSection";
 
-	import { timeToDeg } from "$lib/utils/timeToDeg";
-	import { onKbdCode } from "$lib/utils/onKbd";
-
-	export let time: Date = new Date();
-
-	let rotated = true;
-	$: rotationStyles = rotated
-		? `transform: rotate(-${timeToDeg(time)}deg)`
-		: "";
-
-	function toggleRotation() {
-		rotated = !rotated;
+	interface Props {
+		currentTime: Date;
+		suncalc: SuncalcData;
+		children?: Snippet;
 	}
+	const { children, currentTime, suncalc }: Props = $props();
 
-	let section: DaySection | null;
-	$: section = null;
-	function updateSectionInfo(e: CustomEvent<DaySection>) {
-		section = e?.detail || null;
+	let rotated = $state(true);
+	const rotationStyles = $derived(
+		rotated ? `transform: rotate(-${timeToDeg(currentTime)}deg)` : ""
+	);
+
+	let selectedSection: ClockSection | undefined = $state(undefined);
+	function onSectionSelect(ds: ClockSection | undefined) {
+		selectedSection = ds;
 	}
-
-	onMount(() => {
-		const interval = setInterval(() => {
-			time = new Date();
-		}, 1000);
-		return () => {
-			clearInterval(interval);
-		};
-	});
 </script>
 
 <div class="clock">
-	<div class="top-marker" class:top-marker-visible={rotated} />
-	<button
-		class="dial-wrapper"
-		type="button"
-		on:click={toggleRotation}
-		on:keydown={onKbdCode(toggleRotation, ["Space", "Enter", "NumpadEnter"])}
-	>
-		<div class="dial-rotater" style={rotationStyles}>
-			<Dial on:sectionHover={updateSectionInfo} />
-		</div>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
-			class="dial-overlay"
-			role="button"
-			tabindex="0"
-			on:click|stopPropagation
+	<div class="top-marker" class:top-marker-visible={rotated}></div>
+	<div class="dial-wrapper">
+		<button
+			class="dial-rotater"
+			type="button"
+			aria-label="Toggle Dial rotation"
+			style={rotationStyles}
+			onclick={() => (rotated = !rotated)}
 		>
-			<slot>
-				<TimeInfo {time} />
-				<PlaceTimeInfo />
-			</slot>
+			<Dial {suncalc} {selectedSection} {onSectionSelect} />
+		</button>
+		<div class="dial-overlay">
+			{@render children?.()}
 		</div>
-	</button>
-	<SectionInfo {section} />
+	</div>
+	<SectionInfo section={selectedSection} />
 </div>
 
 <style>
@@ -86,10 +66,7 @@
 	}
 	.dial-overlay {
 		position: absolute;
-		top: 20%;
-		bottom: 20%;
-		left: 20%;
-		right: 20%;
+		inset: 20%;
 		margin: auto;
 		display: flex;
 		flex-flow: column;
