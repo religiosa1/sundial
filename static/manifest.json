@@ -1,0 +1,24 @@
+{
+	"name": "Sundial clock and sunlight phases",
+	"lang": "en",
+	"short_name": "Sundial",
+	"description": "Sundial clock and sunlight phases calculations. Display times of sunset, sunrise, dusk, dawn, etc. for a chosen location at a chosen date.",
+	"display": "standalone",
+	"orientation": "any",
+	"start_url": ".",
+	"icons": [
+		{
+			"src": "favicon_192x192.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		},
+		{
+			"src": "favicon_512x512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		}
+	],
+	"theme_color": "#020202",
+	"background_color": "#ffffff",
+	"categories": ["productivity", "education"]
+}

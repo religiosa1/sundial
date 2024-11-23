@@ -73,7 +73,7 @@
 
 <style>
 	.menu {
-		position: absolute;
+		position: fixed;
 		top: 10px;
 		bottom: 10px;
 		right: 30px;
