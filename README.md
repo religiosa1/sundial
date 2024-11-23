@@ -3,6 +3,9 @@
 A webapp for displaying sunlight phases (times for sunrise, sunset, dusk, etc.) 
 on per day or per year basis for the provided date and location.
 
+Display is available as a sun dial (inpired by the Kingdom Come: Deliverance PC
+game), table and a yearly chart.
+
 Actual calculations of different sections of the day performed by the wonderful
 [suncalc](https://github.com/mourner/suncalc) library written by 
 [Vladimir Agafonkin](http://agafonkin.com/en) 

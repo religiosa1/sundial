@@ -54,6 +54,7 @@
 
 <style>
 	.dialog {
+		position: relative;
 		color: var(--clr-txt);
 		background-color: var(--clr-bg-main, #fff);
 		border: 1px solid var(--clr-border, #aaa);

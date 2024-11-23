@@ -69,6 +69,9 @@
 	--clr-border: #aaa;
 	--clr-bg-main: var(--clr-bg);
 	--clr-bg-secondary: #efefef;
+	--clr-link: #0066cc;
+	--clr-link-hover: #3085da;
+	--clr-link-visited: #6313e4;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -79,6 +82,17 @@
 		--clr-border: #aaa;
 		--clr-bg-secondary: #2e2e2e;
 	}
+}
+
+a {
+	transition: color 0.2s ease;
+	color: var(--clr-link);
+}
+a:visited {
+	color: var(--clr-link-visited);
+}
+a:hover {
+	color: var(--clr-link-hover);
 }
 
 html,
