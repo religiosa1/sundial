@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/stores";
-	import { AppRouteEnum } from "$lib/models/AppRouteEnum";
+	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
 
 	import DateForm from "./DateForm.svelte";
 	import PlaceForm from "./PlaceForm.svelte";

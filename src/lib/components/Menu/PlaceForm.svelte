@@ -59,12 +59,16 @@
 		</div>
 		<h4>Default location:</h4>
 		<p>
-			<span title="latitude" class="lat">
-				{storedValue && latToDegree(storedValue.latitude)}
-			</span>,
-			<span title="longitude" class="long">
-				{storedValue && longToDegree(storedValue.longitude)}
-			</span>
+			{#if storedValue}
+				<span title="latitude" class="lat">
+					{latToDegree(storedValue.latitude)}
+				</span>,
+				<span title="longitude" class="long">
+					{longToDegree(storedValue.longitude)}
+				</span>
+			{:else}
+				Not Specified
+			{/if}
 		</p>
 		{#if "geolocation" in navigator}
 			<p>

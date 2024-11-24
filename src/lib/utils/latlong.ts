@@ -1,8 +1,8 @@
-export function isValidLatitude(val: number | undefined): val is number {
+export function isValidLatitude(val: number | undefined): boolean {
 	return typeof val === "number" && Number.isFinite(val) && val <= 90 && val >= -90;
 }
 
-export function isValidLongitude(val: number | undefined): val is number {
+export function isValidLongitude(val: number | undefined): boolean {
 	return typeof val === "number" && Number.isFinite(val) && val <= 180 && val >= -180;
 }
 
@@ -20,20 +20,20 @@ export function degreeToString(deg: readonly [degrees: number, minutes: number, 
 	return `${degrees}° ${minutes}′ ${Math.round(seconds)}″`;
 }
 
-function treq(val: number, minus: string, plus: string, zero = "") {
-	if (val < 0) {
-		return minus;
-	}
-	if (val > 0) {
-		return plus;
-	}
-	return zero;
-}
-
 export function latToDegree(val: number): string {
-	return `${degreeToString(toDegree(Math.abs(val)))}${treq(val, " S", " N")}`;
+	return degreeToString(toDegree(Math.abs(val))) + treq(val, " S", " N");
 }
 
 export function longToDegree(val: number): string {
-	return `${degreeToString(toDegree(Math.abs(val)))}${treq(val, " W", " E")}`;
+	return degreeToString(toDegree(Math.abs(val))) + treq(val, " W", " E");
+}
+
+function treq(val: number, minusValue: string, plusValue: string, zeroValue = ""): string {
+	if (val < 0) {
+		return minusValue;
+	}
+	if (val > 0) {
+		return plusValue;
+	}
+	return zeroValue;
 }
