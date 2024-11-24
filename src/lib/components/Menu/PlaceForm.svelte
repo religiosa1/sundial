@@ -77,6 +77,6 @@
 		{/if}
 
 		<button>Save as the default position</button>
-		<button type="button" onclick={close}>Close</button>
+		<button type="button" onclick={() => (open = false)}>Close</button>
 	</form>
 </Dialog>

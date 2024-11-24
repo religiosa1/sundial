@@ -48,7 +48,11 @@
 	onclick={handleBackdropClick}
 	{onclose}
 >
-	<button type="button" title="close" class="btn-close" onclick={() => (open = false)}>🗙</button>
+	<header>
+		<button type="button" title="close" class="btn-close" onclick={() => (open = false)}>
+			close
+		</button>
+	</header>
 	{@render children?.()}
 </dialog>
 
@@ -83,14 +87,24 @@
 		}
 	}
 
+	header {
+		position: sticky;
+		top: 0;
+		display: flex;
+		justify-content: flex-end;
+		height: 1rem;
+		margin-bottom: -1rem;
+	}
+
 	.btn-close {
-		position: absolute;
-		top: 0.5em;
-		right: 0.5em;
 		margin: 0;
 		border: 0;
 		padding: 0;
 		background: none;
-		line-height: 1;
+		font-size: 0;
+		width: 1rem;
+		height: 1rem;
+		mask: url("/img/cross.svg") no-repeat center / contain;
+		background-color: currentColor;
 	}
 </style>
