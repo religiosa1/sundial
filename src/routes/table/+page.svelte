@@ -1,7 +1,20 @@
 <script lang="ts">
-	import { suncalc } from "$lib/stores/suncalc";
+	import { goto } from "$app/navigation";
+	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
 	import { APP_TITLE } from "$lib/constants";
+	import { suncalc } from "$lib/stores/suncalc";
 	import Time from "$lib/components/Time.svelte";
+
+	$effect(() => {
+		const ac = new AbortController();
+		document.addEventListener("swipeLeft", () => goto(AppRouteEnum.yearlyView), {
+			signal: ac.signal,
+		});
+		document.addEventListener("swipeRight", () => goto(AppRouteEnum.dialView), {
+			signal: ac.signal,
+		});
+		return () => ac.abort();
+	});
 </script>
 
 <svelte:head>
