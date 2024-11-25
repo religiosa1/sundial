@@ -90,6 +90,7 @@
 	header {
 		position: sticky;
 		top: 0;
+		float: right;
 		display: flex;
 		justify-content: flex-end;
 		height: 1rem;
