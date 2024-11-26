@@ -16,7 +16,7 @@
 <style>
 	.location-info {
 		font-size: 0.6em;
-		margin: 1em;
+		margin: 1em 0;
 	}
 	@media (max-width: 700px) {
 		.location-info {

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onNavigate } from "$app/navigation";
+	import { swipe } from "$lib/actions/swipe.svelte";
 	import AboutPopup from "$lib/components/AboutPopup.svelte";
 	import Menu from "$lib/components/Menu";
 	import { version } from "../../package.json";
@@ -21,31 +22,9 @@
 			});
 		});
 	});
-
-	let touchStart: Touch | null = null;
 </script>
 
-<main
-	class="page-container"
-	ontouchstart={(e) => {
-		touchStart = e.changedTouches.item(0);
-	}}
-	ontouchend={(e) => {
-		const touchEnd = e.changedTouches.item(0);
-		if (!touchStart || !touchEnd) return;
-
-		const elementWidth = e.currentTarget.getBoundingClientRect().width;
-		const xTraversed = touchEnd.clientX - touchStart.clientX;
-
-		const rate = Math.abs(xTraversed) / elementWidth;
-
-		if (rate > 0.5) {
-			document.dispatchEvent(new CustomEvent(xTraversed > 0 ? "swipeRight" : "swipeLeft"));
-		}
-
-		touchStart = null;
-	}}
->
+<main class="page-container" use:swipe>
 	{@render children()}
 </main>
 <Menu />

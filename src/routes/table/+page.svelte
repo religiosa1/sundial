@@ -99,7 +99,7 @@
 <style>
 	.times-list {
 		max-width: 600px;
-		margin: auto;
+		margin: 1rem auto;
 	}
 	.table {
 		margin: auto;
