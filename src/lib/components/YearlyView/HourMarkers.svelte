@@ -9,13 +9,18 @@
 </script>
 
 <g class="hours">
-	{#each { length: 24 } as _, hour}
-		{@const y = timeToY(new Date(baseYear, baseMonth, baseDay, hour))}
-		<line class="hour-line" x1={conf.lineStartX} x2={conf.lineEndX} y1={y} y2={y} />
+	{#snippet marker(hour: number, y: number)}
+		<line class="hour-line" data-hour={24} x1={conf.lineStartX} x2={conf.lineEndX} y1={y} y2={y} />
 		<text x={conf.xPad} {y} class="hour-label">
 			{hour.toString().padStart(2, "0")}
 		</text>
+	{/snippet}
+
+	{#each { length: 24 } as _, hour}
+		{@const y = timeToY(new Date(baseYear, baseMonth, baseDay, hour))}
+		{@render marker(hour, y)}
 	{/each}
+	{@render marker(24, conf.lineStartY)}
 </g>
 
 <style>
@@ -29,5 +34,6 @@
 		text-anchor: start;
 		stroke: var(--clr-txt);
 		stroke-width: 0.5px;
+		dominant-baseline: central;
 	}
 </style>

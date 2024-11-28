@@ -4,8 +4,6 @@
 	import { dayToX } from "./coordinates";
 	import { conf, monthNames } from "./yearlyViewBoxConfig";
 
-	const textTop = conf.fieldHeight + 10;
-
 	const months = $derived(
 		Array.from(range(12), (i) => {
 			const startDate = new Date(new Date().getFullYear(), i, 1);
@@ -22,9 +20,9 @@
 <g class="months">
 	{#each months as month, index}
 		{#if index < months.length - 1}
-			<line class="month-line" x1={month.end} x2={month.end} y1={conf.yPad} y2={conf.fieldHeight} />
+			<line class="month-line" x1={month.end} x2={month.end} y1={conf.yPad} y2={conf.lineEndY} />
 		{/if}
-		<text x={(month.end + month.start) / 2} y={textTop} class="month-label">
+		<text x={(month.end + month.start) / 2} y={conf.lineEndY + conf.yPad} class="month-label">
 			{monthNames[month.idx]}
 		</text>
 	{/each}

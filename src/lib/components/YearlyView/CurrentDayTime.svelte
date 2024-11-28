@@ -17,7 +17,7 @@
 	<text x={conf.lineEndX - 3} y={conf.yPad - 3} class="text">
 		{format(currentTime, "yyyy.MM.dd H:mm")}
 	</text>
-	<line class="line" x1={x} x2={x} y1={conf.yPad} y2={conf.fieldHeight} />
+	<line class="line" x1={x} x2={x} y1={conf.lineStartY} y2={conf.lineEndY} />
 	<line class="line" x1={conf.lineStartX} x2={conf.lineEndX} y1={y} y2={y} />
 </g>
 

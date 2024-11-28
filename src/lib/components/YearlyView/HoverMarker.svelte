@@ -14,20 +14,16 @@
 	const hoveredTime = $derived(
 		position ? coordinatesToDatetime(position.x, position.y) : undefined
 	);
-
-	const insideField = $derived(
-		position && conf.yPad <= position.y && position.y < conf.fieldHeight
-	);
 </script>
 
-{#if position && insideField}
+{#if position && hoveredTime}
 	<g class="hovered-time-marker">
 		{#if hoveredTime}
 			<text x={conf.lineStartX + 3} y={conf.yPad - 3} class="text">
 				{format(hoveredTime, "yyyy.MM.dd H:mm")}
 			</text>
 		{/if}
-		<line class="line" x1={position.x} x2={position.x} y1={conf.yPad} y2={conf.fieldHeight} />
+		<line class="line" x1={position.x} x2={position.x} y1={conf.lineStartY} y2={conf.lineEndY} />
 		<line class="line" x1={conf.lineStartX} x2={conf.lineEndX} y1={position.y} y2={position.y} />
 	</g>
 {/if}

@@ -7,7 +7,7 @@ const sum = (...args: number[]) => args.reduce((acc, cur) => acc + cur, 0);
 
 export function dayToX(date: Date, config = conf): number {
 	const totalDays = isLeapYear(date) ? 364 : 365;
-	return config.xPad + config.fieldLeftPad + (getDayOfYear(date) / totalDays) * config.fieldWidth;
+	return config.lineStartX + (getDayOfYear(date) / totalDays) * config.fieldWidth;
 }
 
 export function timeToY(time: Date, config = conf): number {
@@ -17,7 +17,7 @@ export function timeToY(time: Date, config = conf): number {
 		time.getSeconds() * 1000,
 		time.getMilliseconds()
 	);
-	return (ms / msInDay) * config.fieldHeight + config.yPad;
+	return config.fieldHeight - (ms / msInDay) * config.fieldHeight + config.lineStartY;
 }
 
 export function coordinatesToDatetime(
@@ -34,10 +34,10 @@ export function coordinatesToDatetime(
 	const dayOfYear = (normalizedX / config.fieldWidth) * totalDays;
 	resultDate.setDate(Math.round(dayOfYear));
 
-	const normalizedY = y - config.yPad;
+	const normalizedY = y - config.lineStartY;
 	if (normalizedY < 0 || normalizedY > config.fieldHeight) return undefined;
 	const msInDay = hoursToMilliseconds(24);
-	const ms = (normalizedY / config.fieldHeight) * msInDay;
+	const ms = ((config.fieldHeight - normalizedY) / config.fieldHeight) * msInDay;
 	resultDate.setMilliseconds(ms);
 
 	return resultDate;
