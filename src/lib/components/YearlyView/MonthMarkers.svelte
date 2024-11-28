@@ -22,7 +22,7 @@
 		{#if index < months.length - 1}
 			<line class="month-line" x1={month.end} x2={month.end} y1={conf.yPad} y2={conf.lineEndY} />
 		{/if}
-		<text x={(month.end + month.start) / 2} y={conf.lineEndY + conf.yPad} class="month-label">
+		<text x={(month.end + month.start) / 2} y={conf.lineEndY + conf.yPad * 0.8} class="month-label">
 			{monthNames[month.idx]}
 		</text>
 	{/each}

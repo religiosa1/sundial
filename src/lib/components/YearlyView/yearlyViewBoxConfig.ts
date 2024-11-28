@@ -39,7 +39,7 @@ export class YearlySvgConfig implements IYearlySvgConfig {
 export const conf = new YearlySvgConfig({
 	width: 1000,
 	height: 400,
-	yPad: 10,
+	yPad: 12,
 	xPad: 10,
 	fieldLeftPad: 16,
 });
