@@ -30,13 +30,13 @@
 
 <style>
 	.line {
-		stroke: #ff00ff;
+		stroke: var(--clr-highlight-secondary);
 		stroke-width: 1px;
 	}
 	.text {
 		font-size: 9px;
 		text-anchor: start;
-		stroke: #ff00ff;
+		stroke: var(--clr-highlight-secondary);
 		stroke-width: 0.5px;
 	}
 </style>

@@ -65,6 +65,7 @@
 	--clr-bg: #fff;
 	--clr-txt: #020202;
 	--clr-highlight: #9b2423;
+	--clr-highlight-secondary: #ff00ff;
 	--clr-shadow: #00000a80;
 	--clr-border: #aaa;
 	--clr-bg-main: var(--clr-bg);
