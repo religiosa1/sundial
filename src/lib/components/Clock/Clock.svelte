@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
 	import type { SuncalcData } from "$lib/models/SuncalcData";
+	import type { DaySectionId } from "$lib/models/DaySection";
 	import { timeToDeg } from "$lib/utils/timeToDeg";
 
 	import Dial from "./Dial/Dial.svelte";
 	import SectionInfo from "./SectionInfo.svelte";
-	import type { ClockSection } from "$lib/components/Clock/Dial/ClockSection";
 
 	interface Props {
 		currentTime: Date;
@@ -19,9 +19,9 @@
 		rotated ? `transform: rotate(-${timeToDeg(currentTime).toFixed(3)}deg)` : ""
 	);
 
-	let selectedSection: ClockSection | undefined = $state(undefined);
-	function onSectionSelect(ds: ClockSection | undefined) {
-		selectedSection = ds;
+	let selectedSectionId: DaySectionId | undefined = $state(undefined);
+	function onSectionSelect(dsId: DaySectionId | undefined) {
+		selectedSectionId = dsId;
 	}
 </script>
 
@@ -35,13 +35,13 @@
 			style={rotationStyles}
 			onclick={() => (rotated = !rotated)}
 		>
-			<Dial {suncalc} {selectedSection} {onSectionSelect} />
+			<Dial {suncalc} {selectedSectionId} {onSectionSelect} />
 		</button>
 		<div class="dial-overlay">
 			{@render children?.()}
 		</div>
 	</div>
-	<SectionInfo section={selectedSection} />
+	<SectionInfo {suncalc} sectionId={selectedSectionId} />
 </div>
 
 <style>

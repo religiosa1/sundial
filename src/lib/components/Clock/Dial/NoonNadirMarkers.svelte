@@ -1,45 +1,36 @@
 <script lang="ts">
+	import { DaySectionEnum, type DaySectionId } from "$lib/models/DaySection";
 	import type { SuncalcData } from "$lib/models/SuncalcData";
 	import { timeToDeg } from "$lib/utils/timeToDeg";
-	import type { ClockSection } from "./ClockSection";
 	import * as config from "./config";
 
 	interface Props {
 		suncalc: SuncalcData;
-		onSectionSelect: (s: ClockSection | undefined) => void;
+		selectedSectionId: DaySectionId | undefined;
+		onSectionSelect: (dsId: DaySectionId | undefined) => void;
 	}
 	const { suncalc, onSectionSelect }: Props = $props();
 </script>
 
-{#snippet marker(name: string, time: Date, className: string)}
-	{@const section: ClockSection = {
-		id: "dawn",
-		name,
-		start: time,
-		end: time,
-		startDeg: timeToDeg(time),
-		endDeg: timeToDeg(time),
-		color: "",
-		overspanned: false,
-	}}
+{#snippet marker(section: Extract<DaySectionEnum, { end: undefined }>)}
 	<line
 		role="img"
-		aria-label={name}
-		class={"time-mark " + className}
+		aria-label={section.name}
+		class="time-mark"
 		x1="50%"
 		x2="50%"
 		y1={config.padding}
 		y2={config.padding + config.width}
-		transform="rotate({timeToDeg(time)} {config.hsize} {config.hsize})"
-		onfocus={() => onSectionSelect(section)}
-		onmouseover={() => onSectionSelect(section)}
+		transform="rotate({timeToDeg(suncalc[section.start])} {config.hsize} {config.hsize})"
+		onfocus={() => onSectionSelect(section.id)}
+		onmouseover={() => onSectionSelect(section.id)}
 		onmouseleave={() => onSectionSelect(undefined)}
 	/>
 {/snippet}
 
 <g class="markers">
-	{@render marker("noon", suncalc.solarNoon, "time-mark-noon")}
-	{@render marker("nadir", suncalc.nadir, "time-mark-nadir")}
+	{@render marker(DaySectionEnum.noon)}
+	{@render marker(DaySectionEnum.nadir)}
 </g>
 
 <style>

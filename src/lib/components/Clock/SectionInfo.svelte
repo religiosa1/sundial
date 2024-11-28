@@ -1,11 +1,15 @@
 <script lang="ts">
-	import type { ClockSection } from "$lib/components/Clock/Dial/ClockSection";
 	import Time from "$lib/components/Time.svelte";
+	import { DaySectionEnum, type DaySectionId } from "$lib/models/DaySection";
+	import type { SuncalcData } from "$lib/models/SuncalcData";
 
 	interface Props {
-		section: ClockSection | undefined;
+		sectionId: DaySectionId | undefined;
+		suncalc: SuncalcData;
 	}
-	const { section }: Props = $props();
+	const { sectionId, suncalc }: Props = $props();
+
+	const section = $derived(sectionId && DaySectionEnum[sectionId]);
 </script>
 
 <div class="section-info">
@@ -14,9 +18,9 @@
 			{section.name}
 		</p>
 		<p class="section-time">
-			<Time value={section.start} />
-			{#if section?.start !== section?.end}
-				&mdash; <Time value={section.end} />
+			<Time value={suncalc[section.start]} />
+			{#if section?.end}
+				&mdash; <Time value={suncalc[section.end]} />
 			{/if}
 		</p>
 	{/if}

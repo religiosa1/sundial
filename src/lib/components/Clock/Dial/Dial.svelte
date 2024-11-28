@@ -1,9 +1,10 @@
 <script lang="ts">
 	import type { SuncalcData } from "$lib/models/SuncalcData";
+	import type { DaySectionId } from "$lib/models/DaySection";
 
 	import { timeToDeg } from "$lib/utils/timeToDeg";
 
-	import { makeClockSectionsArray, type ClockSection } from "./ClockSection";
+	import { makeClockSectionsArray } from "./ClockSection";
 	import NoonNadirMarkers from "./NoonNadirMarkers.svelte";
 	import RingSections from "./RingSections.svelte";
 
@@ -11,12 +12,10 @@
 
 	interface Props {
 		suncalc: SuncalcData;
-		selectedSection: ClockSection | undefined;
-		onSectionSelect: (v: ClockSection | undefined) => void;
+		selectedSectionId: DaySectionId | undefined;
+		onSectionSelect: (dsId: DaySectionId | undefined) => void;
 	}
-	const { suncalc, onSectionSelect: onSectionHover }: Props = $props();
-
-	let selectedSection: ClockSection | undefined = $state();
+	const { suncalc, selectedSectionId, onSectionSelect }: Props = $props();
 
 	const clockSections = $derived(
 		makeClockSectionsArray(suncalc).map((i) => ({
@@ -25,11 +24,6 @@
 			endDeg: timeToDeg(i.end),
 		}))
 	);
-
-	function onSectionSelect(s: ClockSection | undefined) {
-		selectedSection = s;
-		onSectionHover(s);
-	}
 </script>
 
 <svg class="dial" viewBox="0 0 {conf.size} {conf.size}" xmlns="http://www.w3.org/2000/svg">
@@ -63,9 +57,9 @@
 		<stop offset="100%" stop-color="#000033" />
 	</linearGradient>
 
-	<RingSections {selectedSection} sections={clockSections} {onSectionSelect} />
+	<RingSections {selectedSectionId} sections={clockSections} {onSectionSelect} />
 
-	<NoonNadirMarkers {suncalc} {onSectionSelect} />
+	<NoonNadirMarkers {suncalc} {selectedSectionId} {onSectionSelect} />
 </svg>
 
 <style>

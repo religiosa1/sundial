@@ -1,15 +1,17 @@
 <script lang="ts">
+	import type { DaySectionId } from "$lib/models/DaySection";
 	import { range } from "$lib/utils/range";
+
 	import type { ClockSection } from "./ClockSection";
 
 	import * as conf from "./config";
 
 	interface Props {
-		selectedSection: ClockSection | undefined;
 		sections: ClockSection[];
-		onSectionSelect: (s: ClockSection | undefined) => void;
+		selectedSectionId: DaySectionId | undefined;
+		onSectionSelect: (dsId: DaySectionId | undefined) => void;
 	}
-	const { selectedSection, sections, onSectionSelect }: Props = $props();
+	const { sections, selectedSectionId, onSectionSelect }: Props = $props();
 
 	function findSectionByDegree(d: number, sections: ClockSection[]): ClockSection | undefined {
 		if (!Array.isArray(sections)) return undefined;
@@ -40,9 +42,9 @@
 			role="img"
 			aria-label="{hour.value} hour mark"
 			class="hour"
-			class:highlight={selectedSection && hour.section?.id === selectedSection.id}
-			onfocus={() => onSectionSelect(hour.section)}
-			onmouseover={() => onSectionSelect(hour.section)}
+			class:highlight={selectedSectionId && hour.section?.id === selectedSectionId}
+			onfocus={() => onSectionSelect(hour.section?.id)}
+			onmouseover={() => onSectionSelect(hour.section?.id)}
 			onmouseleave={() => onSectionSelect(undefined)}
 		>
 			<line

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
-	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
 	import { APP_TITLE } from "$lib/constants";
+	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
+	import type { SuncalcData } from "$lib/models/SuncalcData";
 	import { suncalc } from "$lib/stores/suncalc";
 	import { currentTime } from "$lib/stores/currentTime";
 	import { latitude, longitude } from "$lib/stores/location";
@@ -34,7 +34,7 @@
 <div class="table-responsive times-list">
 	<table class="table" aria-label="Daylight phases for the date {$date}">
 		<tbody>
-			{#snippet rangeEntry(section: DaySectionEnum)}
+			{#snippet rangeEntry(section: Extract<DaySectionEnum, { end: keyof SuncalcData }>)}
 				{@const start = $suncalc[section.start]}
 				{@const end = $suncalc[section.end]}
 				{@const isCurrent = isBetweenDates($currentTime, start, end)}
@@ -44,10 +44,10 @@
 					<td><Time value={end} /></td>
 				</tr>
 			{/snippet}
-			{#snippet pointEntry(name: string, value: Date)}
+			{#snippet pointEntry(section: Extract<DaySectionEnum, { end: undefined }>)}
 				<tr>
-					<th scope="row">{name}</th>
-					<td colspan="2"><Time {value} /></td>
+					<th scope="row">{section.name}</th>
+					<td colspan="2"><Time value={$suncalc[section.start]} /></td>
 				</tr>
 			{/snippet}
 			{@render rangeEntry(DaySectionEnum.astronomicalTwilightMorning)}
@@ -56,7 +56,7 @@
 			{@render rangeEntry(DaySectionEnum.sunrise)}
 			{@render rangeEntry(DaySectionEnum.goldenHourMorning)}
 			{@render rangeEntry(DaySectionEnum.day)}
-			{@render pointEntry("noon", $suncalc.solarNoon)}
+			{@render pointEntry(DaySectionEnum.noon)}
 
 			{@render rangeEntry(DaySectionEnum.goldenHourEvening)}
 			{@render rangeEntry(DaySectionEnum.sunset)}
@@ -64,7 +64,7 @@
 			{@render rangeEntry(DaySectionEnum.nauticalDusk)}
 			{@render rangeEntry(DaySectionEnum.astronomicalTwilightEveing)}
 			{@render rangeEntry(DaySectionEnum.night)}
-			{@render pointEntry("nadir", $suncalc.nadir)}
+			{@render pointEntry(DaySectionEnum.nadir)}
 		</tbody>
 	</table>
 </div>

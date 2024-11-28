@@ -1,4 +1,4 @@
-import type { GetTimesResult } from "suncalc";
+import type { SuncalcData } from "$lib/models/SuncalcData";
 
 /** sections in between GetTimesResult keys */
 export const DaySectionEnum = createDaySectionDictionary({
@@ -33,6 +33,11 @@ export const DaySectionEnum = createDaySectionDictionary({
 		start: "goldenHourEnd",
 		end: "goldenHour",
 	},
+	noon: {
+		name: "noon",
+		start: "solarNoon",
+		end: undefined,
+	},
 	goldenHourEvening: {
 		name: "evening golden hour",
 		start: "goldenHour",
@@ -63,6 +68,11 @@ export const DaySectionEnum = createDaySectionDictionary({
 		start: "night",
 		end: "nightEnd",
 	},
+	nadir: {
+		name: "nadir",
+		start: "nadir",
+		end: undefined,
+	},
 });
 export type DaySectionEnum = (typeof DaySectionEnum)[keyof typeof DaySectionEnum];
 export type DaySectionId = keyof typeof DaySectionEnum;
@@ -70,8 +80,8 @@ export type DaySection = Prettify<DaySectionData & { id: DaySectionId }>;
 
 interface DaySectionData {
 	name: string;
-	start: keyof GetTimesResult;
-	end: keyof GetTimesResult;
+	start: keyof SuncalcData;
+	end: keyof SuncalcData | undefined;
 }
 function createDaySectionDictionary<const T extends Record<string, DaySectionData>>(
 	payload: T

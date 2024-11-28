@@ -1,14 +1,15 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
+	import type { DaySectionId } from "$lib/models/DaySection";
 	import type { ClockSection } from "./ClockSection";
 	import { calculatePath } from "./helpers";
 	import * as config from "./config";
 
 	interface Props {
+		children: Snippet;
 		section: ClockSection;
 		selected: boolean;
-		children: Snippet;
-		onSectionSelect: (s: ClockSection | undefined) => void;
+		onSectionSelect: (dsId: DaySectionId | undefined) => void;
 	}
 	const { section, selected, children, onSectionSelect }: Props = $props();
 </script>
@@ -22,8 +23,8 @@
 		stroke={section.color}
 		class={"ring-section ring-section-" + section.id}
 		class:highlight={selected}
-		onfocus={() => onSectionSelect(section)}
-		onmouseover={() => onSectionSelect(section)}
+		onfocus={() => onSectionSelect(section.id)}
+		onmouseover={() => onSectionSelect(section.id)}
 		onmouseleave={() => onSectionSelect(undefined)}
 	>
 		{@render children()}
@@ -39,8 +40,8 @@
 		stroke={section.color}
 		class={"ring-section ring-section-" + section.id}
 		class:highlight={selected}
-		onfocus={() => onSectionSelect(section)}
-		onmouseover={() => onSectionSelect(section)}
+		onfocus={() => onSectionSelect(section.id)}
+		onmouseover={() => onSectionSelect(section.id)}
 		onmouseleave={() => onSectionSelect(undefined)}
 	>
 		{@render children()}

@@ -22,7 +22,8 @@ export interface ClockSection {
 
 export function makeClockSectionsArray(times: SuncalcData): ClockSection[] {
 	const retval: ClockSection[] = [];
-	const sections = Object.values(DaySectionEnum);
+	const sections = Object.values(DaySectionEnum).filter((s) => !!s.end);
+
 	for (let i = 0; i < sections.length; i++) {
 		const s = sections[i];
 		if (!s || !isValid(times[s.start])) {
