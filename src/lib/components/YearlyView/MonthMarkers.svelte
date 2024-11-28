@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { endOfMonth } from "date-fns";
 	import { range } from "$lib/utils/range";
-	import { dayToX } from "./helpers";
-	import * as conf from "./yearlyViewBoxConfig";
+	import { dayToX } from "./coordinates";
+	import { conf, monthNames } from "./yearlyViewBoxConfig";
 
 	const textTop = conf.fieldHeight + 10;
 
@@ -25,7 +25,7 @@
 			<line class="month-line" x1={month.end} x2={month.end} y1={conf.yPad} y2={conf.fieldHeight} />
 		{/if}
 		<text x={(month.end + month.start) / 2} y={textTop} class="month-label">
-			{conf.monthNames[month.idx]}
+			{monthNames[month.idx]}
 		</text>
 	{/each}
 </g>

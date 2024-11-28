@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { format } from "date-fns";
-	import { dayToX, timeToY } from "./helpers";
+	import { dayToX, timeToY } from "./coordinates";
 
-	import { yPad, fieldHeight, lineStartX, lineEndX } from "./yearlyViewBoxConfig";
+	import { conf } from "./yearlyViewBoxConfig";
 
 	interface Props {
 		currentTime: Date;
@@ -14,31 +14,19 @@
 </script>
 
 <g class="current-day-time">
-	<text x={lineEndX - 3} y={yPad - 3} class="current-day-time__text">
+	<text x={conf.lineEndX - 3} y={conf.yPad - 3} class="text">
 		{format(currentTime, "yyyy.MM.dd H:mm")}
 	</text>
-	<line
-		class="current-day-time__line current-day-time__line_date"
-		x1={x}
-		x2={x}
-		y1={yPad}
-		y2={fieldHeight}
-	/>
-	<line
-		class="current-day-time__line current-day-time__line_time"
-		x1={lineStartX}
-		x2={lineEndX}
-		y1={y}
-		y2={y}
-	/>
+	<line class="line" x1={x} x2={x} y1={conf.yPad} y2={conf.fieldHeight} />
+	<line class="line" x1={conf.lineStartX} x2={conf.lineEndX} y1={y} y2={y} />
 </g>
 
 <style>
-	.current-day-time__line {
+	.line {
 		stroke: var(--clr-highlight);
 		stroke-width: 1px;
 	}
-	.current-day-time__text {
+	.text {
 		font-size: 9px;
 		text-anchor: end;
 		stroke: var(--clr-highlight);

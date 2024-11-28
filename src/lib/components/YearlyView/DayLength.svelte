@@ -2,8 +2,8 @@
 	import { setDayOfYear } from "date-fns";
 	import suncalc from "suncalc";
 	import { range } from "$lib/utils/range";
-	import { dayToX, timeToY } from "./helpers";
-	import * as conf from "./yearlyViewBoxConfig";
+	import { dayToX, timeToY } from "./coordinates";
+	import { conf } from "./yearlyViewBoxConfig";
 
 	interface Props {
 		latitude: number;
@@ -46,8 +46,8 @@
 	{#each days as day}
 		{#if Number.isFinite(day.startY)}
 			<line class="hour-line" x1={day.x} x2={day.x} y1={day.startY} y2={day.endY} />
-			<circle class="marker marker_start" cx={day.x} cy={day.startY} r="2" />
-			<circle class="marker marker_end" cx={day.x} cy={day.endY} r="2" />
+			<circle class="marker marker_start" cx={day.x} cy={day.startY} r="1" />
+			<circle class="marker marker_end" cx={day.x} cy={day.endY} r="1" />
 		{/if}
 		<circle class="marker marker_noon" cx={day.x} cy={day.noonY} r="1" />
 	{/each}

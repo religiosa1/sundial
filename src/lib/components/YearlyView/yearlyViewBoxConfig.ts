@@ -1,14 +1,47 @@
-export const width = 1000;
-export const height = 400;
-export const yPad = 10;
-export const xPad = 10;
-export const fieldLeftPad = 18;
+interface IYearlySvgConfig {
+	width: number;
+	height: number;
+	yPad: number;
+	xPad: number;
+	fieldLeftPad: number;
+}
+export class YearlySvgConfig implements IYearlySvgConfig {
+	width: number;
+	height: number;
+	yPad: number;
+	xPad: number;
+	fieldLeftPad: number;
+	constructor(data: IYearlySvgConfig) {
+		this.width = data.width;
+		this.height = data.height;
+		this.yPad = data.yPad;
+		this.xPad = data.xPad;
+		this.fieldLeftPad = data.fieldLeftPad;
+	}
 
-export const lineStartX = xPad + 14;
-export const lineEndX = width - xPad;
+	get lineStartX() {
+		return this.xPad + 14;
+	}
 
-export const fieldHeight = height - yPad * 2;
-export const fieldWidth = width - xPad * 2 - fieldLeftPad;
+	get lineEndX() {
+		return this.width - this.xPad;
+	}
+
+	get fieldHeight() {
+		return this.height - this.yPad * 2;
+	}
+	get fieldWidth() {
+		return this.width - this.xPad * 2 - this.fieldLeftPad;
+	}
+}
+
+export const conf = new YearlySvgConfig({
+	width: 1000,
+	height: 400,
+	yPad: 10,
+	xPad: 10,
+	fieldLeftPad: 18,
+});
 
 export const monthNames = [
 	"January",
