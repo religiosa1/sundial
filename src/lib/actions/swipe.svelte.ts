@@ -38,7 +38,10 @@ export function swipe(el: HTMLElement, { threshold = 0.2 }: SwipeOptions = {}) {
 			(e) => {
 				lastStart = e.changedTouches.item(0) ?? undefined;
 			},
-			{ signal: ac.signal }
+			{
+				signal: ac.signal,
+				passive: true,
+			}
 		);
 
 		el.addEventListener(
@@ -46,7 +49,10 @@ export function swipe(el: HTMLElement, { threshold = 0.2 }: SwipeOptions = {}) {
 			() => {
 				lastStart = undefined;
 			},
-			{ signal: ac.signal }
+			{
+				signal: ac.signal,
+				passive: true,
+			}
 		);
 
 		el.addEventListener(
@@ -74,7 +80,10 @@ export function swipe(el: HTMLElement, { threshold = 0.2 }: SwipeOptions = {}) {
 					return;
 				}
 			},
-			{ signal: ac.signal }
+			{
+				signal: ac.signal,
+				passive: true,
+			}
 		);
 
 		return () => ac.abort();
