@@ -5,7 +5,7 @@
 	"description": "Sundial clock and sunlight phases calculations. Display times of sunset, sunrise, dusk, dawn, etc. for a chosen location at a chosen date.",
 	"display": "standalone",
 	"orientation": "any",
-	"start_url": ".",
+	"start_url": "/",
 	"icons": [
 		{
 			"src": "favicon_192x192.png",
