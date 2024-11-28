@@ -54,9 +54,38 @@ self.addEventListener("fetch", (event) => {
 			}
 		}
 
-		// We don't perform any other type of fetch from the client, so lines
-		// above should cover eveything. As a fallback, we actually perform fetch
-		// See the sveltekit docs, for how to implement network-first cache storage.
-		return await fetch(event.request);
+		// for everything else, try the network first, but fall back to the cache
+		// if we're offline.
+		try {
+			const response = await fetch(event.request);
+
+			// if we're offline, fetch can return a value that is not a Response
+			// instead of throwing - and we can't pass this non-Response to respondWith
+			if (!(response instanceof Response)) {
+				throw new InvalidResponseError();
+			}
+
+			if (response.ok) {
+				cache.put(event.request, response.clone());
+			}
+
+			return response;
+		} catch (err) {
+			const response = await cache.match(event.request);
+
+			if (response) {
+				return response;
+			}
+
+			// if there's no cache, then just error out as there is nothing we can do
+			throw err;
+		}
 	}
 });
+
+class InvalidResponseError extends Error {
+	override name = "InvalidReponseError";
+	constructor(message = "invalid response from fetch") {
+		super(message);
+	}
+}
