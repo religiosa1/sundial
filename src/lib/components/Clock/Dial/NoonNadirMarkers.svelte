@@ -9,7 +9,7 @@
 		selectedSectionId: DaySectionId | undefined;
 		onSectionSelect: (dsId: DaySectionId | undefined) => void;
 	}
-	const { suncalc, onSectionSelect }: Props = $props();
+	const { suncalc, selectedSectionId, onSectionSelect }: Props = $props();
 </script>
 
 {#snippet marker(section: Extract<DaySectionEnum, { end: undefined }>)}
@@ -17,6 +17,7 @@
 		role="img"
 		aria-label={section.name}
 		class="time-mark"
+		class:selected={selectedSectionId === section.id}
 		x1="50%"
 		x2="50%"
 		y1={config.padding}
@@ -40,5 +41,8 @@
 		stroke: #ff7aff80;
 		mix-blend-mode: difference;
 		transition: stroke 0.2s ease;
+	}
+	.time-mark.selected {
+		filter: drop-shadow(0 0 3px blue);
 	}
 </style>

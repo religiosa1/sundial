@@ -21,8 +21,8 @@
 		id={section.id}
 		d={calculatePath(section)}
 		stroke={section.color}
-		class={"ring-section ring-section-" + section.id}
-		class:highlight={selected}
+		class="ring-section"
+		class:selected
 		onfocus={() => onSectionSelect(section.id)}
 		onmouseover={() => onSectionSelect(section.id)}
 		onmouseleave={() => onSectionSelect(undefined)}
@@ -38,8 +38,8 @@
 		cy={config.hsize}
 		r={config.radius}
 		stroke={section.color}
-		class={"ring-section ring-section-" + section.id}
-		class:highlight={selected}
+		class="ring-section"
+		class:selected
 		onfocus={() => onSectionSelect(section.id)}
 		onmouseover={() => onSectionSelect(section.id)}
 		onmouseleave={() => onSectionSelect(undefined)}
@@ -53,7 +53,7 @@
 		stroke-width: 20px;
 		fill: none;
 	}
-	.ring-section.highlight {
+	.ring-section.selected {
 		filter: drop-shadow(0 0 2px blue);
 	}
 </style>
