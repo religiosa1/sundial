@@ -1,17 +1,34 @@
+import { goto } from "$app/navigation";
+import type { AppRouteEnum } from "$lib/enums/AppRouteEnum";
+
+const SWIPE_LEFT_EVENT = "swipeLeft";
+const SWIPE_RIGHT_EVENT = "swipeRight";
+
+export function useSwipeNavigation(
+	prev: AppRouteEnum | undefined,
+	next?: AppRouteEnum | undefined
+) {
+	$effect(() => {
+		const ac = new AbortController();
+		if (prev) {
+			document.addEventListener(SWIPE_RIGHT_EVENT, () => goto(prev), {
+				signal: ac.signal,
+			});
+		}
+		if (next) {
+			document.addEventListener(SWIPE_LEFT_EVENT, () => goto(next), {
+				signal: ac.signal,
+			});
+		}
+		return () => ac.abort();
+	});
+}
+
 interface SwipeOptions {
-	swipeLeftEvent?: string;
-	swipeRightEvent?: string;
 	threshold?: number;
 }
 
-export function swipe(
-	el: HTMLElement,
-	{
-		swipeLeftEvent = "swipeLeft",
-		swipeRightEvent = "swipeRight",
-		threshold = 0.2,
-	}: SwipeOptions = {}
-) {
+export function swipe(el: HTMLElement, { threshold = 0.2 }: SwipeOptions = {}) {
 	$effect(() => {
 		const ac = new AbortController();
 		let lastStart: Touch | undefined;
@@ -52,7 +69,7 @@ export function swipe(
 
 				if (rate > threshold) {
 					document.dispatchEvent(
-						new CustomEvent(xTraversed > 0 ? swipeRightEvent : swipeLeftEvent)
+						new CustomEvent(xTraversed > 0 ? SWIPE_RIGHT_EVENT : SWIPE_LEFT_EVENT)
 					);
 					return;
 				}

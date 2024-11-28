@@ -24,7 +24,7 @@ export const DaySectionEnum = createDaySectionDictionary({
 		end: "sunriseEnd",
 	},
 	goldenHourMorning: {
-		name: "golden hour",
+		name: "morning golden hour",
 		start: "sunriseEnd",
 		end: "goldenHourEnd",
 	},
@@ -34,7 +34,7 @@ export const DaySectionEnum = createDaySectionDictionary({
 		end: "goldenHour",
 	},
 	goldenHourEvening: {
-		name: "golden hour",
+		name: "evening golden hour",
 		start: "goldenHour",
 		end: "sunsetStart",
 	},
@@ -64,6 +64,7 @@ export const DaySectionEnum = createDaySectionDictionary({
 		end: "nightEnd",
 	},
 });
+export type DaySectionEnum = (typeof DaySectionEnum)[keyof typeof DaySectionEnum];
 export type DaySectionId = keyof typeof DaySectionEnum;
 export type DaySection = Prettify<DaySectionData & { id: DaySectionId }>;
 

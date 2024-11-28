@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
 	import { APP_TITLE } from "$lib/constants";
 	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
 	import { currentTime } from "$lib/stores/currentTime";
@@ -10,14 +9,9 @@
 	import PlaceTimeInfo from "$lib/components/Clock/LocationInfo.svelte";
 	import SunsetSunriseInfo from "$lib/components/Clock/SunsetSunriseInfo.svelte";
 	import CurrentTime from "$lib/components/Clock/TimeDisplay.svelte";
+	import { useSwipeNavigation } from "$lib/actions/swipe.svelte";
 
-	$effect(() => {
-		const ac = new AbortController();
-		document.addEventListener("swipeLeft", () => goto(AppRouteEnum.tableView), {
-			signal: ac.signal,
-		});
-		return () => ac.abort();
-	});
+	useSwipeNavigation(undefined, AppRouteEnum.tableView);
 </script>
 
 <svelte:head>

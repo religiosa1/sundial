@@ -1,4 +1,4 @@
-import { getDayOfYear, hoursToMilliseconds, minutesToMilliseconds } from "date-fns";
+import { getDayOfYear, hoursToMilliseconds, isLeapYear, minutesToMilliseconds } from "date-fns";
 import * as conf from "./yearlyViewBoxConfig";
 
 const msInDay = 24 * 60 * 60 * 1000;
@@ -6,7 +6,8 @@ const msInDay = 24 * 60 * 60 * 1000;
 const sum = (...args: number[]) => args.reduce((acc, cur) => acc + cur, 0);
 
 export function dayToX(date: Date): number {
-	return conf.xPad + conf.fieldLeftPad + (getDayOfYear(date) / 364) * conf.fieldWidth;
+	const totalDays = isLeapYear(date) ? 364 : 365;
+	return conf.xPad + conf.fieldLeftPad + (getDayOfYear(date) / totalDays) * conf.fieldWidth;
 }
 
 export function timeToY(time: Date): number {

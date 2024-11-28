@@ -3,95 +3,68 @@
 	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
 	import { APP_TITLE } from "$lib/constants";
 	import { suncalc } from "$lib/stores/suncalc";
-	import Time from "$lib/components/Time.svelte";
+	import { currentTime } from "$lib/stores/currentTime";
+	import { latitude, longitude } from "$lib/stores/location";
+	import { date } from "$lib/stores/date";
 
-	$effect(() => {
-		const ac = new AbortController();
-		document.addEventListener("swipeLeft", () => goto(AppRouteEnum.yearlyView), {
-			signal: ac.signal,
-		});
-		document.addEventListener("swipeRight", () => goto(AppRouteEnum.dialView), {
-			signal: ac.signal,
-		});
-		return () => ac.abort();
-	});
+	import Time from "$lib/components/Time.svelte";
+	import PlaceTimeInfo from "$lib/components/Clock/LocationInfo.svelte";
+	import CurrentTime from "$lib/components/Clock/TimeDisplay.svelte";
+	import { DaySectionEnum } from "$lib/models/DaySection";
+	import { useSwipeNavigation } from "$lib/actions/swipe.svelte";
+
+	useSwipeNavigation(AppRouteEnum.dialView, AppRouteEnum.yearlyView);
+
+	function isBetweenDates(date: Date, start: Date, end: Date): boolean {
+		// Special case for night value
+		if (start > end) {
+			return date >= start || date < end;
+		}
+		return start <= date && date < end;
+	}
 </script>
 
 <svelte:head>
 	<title>{APP_TITLE} - Table View</title>
 </svelte:head>
 
+<CurrentTime compact time={$currentTime} date={$date} />
+<PlaceTimeInfo latitude={$latitude} longitude={$longitude} />
+
 <div class="table-responsive times-list">
-	<table class="table">
+	<table class="table" aria-label="Daylight phases for the date {$date}">
 		<tbody>
-			<tr>
-				<th>astronomical twilight</th>
-				<td><Time value={$suncalc.nightEnd} /></td>
-				<td><Time value={$suncalc.nauticalDawn} /></td>
-			</tr>
-			<tr>
-				<th>nautical twilight</th>
-				<td><Time value={$suncalc.nauticalDawn} /></td>
-				<td><Time value={$suncalc.dawn} /></td>
-			</tr>
-			<tr>
-				<th>civil twilight</th>
-				<td><Time value={$suncalc.dawn} /></td>
-				<td><Time value={$suncalc.sunrise} /></td>
-			</tr>
-			<tr>
-				<th>sunrise</th>
-				<td><Time value={$suncalc.sunrise} /></td>
-				<td><Time value={$suncalc.sunriseEnd} /></td>
-			</tr>
-			<tr>
-				<th>morning golden hour</th>
-				<td><Time value={$suncalc.sunriseEnd} /></td>
-				<td><Time value={$suncalc.goldenHourEnd} /></td>
-			</tr>
-			<tr>
-				<th>day</th>
-				<td><Time value={$suncalc.goldenHourEnd} /></td>
-				<td><Time value={$suncalc.goldenHour} /></td>
-			</tr>
-			<tr>
-				<th>noon</th>
-				<td colspan="2"><Time value={$suncalc.solarNoon} /></td>
-			</tr>
-			<tr>
-				<th>evening golden hour</th>
-				<td><Time value={$suncalc.goldenHour} /></td>
-				<td><Time value={$suncalc.sunsetStart} /></td>
-			</tr>
-			<tr>
-				<th>sunset</th>
-				<td><Time value={$suncalc.sunsetStart} /></td>
-				<td><Time value={$suncalc.sunset} /></td>
-			</tr>
-			<tr>
-				<th>civil twilight</th>
-				<td><Time value={$suncalc.sunset} /></td>
-				<td><Time value={$suncalc.dusk} /></td>
-			</tr>
-			<tr>
-				<th>nautical twilight</th>
-				<td><Time value={$suncalc.dusk} /></td>
-				<td><Time value={$suncalc.nauticalDusk} /></td>
-			</tr>
-			<tr>
-				<th>astronomical twilight</th>
-				<td><Time value={$suncalc.nauticalDusk} /></td>
-				<td><Time value={$suncalc.night} /></td>
-			</tr>
-			<tr>
-				<th>night</th>
-				<td><Time value={$suncalc.night} /></td>
-				<td><Time value={$suncalc.nightEnd} /></td>
-			</tr>
-			<tr>
-				<th>nadir</th>
-				<td colspan="2"><Time value={$suncalc.nadir} /></td>
-			</tr>
+			{#snippet rangeEntry(section: DaySectionEnum)}
+				{@const start = $suncalc[section.start]}
+				{@const end = $suncalc[section.end]}
+				{@const isCurrent = isBetweenDates($currentTime, start, end)}
+				<tr class:current={isCurrent} aria-current={isCurrent || undefined}>
+					<th scope="row">{section.name}</th>
+					<td><Time value={start} /></td>
+					<td><Time value={end} /></td>
+				</tr>
+			{/snippet}
+			{#snippet pointEntry(name: string, value: Date)}
+				<tr>
+					<th scope="row">{name}</th>
+					<td colspan="2"><Time {value} /></td>
+				</tr>
+			{/snippet}
+			{@render rangeEntry(DaySectionEnum.astronomicalTwilightMorning)}
+			{@render rangeEntry(DaySectionEnum.nauticalDawn)}
+			{@render rangeEntry(DaySectionEnum.dawn)}
+			{@render rangeEntry(DaySectionEnum.sunrise)}
+			{@render rangeEntry(DaySectionEnum.goldenHourMorning)}
+			{@render rangeEntry(DaySectionEnum.day)}
+			{@render pointEntry("noon", $suncalc.solarNoon)}
+
+			{@render rangeEntry(DaySectionEnum.goldenHourEvening)}
+			{@render rangeEntry(DaySectionEnum.sunset)}
+			{@render rangeEntry(DaySectionEnum.dusk)}
+			{@render rangeEntry(DaySectionEnum.nauticalDusk)}
+			{@render rangeEntry(DaySectionEnum.astronomicalTwilightEveing)}
+			{@render rangeEntry(DaySectionEnum.night)}
+			{@render pointEntry("nadir", $suncalc.nadir)}
 		</tbody>
 	</table>
 </div>
@@ -99,19 +72,29 @@
 <style>
 	.times-list {
 		max-width: 600px;
-		margin: 1rem auto;
+		margin: 0 auto;
 	}
 	.table {
 		margin: auto;
 	}
 
-	@media (max-width: 700px) {
-		.table {
-			font-size: 1.4em;
-		}
+	.table th {
+		padding-left: 8px;
+	}
+	.current th {
+		position: relative;
+	}
+	.current th::after {
+		content: "";
+		position: absolute;
+		width: 4px;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		background: var(--clr-highlight);
 	}
 
-	@media (max-width: 320px) {
+	@media (max-width: 700px) {
 		.table {
 			font-size: 1.2em;
 		}
