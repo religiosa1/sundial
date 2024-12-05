@@ -7,17 +7,37 @@ import { writable, get } from "svelte/store";
 const DEFAULT_LATITUDE = 51.477811;
 const DEFAULT_LONGITUDE = -0.001475;
 
+// Second argument is supplied to stores initialization, because of the possible
+// time gap, between the store initialization and mounting, in which time the
+// localStorage value can be changed.
 export const latitude = writable(loadLatOrDefault(), (set) => {
 	set(loadLatOrDefault());
 });
-export const longitude = writable(loadLongOrDefault(), (set) => {
-	set(loadLongOrDefault());
+export const longitude = writable(loadLngOrDefault(), (set) => {
+	set(loadLngOrDefault());
 });
 
-export function saveLocation() {
-	localStorage.setItem(LocalStorageKeyEnum.Latitude, get(latitude).toString());
-	localStorage.setItem(LocalStorageKeyEnum.Longitude, get(longitude).toString());
+export function saveDefaultLocation(): StoredLocation {
+	const lat = get(latitude);
+	const lng = get(longitude);
+	localStorage.setItem(LocalStorageKeyEnum.Latitude, lat.toString());
+	localStorage.setItem(LocalStorageKeyEnum.Longitude, lng.toString());
+	return { latitude: lat, longitude: lng };
 }
+
+export function hasDefaultLocation(): boolean {
+	const lat = loadLocationValue(LocalStorageKeyEnum.Latitude);
+	if (!isValidLatitude(lat)) return false;
+	const lng = loadLocationValue(LocalStorageKeyEnum.Longitude);
+	if (!isValidLongitude(lng)) return false;
+	return true;
+}
+
+export function deleteDefaultLocation(): void {
+	localStorage.removeItem(LocalStorageKeyEnum.Latitude);
+	localStorage.removeItem(LocalStorageKeyEnum.Longitude);
+}
+
 interface StoredLocation {
 	latitude: number;
 	longitude: number;
@@ -27,17 +47,17 @@ export function loadLocation(): StoredLocation | undefined {
 	if (!isValidLatitude(lat)) {
 		return undefined;
 	}
-	const long = loadLocationValue(LocalStorageKeyEnum.Longitude);
-	if (!isValidLongitude(long)) {
+	const lng = loadLocationValue(LocalStorageKeyEnum.Longitude);
+	if (!isValidLongitude(lng)) {
 		return undefined;
 	}
-	return { latitude: lat!, longitude: long! };
+	return { latitude: lat!, longitude: lng! };
 }
 
 function loadLocationValue(
 	key: LocalStorageKeyEnum.Latitude | LocalStorageKeyEnum.Longitude
 ): number | undefined {
-	if (!browser) return;
+	if (!browser) return undefined;
 	const strValue = localStorage.getItem(key);
 	if (!strValue) return undefined;
 	const numValue = +strValue;
@@ -53,7 +73,7 @@ function loadLatOrDefault(): number {
 	return value!;
 }
 
-function loadLongOrDefault(): number {
+function loadLngOrDefault(): number {
 	let value = loadLocationValue(LocalStorageKeyEnum.Longitude);
 	if (!isValidLatitude(value)) {
 		value = DEFAULT_LONGITUDE;

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onNavigate, beforeNavigate } from "$app/navigation";
 	import { swipe } from "$lib/actions/swipe.svelte";
+	import { useMyLocation } from "$lib/actions/useMyLocation";
+	import { hasDefaultLocation, saveDefaultLocation } from "$lib/stores/location";
 	import AboutPopup from "$lib/components/AboutPopup.svelte";
 	import Menu from "$lib/components/Menu";
 	import { routeList, type AppRouteEnum } from "$lib/enums/AppRouteEnum";
@@ -10,8 +12,17 @@
 	let { children } = $props();
 
 	let showAboutHelp = $state(false);
-
 	let reverseNavigation = $state(false);
+
+	$effect(() => {
+		useMyLocation()
+			.then(() => {
+				if (!hasDefaultLocation()) {
+					saveDefaultLocation();
+				}
+			})
+			.catch(console.warn);
+	});
 
 	beforeNavigate((e) => {
 		if (!e.from?.route.id || !e.to?.route.id) return;

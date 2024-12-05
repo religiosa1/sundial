@@ -1,22 +1,18 @@
 <script lang="ts">
+	import { latToDegree, longToDegree } from "$lib/utils/latlong";
+	import { useMyLocation } from "$lib/actions/useMyLocation";
+	import {
+		latitude,
+		longitude,
+		saveDefaultLocation,
+		loadLocation,
+		deleteDefaultLocation,
+	} from "$lib/stores/location";
 	import Dialog from "$lib/components/Dialog.svelte";
-	import { latitude, longitude, saveLocation, loadLocation } from "$lib/stores/location";
-	import { isValidLatitude, isValidLongitude, latToDegree, longToDegree } from "$lib/utils/latlong";
 
 	let { open = $bindable() }: { open: boolean } = $props();
 
 	let storedValue = $state(loadLocation());
-
-	function useMyLocation() {
-		navigator.geolocation.getCurrentPosition((position) => {
-			console.log(position);
-			const { latitude: lat, longitude: lng } = position.coords;
-			if (isValidLatitude(lat) && isValidLongitude(lng)) {
-				$latitude = lat;
-				$longitude = lng;
-			}
-		});
-	}
 </script>
 
 <Dialog bind:open>
@@ -25,8 +21,12 @@
 		name="placeform"
 		onsubmit={(e) => {
 			e.preventDefault();
-			saveLocation();
-			storedValue = loadLocation();
+			storedValue = saveDefaultLocation();
+		}}
+		onreset={(e) => {
+			e.preventDefault();
+			deleteDefaultLocation();
+			storedValue = undefined;
 		}}
 	>
 		<div class="form-group">
@@ -70,13 +70,33 @@
 				Not Specified
 			{/if}
 		</p>
-		{#if "geolocation" in navigator}
-			<p>
-				<button onclick={useMyLocation}>Use my location</button>
-			</p>
-		{/if}
-
-		<button>Save as the default position</button>
+		<p>It will be used when your current location can't be determined.</p>
+		<div class="controls">
+			<button>Save</button>
+			<button type="reset" disabled={storedValue == null}>Clear</button>
+			{#if "geolocation" in navigator}
+				<button
+					type="button"
+					onclick={() =>
+						useMyLocation()
+							.then(() => {
+								storedValue = saveDefaultLocation();
+							})
+							// TODO toaster or other way of notifying about the other
+							.catch(console.warn)}
+				>
+					Use my location
+				</button>
+			{/if}
+		</div>
 		<button type="button" onclick={() => (open = false)}>Close</button>
 	</form>
 </Dialog>
+
+<style>
+	.controls {
+		display: flex;
+		gap: 0.75em;
+		margin: 0.5em 0 1em;
+	}
+</style>

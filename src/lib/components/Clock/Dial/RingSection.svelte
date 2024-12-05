@@ -53,6 +53,9 @@
 		stroke-width: 20px;
 		fill: none;
 	}
+	.ring-section:focus {
+		outline: 0;
+	}
 	.ring-section.selected {
 		filter: drop-shadow(0 0 2px blue);
 	}
