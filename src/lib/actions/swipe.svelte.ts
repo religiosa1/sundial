@@ -1,3 +1,4 @@
+import { on } from "svelte/events";
 import { goto } from "$app/navigation";
 import type { AppRouteEnum } from "$lib/enums/AppRouteEnum";
 
@@ -11,12 +12,12 @@ export function useSwipeNavigation(
 	$effect(() => {
 		const ac = new AbortController();
 		if (prev) {
-			document.addEventListener(SWIPE_RIGHT_EVENT, () => goto(prev), {
+			on(document, SWIPE_RIGHT_EVENT, () => goto(prev), {
 				signal: ac.signal,
 			});
 		}
 		if (next) {
-			document.addEventListener(SWIPE_LEFT_EVENT, () => goto(next), {
+			on(document, SWIPE_LEFT_EVENT, () => goto(next), {
 				signal: ac.signal,
 			});
 		}
@@ -33,7 +34,8 @@ export function swipe(el: HTMLElement, { threshold = 0.2 }: SwipeOptions = {}) {
 		const ac = new AbortController();
 		let lastStart: Touch | undefined;
 
-		el.addEventListener(
+		on(
+			el,
 			"touchstart",
 			(e) => {
 				lastStart = e.changedTouches.item(0) ?? undefined;
@@ -44,7 +46,8 @@ export function swipe(el: HTMLElement, { threshold = 0.2 }: SwipeOptions = {}) {
 			}
 		);
 
-		el.addEventListener(
+		on(
+			el,
 			"touchcancel",
 			() => {
 				lastStart = undefined;
@@ -55,7 +58,8 @@ export function swipe(el: HTMLElement, { threshold = 0.2 }: SwipeOptions = {}) {
 			}
 		);
 
-		el.addEventListener(
+		on(
+			el,
 			"touchend",
 			(e) => {
 				const start = lastStart;
