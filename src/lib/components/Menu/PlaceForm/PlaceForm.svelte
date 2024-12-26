@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { latToDegree, longToDegree } from "$lib/utils/latlong";
-	import { useMyLocation } from "$lib/actions/useMyLocation";
 	import {
 		latitude,
 		longitude,
@@ -9,10 +8,13 @@
 		deleteDefaultLocation,
 	} from "$lib/stores/location";
 	import Dialog from "$lib/components/Dialog.svelte";
+	import UseMyLocationButton from "./UseMyLocationButton.svelte";
+	import ErrorPanel from "$lib/components/ErrorPanel.svelte";
 
 	let { open = $bindable() }: { open: boolean } = $props();
 
 	let storedValue = $state(loadLocation());
+	let getMyLocationError = $state(undefined as unknown);
 </script>
 
 <Dialog bind:open>
@@ -75,20 +77,13 @@
 			<button>Save</button>
 			<button type="reset" disabled={storedValue == null}>Clear</button>
 			{#if "geolocation" in navigator}
-				<button
-					type="button"
-					onclick={() =>
-						useMyLocation()
-							.then(() => {
-								storedValue = saveDefaultLocation();
-							})
-							// TODO toaster or other way of notifying about the other
-							.catch(console.warn)}
-				>
-					Use my location
-				</button>
+				<UseMyLocationButton
+					onLocationSaved={(v) => (storedValue = v)}
+					onError={(e) => (getMyLocationError = e)}
+				/>
 			{/if}
 		</div>
+		<ErrorPanel error={getMyLocationError}>Error retrieving location:</ErrorPanel>
 		<button type="button" onclick={() => (open = false)}>Close</button>
 	</form>
 </Dialog>
@@ -98,5 +93,6 @@
 		display: flex;
 		gap: 0.75em;
 		margin: 0.5em 0 1em;
+		align-items: center;
 	}
 </style>

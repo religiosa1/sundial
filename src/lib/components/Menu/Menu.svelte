@@ -3,7 +3,7 @@
 	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
 
 	import DateForm from "./DateForm.svelte";
-	import PlaceForm from "./PlaceForm.svelte";
+	import PlaceForm from "./PlaceForm";
 
 	let showDateForm = $state(false);
 	let showPlaceForm = $state(false);

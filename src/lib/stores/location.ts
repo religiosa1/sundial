@@ -38,7 +38,7 @@ export function deleteDefaultLocation(): void {
 	localStorage.removeItem(LocalStorageKeyEnum.Longitude);
 }
 
-interface StoredLocation {
+export interface StoredLocation {
 	latitude: number;
 	longitude: number;
 }
