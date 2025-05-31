@@ -1,3 +1,7 @@
+<script module>
+	const bodyDialogOpenClass = "body-dialog-open";
+</script>
+
 <script lang="ts">
 	import type { Snippet } from "svelte";
 	import type { EventHandler } from "svelte/elements";
@@ -11,41 +15,51 @@
 	}
 	let { open = $bindable(), noBackDrop, children, onclose }: Props = $props();
 
-	let dialogRef: HTMLDialogElement;
-	$effect(() => {
-		if (!dialogRef) return;
-		if (open) {
-			dialogRef.showModal();
-		} else {
-			dialogRef.close();
-		}
-	});
+	interface Coords {
+		clientX: number;
+		clientY: number;
+	}
 
-	function handleBackdropClick(e: MouseEvent) {
-		if (e.target !== dialogRef) {
-			return;
-		}
-		const rect = dialogRef.getBoundingClientRect();
-		const isClickOutside = !(
-			rect.top <= e.clientY &&
-			e.clientY <= rect.top + rect.height &&
-			rect.left <= e.clientX &&
-			e.clientX <= rect.left + rect.width
+	let mouseDownCoords: Coords | undefined = undefined;
+
+	function isCoordInsideRect(rect: DOMRect, coords: Coords): boolean {
+		return !!(
+			rect.top <= coords.clientY &&
+			coords.clientY <= rect.top + rect.height &&
+			rect.left <= coords.clientX &&
+			coords.clientX <= rect.left + rect.width
 		);
-		if (isClickOutside) {
-			open = false;
-		}
 	}
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
 	transition:fly={{ y: 200 }}
-	bind:this={dialogRef}
+	onintrostart={() => document.body.classList.add(bodyDialogOpenClass)}
+	onoutroend={() => document.body.classList.remove(bodyDialogOpenClass)}
 	class="dialog"
 	class:dialog_nobackdrop={noBackDrop}
-	onclick={handleBackdropClick}
+	{@attach (dialog) => {
+		if (open) {
+			dialog.showModal();
+		} else {
+			dialog.close();
+		}
+	}}
+	onmousedown={(e) => {
+		mouseDownCoords = { clientX: e.clientX, clientY: e.clientY };
+	}}
+	onmouseup={(e) => {
+		if (!mouseDownCoords) {
+			return;
+		}
+		const rect = e.currentTarget.getBoundingClientRect();
+		// both click start and end must be outside of dialog's bounding box
+		const isClickOutside = !isCoordInsideRect(rect, e) && !isCoordInsideRect(rect, mouseDownCoords);
+		if (isClickOutside) {
+			open = false;
+		}
+		mouseDownCoords = undefined;
+	}}
 	{onclose}
 >
 	<header>
@@ -57,6 +71,10 @@
 </dialog>
 
 <style>
+	:global(.body-dialog-open) {
+		overflow: hidden;
+	}
+
 	.dialog {
 		position: relative;
 		color: var(--clr-txt);

@@ -39,10 +39,16 @@ self.addEventListener("fetch", (event) => {
 	// ignore POST requests etc
 	if (event.request.method !== "GET") return;
 
+	const url = new URL(event.request.url);
+
+	// Skip external resources (e.g. map tiles, CDNs)
+	if (url.origin !== self.location.origin) {
+		return;
+	}
+
 	event.respondWith(respond());
 
 	async function respond() {
-		const url = new URL(event.request.url);
 		const cache = await caches.open(CACHE);
 
 		// `build`/`files` can always be served from the cache

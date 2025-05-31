@@ -19,4 +19,7 @@ export const colors: Record<DaySectionId, string> = {
 	nauticalDusk: "url(#grd-nautic)",
 	astronomicalTwilightEveing: "url(#grd-astro)",
 	night: "url(#grd-night)",
+	// those are points and not sections, they don't have a fill color
+	nadir: "",
+	noon: "",
 };

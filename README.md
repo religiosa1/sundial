@@ -1,16 +1,20 @@
 # Sundial clock and sunlight phases calculations
 
-A webapp for displaying sunlight phases (times for sunrise, sunset, dusk, etc.) 
+A webapp for displaying sunlight phases (times for sunrise, sunset, dusk, etc.)
 on per day or per year basis for the provided date and location.
 
-Display is available as a sun dial (inpired by the Kingdom Come: Deliverance PC
-game), table and a yearly chart.
+Can be viewed in a browser, or installed as a PWA.
+
+Can display daylight phases for your current or chosen locations as:
+
+- sun dial; inspired by the Kingdom Come: Deliverance PC game
+- table; showing the same information in a tabular view
+- yearly chart; plotting sunrise and sunset times for each day of the year.
 
 Actual calculations of different sections of the day performed by the wonderful
-[suncalc](https://github.com/mourner/suncalc) library written by 
-[Vladimir Agafonkin](http://agafonkin.com/en) 
+[suncalc](https://github.com/mourner/suncalc) library written by
+[Vladimir Agafonkin](http://agafonkin.com/en)
 ([@mourner](https://github.com/mourner))
-
 
 ## Developing
 
@@ -34,4 +38,5 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 ## License
+
 Sundial is MIT licensed.

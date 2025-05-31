@@ -10,6 +10,7 @@
 	import Dialog from "$lib/components/Dialog.svelte";
 	import UseMyLocationButton from "./UseMyLocationButton.svelte";
 	import ErrorPanel from "$lib/components/ErrorPanel.svelte";
+	import MapView from "./MapView.svelte";
 
 	let { open = $bindable() }: { open: boolean } = $props();
 
@@ -31,6 +32,9 @@
 			storedValue = undefined;
 		}}
 	>
+		<div class="form-group">
+			<MapView />
+		</div>
 		<div class="form-group">
 			<label>
 				Latitude
