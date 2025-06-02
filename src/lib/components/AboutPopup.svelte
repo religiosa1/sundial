@@ -24,7 +24,19 @@
 			Actual sunlight phases calculations are provided by the wonderful
 			<a href="https://github.com/mourner/suncalc">suncalc</a>
 			library written by
-			<a href="http://agafonkin.com/en">Vladimir Agafonkin</a>
+			<a href="http://agafonkin.com/en">Vladimir Agafonkin</a> and contributers.
+		</p>
+
+		<p>
+			Map implementation is provided by the <a href="https://maplibre.org/">Maplibre</a>
+			library.
+		</p>
+
+		<p>
+			Map tiles are provided by and licensed to <a href="https://www.openstreetmap.org/copyright"
+				>OpenStreetMap contributers</a
+			>. This map is for informational purposes only and may contain inaccuracies in borders, place
+			names, and may not account for local laws and regulations relating to map usage.
 		</p>
 
 		<p>Written using <a href="https://svelte.dev/">Svelte</a></p>

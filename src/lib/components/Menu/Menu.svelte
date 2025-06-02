@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
+	import { webGLSupportStatus } from "$lib/utils/webGlSupportStatus";
 
 	import DateForm from "./DateForm.svelte";
 	import PlaceForm from "./PlaceForm";
@@ -40,6 +41,19 @@
 		>
 			yearly view
 		</a>
+
+		{#if webGLSupportStatus === "supported"}
+			<!-- TODO: Icon for sun positions -->
+			<a
+				href={AppRouteEnum.mapView}
+				class="menu__button display-type display-type_yearly"
+				class:active={$page.url.pathname === AppRouteEnum.mapView}
+				title="map view"
+				aria-label="Sun positions on a map"
+			>
+				Sun positions on a map
+			</a>
+		{/if}
 	</nav>
 	<div class="controls">
 		<button
