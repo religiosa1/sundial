@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { latToDegree, longToDegree } from "$lib/utils/latlong";
+	import { formatLatAsDegree, formatLongAsDegree } from "$lib/utils/latlong";
 
 	interface Props {
 		latitude: number;
@@ -9,8 +9,8 @@
 </script>
 
 <div class="location-info">
-	<span title="latitude: {latitude}" class="lat">{latToDegree(latitude)}</span>,
-	<span title="longitude: {longitude}" class="long">{longToDegree(longitude)}</span>
+	<span title="latitude: {latitude}" class="lat">{formatLatAsDegree(latitude)}</span>,
+	<span title="longitude: {longitude}" class="long">{formatLongAsDegree(longitude)}</span>
 </div>
 
 <style>

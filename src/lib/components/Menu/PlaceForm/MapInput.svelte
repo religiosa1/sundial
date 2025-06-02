@@ -3,6 +3,7 @@
 	import maplibregl, { Marker } from "maplibre-gl";
 	import { latitude, longitude } from "$lib/stores/location";
 	import { get } from "svelte/store";
+	import { MAP_TILES_STYLE } from "$lib/constants";
 </script>
 
 <div
@@ -11,25 +12,7 @@
 		const map = new maplibregl.Map({
 			container: element,
 			// style: "https://demotiles.maplibre.org/style.json",
-			style: {
-				version: 8,
-				sources: {
-					osm: {
-						type: "raster",
-						tiles: ["https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"],
-						tileSize: 256,
-						attribution: "&copy; OpenStreetMap Contributors",
-						maxzoom: 19,
-					},
-				},
-				layers: [
-					{
-						id: "osm",
-						type: "raster",
-						source: "osm",
-					},
-				],
-			},
+			style: MAP_TILES_STYLE,
 			center: [get(longitude), get(latitude)], // starting position [lng, lat]
 			zoom: 1, // starting zoom
 		});

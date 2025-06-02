@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { latToDegree, longToDegree } from "$lib/utils/latlong";
+	import { formatLatAsDegree, formatLongAsDegree } from "$lib/utils/latlong";
+	import { webGLSupportStatus } from "$lib/utils/webGlSupportStatus";
 	import {
 		latitude,
 		longitude,
@@ -10,7 +11,7 @@
 	import Dialog from "$lib/components/Dialog.svelte";
 	import UseMyLocationButton from "./UseMyLocationButton.svelte";
 	import ErrorPanel from "$lib/components/ErrorPanel.svelte";
-	import MapView from "./MapView.svelte";
+	import MapInput from "./MapInput.svelte";
 
 	let { open = $bindable() }: { open: boolean } = $props();
 
@@ -32,9 +33,11 @@
 			storedValue = undefined;
 		}}
 	>
-		<div class="form-group">
-			<MapView />
-		</div>
+		{#if webGLSupportStatus === "supported"}
+			<div class="form-group">
+				<MapInput />
+			</div>
+		{/if}
 		<div class="form-group">
 			<label>
 				Latitude
@@ -67,10 +70,10 @@
 		<p>
 			{#if storedValue}
 				<span title="latitude" class="lat">
-					{latToDegree(storedValue.latitude)}
+					{formatLatAsDegree(storedValue.latitude)}
 				</span>,
 				<span title="longitude" class="long">
-					{longToDegree(storedValue.longitude)}
+					{formatLongAsDegree(storedValue.longitude)}
 				</span>
 			{:else}
 				Not Specified
