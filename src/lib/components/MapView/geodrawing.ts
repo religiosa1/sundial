@@ -28,14 +28,16 @@ export function makeCircle(
 	};
 }
 
-export function makeRadius(
+export function makeAzimuth(
 	center: Readonly<LngLatTupe>,
-	angleRad: number,
+	azimuthRad: number,
 	radiusInKm = defaultRadius
 ): Geometry {
 	const [lng, lat] = center;
 	const distanceX = lngToKm(radiusInKm, lat);
 	const distanceY = latToKm(radiusInKm);
+
+	const angleRad = azimuthRadToUnitCircleRad(azimuthRad);
 
 	const endLng = lng + distanceX * Math.cos(angleRad);
 	const endLat = lat + distanceY * Math.sin(angleRad);
@@ -47,6 +49,21 @@ export function makeRadius(
 			[endLng, endLat],
 		],
 	};
+}
+
+/**
+ * Converts azimuth in radians to unit circle in radians
+ *
+ * Azimuth is:
+ *  - Clockwise
+ *  - Starts at South
+ *
+ * Unit circle is:
+ *  - Counterclockwise
+ *  - Starts at East
+ */
+function azimuthRadToUnitCircleRad(azimuthRad: number): number {
+	return (3 * Math.PI) / 2 - azimuthRad;
 }
 
 type LngLatTupe = [lng: number, lat: number];
