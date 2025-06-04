@@ -1,5 +1,6 @@
 <script module>
 	const bodyDialogOpenClass = "body-dialog-open";
+	const bodyDialogClosingClass = "body-dialog-closing";
 </script>
 
 <script lang="ts">
@@ -8,12 +9,13 @@
 	import { fly } from "svelte/transition";
 
 	interface Props {
+		anchor?: string;
 		noBackDrop?: boolean;
 		open?: boolean;
 		children?: Snippet;
 		onclose?: EventHandler<Event, HTMLDialogElement>;
 	}
-	let { open = $bindable(), noBackDrop, children, onclose }: Props = $props();
+	let { anchor, open = $bindable(), noBackDrop, children, onclose }: Props = $props();
 
 	interface Coords {
 		clientX: number;
@@ -35,9 +37,12 @@
 <dialog
 	transition:fly={{ y: 200 }}
 	onintrostart={() => document.body.classList.add(bodyDialogOpenClass)}
-	onoutroend={() => document.body.classList.remove(bodyDialogOpenClass)}
+	onoutrostart={() => document.body.classList.add(bodyDialogClosingClass)}
+	onoutroend={() => document.body.classList.remove(bodyDialogOpenClass, bodyDialogClosingClass)}
+	style={anchor && `position-anchor: ${anchor}`}
 	class="dialog"
-	class:dialog_nobackdrop={noBackDrop}
+	class:anchored={anchor}
+	class:nobackdrop={noBackDrop}
 	{@attach (dialog) => {
 		if (open) {
 			dialog.showModal();
@@ -81,28 +86,41 @@
 		background-color: var(--clr-bg-main, #fff);
 		border: 1px solid var(--clr-border, #aaa);
 		box-shadow: 0 0 5px var(--clr-shadow, rgba(0, 0, 0, 0.1));
-		transition: display 0.3s ease-in-out;
 	}
+
 	.dialog::backdrop {
+		transition: all 0.2s ease-in-out;
+	}
+
+	.dialog[open]::backdrop {
 		background-color: rgba(0, 0, 0, 0.1);
 		backdrop-filter: blur(4px);
-		transition: all 0.3s ease-in-out;
+	}
+
+	:global(.body-dialog-closing) .dialog[open]::backdrop {
+		background-color: transparent;
+		backdrop-filter: none;
+	}
+	@starting-style {
+		.dialog[open]::backdrop {
+			background-color: transparent;
+			backdrop-filter: none;
+		}
 	}
 
 	@media (prefers-color-scheme: dark) {
-		.dialog::backdrop {
+		.dialog[open]::backdrop {
 			background-color: rgba(255, 255, 255, 0.1);
 		}
 	}
-
-	.dialog_nobackdrop::backdrop {
-		background-color: rgba(0, 0, 0, 0.075);
+	.dialog.nobackdrop[open]::backdrop {
+		background-color: transparent;
 		backdrop-filter: none;
 	}
-	@media (prefers-color-scheme: dark) {
-		.dialog_nobackdrop::backdrop {
-			background-color: rgba(255, 255, 255, 0.075);
-		}
+
+	.anchored {
+		position-area: span-start start;
+		margin: 0 1rem 0 0;
 	}
 
 	header {

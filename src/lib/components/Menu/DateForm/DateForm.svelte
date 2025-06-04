@@ -1,7 +1,8 @@
 <script lang="ts">
 	import Dialog from "$lib/components/Dialog.svelte";
-	import { date, manualDayOfYear } from "$lib/stores/date";
-	import { getDayOfYear, setDayOfYear, format } from "date-fns";
+	import { manualDayOfYear } from "$lib/stores/date";
+	import { getDayOfYear } from "date-fns";
+	import DateSlider from "./DateSlider.svelte";
 
 	const isAutoDate = $derived($manualDayOfYear == null);
 
@@ -19,8 +20,7 @@
 	let { open = $bindable() }: { open: boolean } = $props();
 </script>
 
-<!-- TODO visuals -->
-<Dialog noBackDrop bind:open>
+<Dialog anchor="--dateform" noBackDrop bind:open>
 	<div class="form-group">
 		<label class="radio-group-label">
 			<input
@@ -33,7 +33,7 @@
 			Current date
 		</label>
 	</div>
-	<div class="form-group checkbox-group">
+	<div class="form-group">
 		<label class="radio-group-label">
 			<input
 				type="radio"
@@ -43,30 +43,8 @@
 				onchange={handleDateTypeChange}
 			/>
 			Selected date
+			<DateSlider grayedOut={isAutoDate} />
 		</label>
-		<input
-			disabled={isAutoDate}
-			type="date"
-			min="{$date.getFullYear()}-01-01"
-			max="{$date.getFullYear()}-12-31"
-			value={$manualDayOfYear != null
-				? format(setDayOfYear(new Date(), $manualDayOfYear), "yyyy-MM-dd")
-				: ""}
-			onchange={(e) => {
-				$manualDayOfYear = getDayOfYear(new Date(e.currentTarget.value));
-			}}
-		/>
-		<br />
-		<input
-			disabled={isAutoDate}
-			type="range"
-			min={1}
-			max={365}
-			value={$manualDayOfYear}
-			onchange={(e) => {
-				$manualDayOfYear = +e.currentTarget.value;
-			}}
-		/>
 	</div>
 	<p>
 		<button type="button" onclick={() => (open = false)}>close</button>

@@ -3,7 +3,7 @@
 	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
 	import { webGLSupportStatus } from "$lib/utils/webGlSupportStatus";
 
-	import DateForm from "./DateForm.svelte";
+	import DateForm from "./DateForm/DateForm.svelte";
 	import PlaceForm from "./PlaceForm";
 
 	let showDateForm = $state(false);
@@ -151,6 +151,9 @@
 
 	.placeform::after {
 		background-image: url("/img/globe.svg");
+	}
+	.dateform {
+		anchor-name: --dateform;
 	}
 	.dateform::after {
 		background-image: url("/img/calendar.svg");
