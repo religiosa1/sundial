@@ -1,28 +1,20 @@
 <script lang="ts">
 	import maplibregl, { GeoJSONSource } from "maplibre-gl";
+	import { getMoonPosition, getPosition } from "suncalc";
 	import { get } from "svelte/store";
 	import { MAP_TILES_STYLE } from "$lib/constants";
 	import { suncalc } from "$lib/stores/suncalc";
 	import { latitude, longitude } from "$lib/stores/location";
-	import { currentTime } from "$lib/stores/currentTime";
-	import { getGeoAzimuths } from "./getGeoAzimuths";
-	import * as geodrawing from "./geodrawing";
-	import { getPosition } from "suncalc";
 	import { date } from "$lib/stores/date";
+	import { formatAltitude, formatAzimuth, getGeoAzimuths } from "./azimuth";
+	import * as geodrawing from "./geodrawing";
+	import TimeRange from "./TimeRange.svelte";
 
-	let hours = $state(12);
-	const time = $derived.by(() => {
-		const d = new Date($date);
-		const minutes = 60 * (hours - Math.floor(hours));
-		const seconds = 60 * (minutes - Math.floor(minutes));
-		const ms = 1000 * (seconds - Math.floor(seconds));
-		d.setHours(Math.floor(hours), Math.floor(minutes), Math.floor(seconds), Math.floor(ms));
-		return d;
-	});
+	let time: Date = $state(new Date());
 
 	const geoAzimuths = $derived(getGeoAzimuths($suncalc, $latitude, $longitude));
-	const currentTimePos = $derived(getPosition($currentTime, $latitude, $longitude));
-	const selectedTimePos = $derived(getPosition(time, $latitude, $longitude));
+	const sunPos = $derived(getPosition(time, $latitude, $longitude));
+	const moonPos = $derived(getMoonPosition(time, $latitude, $longitude));
 </script>
 
 <div class="map-view">
@@ -91,8 +83,8 @@
 						geodrawing.makeAzimuth(center, geoAzimuths.sunsetEnd),
 						geodrawing.makeAzimuth(center, geoAzimuths.dusk),
 
-						geodrawing.makeAzimuth(center, currentTimePos.azimuth),
-						geodrawing.makeAzimuth(center, selectedTimePos.azimuth),
+						geodrawing.makeAzimuth(center, sunPos.azimuth),
+						// geodrawing.makeAzimuth(center, moonPos.azimuth),
 					],
 				});
 			});
@@ -103,9 +95,28 @@
 		}}
 	></div>
 	<div class="controls">
-		<input type="range" min={0} max={24} bind:value={hours} step={0.0001} />
-		{time.toLocaleString()}
-		{$currentTime.toLocaleString()}
+		<TimeRange bind:value={time} baseDate={$date} />
+		<table class="azimuth-table">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Azimuth</th>
+					<th>Altitude</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row">Sun</th>
+					<td><span class="table-value azimuth">{formatAzimuth(sunPos.azimuth)}</span></td>
+					<td><span class="table-value">{formatAltitude(sunPos.altitude)}</span></td>
+				</tr>
+				<tr>
+					<th scope="row">Moon</th>
+					<td><span class="table-value azimuth">{formatAzimuth(moonPos.azimuth)}</span></td>
+					<td><span class="table-value">{formatAltitude(moonPos.altitude)}</span></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </div>
 
@@ -119,5 +130,14 @@
 	.map-container {
 		width: 100%;
 		height: 100%;
+	}
+
+	.azimuth-table {
+		margin: 0 auto;
+	}
+	.table-value {
+		min-width: 6ch;
+		display: inline-block;
+		text-align: right;
 	}
 </style>
