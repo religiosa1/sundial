@@ -1,26 +1,29 @@
-import type { Geometry } from "geojson";
+import type { LineString, Polygon } from "geojson";
+
+export type LngLatTuple = [lng: number, lat: number];
+
+const MATH_TAU = 2 * Math.PI;
 
 // default radius for our circle is 300m
 const defaultRadius = 0.3;
 
 export function makeCircle(
-	center: Readonly<LngLatTupe>,
+	center: Readonly<LngLatTuple>,
 	radiusInKm = defaultRadius,
 	points = 360
-): Geometry {
+): Polygon {
 	const [lng, lat] = center;
-	const distanceX = lngToKm(radiusInKm, lat);
-	const distanceY = latToKm(radiusInKm);
+	const kmInDegreeLng = lngToKm(radiusInKm, lat);
+	const kmInDegreeLat = latToKm(radiusInKm);
 
-	const coords = new Array(points + 1);
+	const coords = new Array<LngLatTuple>(points + 1);
 	for (let i = 0; i < points; i++) {
-		const angle = (i * 360) / points;
-		const angleRad = (angle * Math.PI) / 180;
-		const x = lng + distanceX * Math.cos(angleRad);
-		const y = lat + distanceY * Math.sin(angleRad);
+		const angleRad = (MATH_TAU / points) * i;
+		const x = lng + kmInDegreeLng * Math.cos(angleRad);
+		const y = lat + kmInDegreeLat * Math.sin(angleRad);
 		coords[i] = [x, y];
 	}
-	coords[points] = coords[0]; // Close the polygon
+	coords[coords.length - 1] = coords[0]; // Close the polygon
 
 	return {
 		type: "Polygon",
@@ -29,30 +32,69 @@ export function makeCircle(
 }
 
 export function makeAzimuth(
-	center: Readonly<LngLatTupe>,
+	center: Readonly<LngLatTuple>,
 	azimuthRad: number,
 	radiusInKm = defaultRadius
-): Geometry {
-	const [lng, lat] = center;
-	const distanceX = lngToKm(radiusInKm, lat);
-	const distanceY = latToKm(radiusInKm);
-
+): LineString {
 	const angleRad = azimuthRadToUnitCircleRad(azimuthRad);
-
-	const endLng = lng + distanceX * Math.cos(angleRad);
-	const endLat = lat + distanceY * Math.sin(angleRad);
 
 	return {
 		type: "LineString",
 		coordinates: [
-			[lng, lat],
-			[endLng, endLat],
+			[...center], //
+			calcCircleCoord(center, angleRad, radiusInKm),
 		],
 	};
 }
 
+export function makeCircleSection(
+	center: Readonly<LngLatTuple>,
+	azimuthStart: number,
+	azimuthEnd: number,
+	radiusInKm = defaultRadius,
+	pointsInCircle = 360 * 10 // Points for a full 2*PI circle
+): Polygon | LineString {
+	const startAngle = azimuthRadToUnitCircleRad(azimuthStart);
+	const endAngle = azimuthRadToUnitCircleRad(azimuthEnd);
+
+	const angleDifference = calculateAngleDifference(startAngle, endAngle);
+	const absAngleValue = Math.abs(angleDifference);
+
+	// Handle degenerate case: if start and end are the same (within a small epsilon)
+	if (absAngleValue < 1e-9) {
+		return {
+			type: "LineString",
+			coordinates: [
+				[...center], //
+				calcCircleCoord(center, azimuthStart, radiusInKm),
+			],
+		};
+	}
+
+	//  Calculate the number of points for the arc this is proportional to the arc's angle compared to a full circle.
+	const rateOfFullCircle = absAngleValue / MATH_TAU;
+	// We always have at least 3 points in an arc
+	const numberOfArcPoints = Math.max(Math.ceil(rateOfFullCircle * pointsInCircle), 3);
+
+	// Creating array with length = numberOfArcPoints + 1 start point + 1 end point
+	const coords: Array<LngLatTuple> = new Array(numberOfArcPoints + 2);
+	coords[0] = [...center];
+
+	for (let i = 0; i < numberOfArcPoints; i++) {
+		const currentAngleRad = startAngle + (angleDifference / numberOfArcPoints) * i;
+		const circlePoint = calcCircleCoord(center, currentAngleRad, radiusInKm);
+		coords[i + 1] = circlePoint;
+	}
+	coords[coords.length - 1] = [...center]; // Close the polygon
+
+	return {
+		type: "Polygon",
+		coordinates: [coords],
+	};
+}
+
 /**
- * Converts azimuth in radians to unit circle in radians
+ * Converts azimuth in radians to unit circle in radians and normalizes angle
  *
  * Azimuth is:
  *  - Clockwise
@@ -62,18 +104,54 @@ export function makeAzimuth(
  *  - Counterclockwise
  *  - Starts at East
  */
-function azimuthRadToUnitCircleRad(azimuthRad: number): number {
-	return (3 * Math.PI) / 2 - azimuthRad;
+export function azimuthRadToUnitCircleRad(azimuthRad: number): number {
+	return ((3 * Math.PI) / 2 - azimuthRad) % MATH_TAU;
 }
 
-type LngLatTupe = [lng: number, lat: number];
+/**
+ * Calculates coordinate of a point on a circle for a given azimuth
+ * @param center coordinates of circle's center
+ * @param unitCircleRad angle in unit circle radians
+ * @param radiusInKm radius in km
+ * @returns coordinates of azimuth's intersection with a circle
+ */
+function calcCircleCoord(
+	center: Readonly<LngLatTuple>,
+	unitCircleRad: number,
+	radiusInKm = defaultRadius
+): LngLatTuple {
+	const [lng, lat] = center;
 
+	const kmInLng = lngToKm(radiusInKm, lat);
+	const kmInLat = latToKm(radiusInKm);
+
+	const endLng = lng + kmInLng * Math.cos(unitCircleRad);
+	const endLat = lat + kmInLat * Math.sin(unitCircleRad);
+	return [endLng, endLat];
+}
+
+function calculateAngleDifference(startAngle: number, endAngle: number): number {
+	// Calculate the difference, accounting for crossing the 0/2PI boundary
+	let angleDifference = endAngle - startAngle;
+
+	// Normalize angleDifference to be within -PI and PI for the shortest sweep direction
+	// This ensures we always calculate the correct arc, either clockwise or counter-clockwise.
+	if (angleDifference > Math.PI) {
+		angleDifference -= MATH_TAU;
+	} else if (angleDifference < -Math.PI) {
+		angleDifference += MATH_TAU;
+	}
+	return angleDifference;
+}
+
+/** calculates amount of km in one degree longitude at given latitude */
 function lngToKm(km: number, lat: number): number {
 	/** Number of KM in one degree longitude at equator. */
 	const KM_IN_DEG_LNG_EQUATOR = 111.32;
 	return km / (KM_IN_DEG_LNG_EQUATOR * Math.cos((lat * Math.PI) / 180));
 }
 
+/** calculates amount of km in one degree latitude */
 function latToKm(km: number): number {
 	/** Number of KM in one degree latitude */
 	const KM_IN_DEG_LAT = 110.574;
