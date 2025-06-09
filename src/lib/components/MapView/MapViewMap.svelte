@@ -3,7 +3,7 @@
 	import type { Geometry } from "geojson";
 	import type { GetMoonPositionResult, GetSunPositionResult } from "suncalc";
 	import { get } from "svelte/store";
-	import { MAP_TILES_STYLE } from "$lib/constants";
+	import { colors, MAP_TILES_STYLE } from "$lib/constants";
 	import { suncalc } from "$lib/stores/suncalc";
 	import { latitude, longitude } from "$lib/stores/location";
 	import * as geodrawing from "./geodrawing";
@@ -20,12 +20,28 @@
 		Base: "suncalc",
 		GoldenHour: "goldenhour",
 		CivilTwilight: "civil_twilight",
-		SunriseSunset: "sunrise_sunset",
+		Sunrise: "sunrise",
+		Sunset: "sunset",
 		NoonMarker: "noon_marker",
 		SunMarker: "sun_marker",
 		MoonMarker: "moon_marker",
 	} as const;
 	type SourceNameEnum = (typeof SourceNameEnum)[keyof typeof SourceNameEnum];
+
+	const DASHARRAY = [1, 3];
+	const DEFAULT_COLOR = "#888";
+
+	// colors in values don't have any semantic meaning, just picking some ok looking colors
+	const sectionColorConfig: Record<SourceNameEnum, string> = {
+		[SourceNameEnum.Base]: DEFAULT_COLOR,
+		[SourceNameEnum.GoldenHour]: colors.goldenHourStop,
+		[SourceNameEnum.CivilTwilight]: colors.dayStop,
+		[SourceNameEnum.Sunrise]: colors.sunriseStop,
+		[SourceNameEnum.Sunset]: colors.nauticalTwilightStart,
+		[SourceNameEnum.NoonMarker]: DEFAULT_COLOR,
+		[SourceNameEnum.SunMarker]: colors.sunriseStart,
+		[SourceNameEnum.MoonMarker]: colors.nightStop,
+	};
 
 	const geoPos = $derived(getGeoAzimuths($suncalc, $latitude, $longitude));
 	const sunVisible = $derived(sunPos.altitude > 0);
@@ -59,26 +75,19 @@
 		let loaded = $state(false);
 
 		map.on("load", () => {
-			addSource(SourceNameEnum.Base);
-			addSource(SourceNameEnum.GoldenHour, {
-				"line-color": "#ffd844",
-			});
-			addSource(SourceNameEnum.CivilTwilight, {
-				"line-color": "#bbccff",
-			});
-			addSource(SourceNameEnum.SunriseSunset, {
-				"line-color": "#ffa800",
-			});
-			addSource(SourceNameEnum.NoonMarker, {
-				"line-color": "#888",
-			});
+			addSource(SourceNameEnum.Base, { omitFill: true });
+			addSource(SourceNameEnum.GoldenHour);
+			addSource(SourceNameEnum.CivilTwilight);
+			addSource(SourceNameEnum.Sunrise);
+			addSource(SourceNameEnum.Sunset);
+			addSource(SourceNameEnum.NoonMarker, { omitFill: true });
 			addSource(SourceNameEnum.SunMarker, {
-				"line-color": "#ff7000",
-				...(sunVisible ? null : { "line-dasharray": [1, 3] }),
+				dashed: !sunVisible,
+				omitFill: true,
 			});
 			addSource(SourceNameEnum.MoonMarker, {
-				"line-color": "#000033",
-				...(moonVisible ? null : { "line-dasharray": [1, 3] }),
+				dashed: !moonVisible,
+				omitFill: true,
 			});
 			loaded = true;
 		});
@@ -103,8 +112,11 @@
 				);
 
 				setGeometry(
-					SourceNameEnum.SunriseSunset,
-					geodrawing.makeCircleSection(center, geoPos.sunriseStart, geoPos.sunriseEnd),
+					SourceNameEnum.Sunrise,
+					geodrawing.makeCircleSection(center, geoPos.sunriseStart, geoPos.sunriseEnd)
+				);
+				setGeometry(
+					SourceNameEnum.Sunset,
 					geodrawing.makeCircleSection(center, geoPos.sunsetStart, geoPos.sunsetEnd)
 				);
 			});
@@ -129,13 +141,16 @@
 				map.setPaintProperty(
 					SourceNameEnum.MoonMarker,
 					"line-dasharray",
-					moonVisible ? undefined : [1, 3],
+					moonVisible ? undefined : DASHARRAY,
 					{ validate: false }
 				);
 			});
 		});
 
-		function addSource(sourceName: SourceNameEnum, paint?: LayerSpecification["paint"]) {
+		function addSource(
+			sourceName: SourceNameEnum,
+			{ dashed, omitFill }: { dashed?: boolean; omitFill?: boolean } = {}
+		) {
 			map.addSource(sourceName, {
 				type: "geojson",
 				data: {
@@ -143,6 +158,7 @@
 					geometries: [],
 				},
 			});
+			const color = sectionColorConfig[sourceName] ?? DEFAULT_COLOR;
 			map.addLayer({
 				id: sourceName,
 				type: "line",
@@ -152,11 +168,22 @@
 					"line-cap": "round",
 				},
 				paint: {
-					"line-color": "#888",
+					...(dashed ? { "line-dasharray": DASHARRAY } : null),
+					"line-color": color,
 					"line-width": 5,
-					...paint,
 				},
 			});
+			if (!omitFill) {
+				map.addLayer({
+					id: sourceName + "_fill",
+					type: "fill",
+					source: sourceName,
+					paint: {
+						"fill-color": color,
+						"fill-opacity": 0.4,
+					},
+				});
+			}
 		}
 
 		function setGeometry(sourceId: SourceNameEnum, ...geometries: Geometry[]) {
