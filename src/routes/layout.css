@@ -62,8 +62,11 @@
 }
 
 :root {
+	--clr-txt-dark: #020202;
+	--clr-txt-light: #fff;
+
 	--clr-bg: #fff;
-	--clr-txt: #020202;
+	--clr-txt: var(--clr-txt-light);
 	--clr-highlight: #9b2423;
 	--clr-highlight-secondary: #ff00ff;
 	--clr-shadow: #00000a80;
@@ -78,7 +81,7 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		--clr-bg: #1e1e1e;
-		--clr-txt: #fff;
+		--clr-txt: var(--clr-txt-light);
 		--clr-shadow: #ffffc040;
 		--clr-border: #aaa;
 		--clr-bg-secondary: #2e2e2e;

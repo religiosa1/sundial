@@ -5,6 +5,7 @@
 	import { formatAltitude, formatAzimuth } from "./azimuth";
 	import MapViewMap from "./MapViewMap.svelte";
 	import TimeRange from "./TimeRange.svelte";
+	import Legend from "./Legend.svelte";
 
 	let time: Date = $state(new Date());
 
@@ -13,7 +14,12 @@
 </script>
 
 <div class="map-view">
-	<MapViewMap {sunPos} {moonPos} />
+	<div class="map-wrap">
+		<MapViewMap {sunPos} {moonPos} />
+		<div class="map-wrap__legend">
+			<Legend />
+		</div>
+	</div>
 	<div class="controls">
 		<TimeRange bind:value={time} baseDate={$date} />
 		<table class="azimuth-table">
@@ -47,6 +53,18 @@
 		width: 100%;
 		height: 100%;
 	}
+
+	.map-wrap {
+		width: 100%;
+		height: 100%;
+		position: relative;
+	}
+	.map-wrap__legend {
+		position: absolute;
+		top: 1em;
+		left: 1em;
+	}
+
 	.azimuth-table {
 		margin: 0 auto;
 	}

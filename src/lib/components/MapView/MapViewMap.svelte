@@ -1,13 +1,14 @@
 <script lang="ts">
-	import maplibregl, { type GeoJSONSource, type LayerSpecification } from "maplibre-gl";
+	import maplibregl, { type GeoJSONSource } from "maplibre-gl";
 	import type { Geometry } from "geojson";
 	import type { GetMoonPositionResult, GetSunPositionResult } from "suncalc";
 	import { get } from "svelte/store";
-	import { colors, MAP_TILES_STYLE } from "$lib/constants";
+	import { MAP_TILES_STYLE } from "$lib/constants";
 	import { suncalc } from "$lib/stores/suncalc";
 	import { latitude, longitude } from "$lib/stores/location";
 	import * as geodrawing from "./geodrawing";
 	import { getGeoAzimuths } from "./azimuth";
+	import { FILL_OPACITY, getSectionColor, SourceNameEnum } from "./sectionsConfig";
 
 	interface Props {
 		sunPos: GetSunPositionResult;
@@ -16,32 +17,7 @@
 
 	let { sunPos, moonPos }: Props = $props();
 
-	const SourceNameEnum = {
-		Base: "suncalc",
-		GoldenHour: "goldenhour",
-		CivilTwilight: "civil_twilight",
-		Sunrise: "sunrise",
-		Sunset: "sunset",
-		NoonMarker: "noon_marker",
-		SunMarker: "sun_marker",
-		MoonMarker: "moon_marker",
-	} as const;
-	type SourceNameEnum = (typeof SourceNameEnum)[keyof typeof SourceNameEnum];
-
 	const DASHARRAY = [1, 3];
-	const DEFAULT_COLOR = "#888";
-
-	// colors in values don't have any semantic meaning, just picking some ok looking colors
-	const sectionColorConfig: Record<SourceNameEnum, string> = {
-		[SourceNameEnum.Base]: DEFAULT_COLOR,
-		[SourceNameEnum.GoldenHour]: colors.goldenHourStop,
-		[SourceNameEnum.CivilTwilight]: colors.dayStop,
-		[SourceNameEnum.Sunrise]: colors.sunriseStop,
-		[SourceNameEnum.Sunset]: colors.nauticalTwilightStart,
-		[SourceNameEnum.NoonMarker]: DEFAULT_COLOR,
-		[SourceNameEnum.SunMarker]: colors.sunriseStart,
-		[SourceNameEnum.MoonMarker]: colors.nightStop,
-	};
 
 	const geoPos = $derived(getGeoAzimuths($suncalc, $latitude, $longitude));
 	const sunVisible = $derived(sunPos.altitude > 0);
@@ -158,7 +134,7 @@
 					geometries: [],
 				},
 			});
-			const color = sectionColorConfig[sourceName] ?? DEFAULT_COLOR;
+			const color = getSectionColor(sourceName);
 			map.addLayer({
 				id: sourceName,
 				type: "line",
@@ -180,7 +156,7 @@
 					source: sourceName,
 					paint: {
 						"fill-color": color,
-						"fill-opacity": 0.4,
+						"fill-opacity": FILL_OPACITY,
 					},
 				});
 			}
