@@ -1,0 +1,8 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <path d="M30 45 L70 45 L95 90 L5 90 Z" fill="none" stroke="#000" stroke-width="3"/>
+  <ellipse cx="50" cy="65" rx="12" ry="6" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Teardrop place marker -->
+  <path d="M50 7 C59 7 67 15 67 24 C67 34 50 52 50 52 C50 52 33 34 33 24 C33 15 41 7 50 7 Z" fill="#000"/>
+  <circle cx="50" cy="24" r="7" fill="#fff"/>
+</svg>

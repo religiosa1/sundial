@@ -43,10 +43,9 @@
 		</a>
 
 		{#if webGLSupportStatus === "supported"}
-			<!-- TODO: Icon for sun positions -->
 			<a
 				href={AppRouteEnum.mapView}
-				class="menu__button display-type display-type_yearly"
+				class="menu__button display-type display-type_map"
 				class:active={$page.url.pathname === AppRouteEnum.mapView}
 				title="map view"
 				aria-label="Sun positions on a map"
@@ -147,6 +146,9 @@
 	}
 	.display-type_yearly::after {
 		background-image: url("/img/yearly-view.svg");
+	}
+	.display-type_map::after {
+		background-image: url("/img/map-marker.svg");
 	}
 
 	.placeform::after {
