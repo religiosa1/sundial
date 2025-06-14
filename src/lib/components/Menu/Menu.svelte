@@ -148,7 +148,7 @@
 		background-image: url("/img/yearly-view.svg");
 	}
 	.display-type_map::after {
-		background-image: url("/img/map-marker.svg");
+		background-image: url("/img/map-icon.svg");
 	}
 
 	.placeform::after {
