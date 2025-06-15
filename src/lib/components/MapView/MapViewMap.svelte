@@ -4,22 +4,22 @@
 	import type { GetMoonPositionResult, GetSunPositionResult } from "suncalc";
 	import { get } from "svelte/store";
 	import { MAP_TILES_STYLE } from "$lib/constants";
-	import { suncalc } from "$lib/stores/suncalc";
 	import { latitude, longitude } from "$lib/stores/location";
 	import * as geodrawing from "./geodrawing";
-	import { getGeoAzimuths } from "./azimuth";
 	import { FILL_OPACITY, getSectionColor, SourceNameEnum } from "./sectionsConfig";
+	import type { GeoAzimuths } from "./getGeoAzimuths";
 
 	interface Props {
 		sunPos: GetSunPositionResult;
 		moonPos: GetMoonPositionResult;
+		useGeoJsonRender?: boolean;
+		geoPos: GeoAzimuths;
 	}
 
-	let { sunPos, moonPos }: Props = $props();
+	let { sunPos, moonPos, useGeoJsonRender, geoPos }: Props = $props();
 
 	const DASHARRAY = [1, 3];
 
-	const geoPos = $derived(getGeoAzimuths($suncalc, $latitude, $longitude));
 	const sunVisible = $derived(sunPos.altitude > 0);
 	const moonVisible = $derived(moonPos.altitude > 0);
 
@@ -50,78 +50,80 @@
 
 		let loaded = $state(false);
 
-		map.on("load", () => {
-			addSource(SourceNameEnum.Base, { omitFill: true });
-			addSource(SourceNameEnum.GoldenHour);
-			addSource(SourceNameEnum.CivilTwilight);
-			addSource(SourceNameEnum.Sunrise);
-			addSource(SourceNameEnum.Sunset);
-			addSource(SourceNameEnum.NoonMarker, { omitFill: true });
-			addSource(SourceNameEnum.SunMarker, {
-				dashed: !sunVisible,
-				omitFill: true,
-			});
-			addSource(SourceNameEnum.MoonMarker, {
-				dashed: !moonVisible,
-				omitFill: true,
-			});
-			loaded = true;
-		});
-
-		$effect(() => {
-			if (!loaded) return;
-
-			$effect(() => {
-				setGeometry(SourceNameEnum.Base, geodrawing.makeCircle(center));
-				setGeometry(SourceNameEnum.NoonMarker, geodrawing.makeAzimuth(center, geoPos.noon));
-
-				setGeometry(
-					SourceNameEnum.GoldenHour,
-					geodrawing.makeCircleSection(center, geoPos.sunriseEnd, geoPos.morningGoldenHour),
-					geodrawing.makeCircleSection(center, geoPos.eveningGoldenHour, geoPos.sunsetStart)
-				);
-
-				setGeometry(
-					SourceNameEnum.CivilTwilight,
-					geodrawing.makeCircleSection(center, geoPos.dawn, geoPos.sunriseStart),
-					geodrawing.makeCircleSection(center, geoPos.sunsetEnd, geoPos.dusk)
-				);
-
-				setGeometry(
-					SourceNameEnum.Sunrise,
-					geodrawing.makeCircleSection(center, geoPos.sunriseStart, geoPos.sunriseEnd)
-				);
-				setGeometry(
-					SourceNameEnum.Sunset,
-					geodrawing.makeCircleSection(center, geoPos.sunsetStart, geoPos.sunsetEnd)
-				);
+		if (useGeoJsonRender) {
+			map.on("load", () => {
+				addSource(SourceNameEnum.Base, { omitFill: true });
+				addSource(SourceNameEnum.GoldenHour);
+				addSource(SourceNameEnum.CivilTwilight);
+				addSource(SourceNameEnum.Sunrise);
+				addSource(SourceNameEnum.Sunset);
+				addSource(SourceNameEnum.NoonMarker, { omitFill: true });
+				addSource(SourceNameEnum.SunMarker, {
+					dashed: !sunVisible,
+					omitFill: true,
+				});
+				addSource(SourceNameEnum.MoonMarker, {
+					dashed: !moonVisible,
+					omitFill: true,
+				});
+				loaded = true;
 			});
 
 			$effect(() => {
-				setGeometry(SourceNameEnum.SunMarker, geodrawing.makeAzimuth(center, sunPos.azimuth));
-			});
+				if (!loaded) return;
 
-			$effect(() => {
-				setGeometry(SourceNameEnum.MoonMarker, geodrawing.makeAzimuth(center, moonPos.azimuth));
-			});
+				$effect(() => {
+					setGeometry(SourceNameEnum.Base, geodrawing.makeCircle(center));
+					setGeometry(SourceNameEnum.NoonMarker, geodrawing.makeAzimuth(center, geoPos.noon));
 
-			$effect(() => {
-				map.setPaintProperty(
-					SourceNameEnum.SunMarker,
-					"line-dasharray",
-					sunVisible ? undefined : [1, 3],
-					{ validate: false }
-				);
+					setGeometry(
+						SourceNameEnum.GoldenHour,
+						geodrawing.makeCircleSection(center, geoPos.sunriseEnd, geoPos.morningGoldenHour),
+						geodrawing.makeCircleSection(center, geoPos.eveningGoldenHour, geoPos.sunsetStart)
+					);
+
+					setGeometry(
+						SourceNameEnum.CivilTwilight,
+						geodrawing.makeCircleSection(center, geoPos.dawn, geoPos.sunriseStart),
+						geodrawing.makeCircleSection(center, geoPos.sunsetEnd, geoPos.dusk)
+					);
+
+					setGeometry(
+						SourceNameEnum.Sunrise,
+						geodrawing.makeCircleSection(center, geoPos.sunriseStart, geoPos.sunriseEnd)
+					);
+					setGeometry(
+						SourceNameEnum.Sunset,
+						geodrawing.makeCircleSection(center, geoPos.sunsetStart, geoPos.sunsetEnd)
+					);
+				});
+
+				$effect(() => {
+					setGeometry(SourceNameEnum.SunMarker, geodrawing.makeAzimuth(center, sunPos.azimuth));
+				});
+
+				$effect(() => {
+					setGeometry(SourceNameEnum.MoonMarker, geodrawing.makeAzimuth(center, moonPos.azimuth));
+				});
+
+				$effect(() => {
+					map.setPaintProperty(
+						SourceNameEnum.SunMarker,
+						"line-dasharray",
+						sunVisible ? undefined : [1, 3],
+						{ validate: false }
+					);
+				});
+				$effect(() => {
+					map.setPaintProperty(
+						SourceNameEnum.MoonMarker,
+						"line-dasharray",
+						moonVisible ? undefined : DASHARRAY,
+						{ validate: false }
+					);
+				});
 			});
-			$effect(() => {
-				map.setPaintProperty(
-					SourceNameEnum.MoonMarker,
-					"line-dasharray",
-					moonVisible ? undefined : DASHARRAY,
-					{ validate: false }
-				);
-			});
-		});
+		}
 
 		function addSource(
 			sourceName: SourceNameEnum,

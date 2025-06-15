@@ -1,8 +1,6 @@
 import type { LineString, Polygon } from "geojson";
-
-export type LngLatTuple = [lng: number, lat: number];
-
-const MATH_TAU = 2 * Math.PI;
+import type { LngLatTuple } from "./models";
+import { azimuthRadToUnitCircleRad } from "./azimuth";
 
 // default radius for our circle is 300m
 const defaultRadius = 0.3;
@@ -18,7 +16,7 @@ export function makeCircle(
 
 	const coords = new Array<LngLatTuple>(points + 1);
 	for (let i = 0; i < points; i++) {
-		const angleRad = (MATH_TAU / points) * i;
+		const angleRad = ((2 * Math.PI) / points) * i;
 		const x = lng + kmInDegreeLng * Math.cos(angleRad);
 		const y = lat + kmInDegreeLat * Math.sin(angleRad);
 		coords[i] = [x, y];
@@ -72,7 +70,7 @@ export function makeCircleSection(
 	}
 
 	//  Calculate the number of points for the arc this is proportional to the arc's angle compared to a full circle.
-	const rateOfFullCircle = absAngleValue / MATH_TAU;
+	const rateOfFullCircle = absAngleValue / (2 * Math.PI);
 	// We always have at least 3 points in an arc
 	const numberOfArcPoints = Math.max(Math.ceil(rateOfFullCircle * pointsInCircle), 3);
 
@@ -91,21 +89,6 @@ export function makeCircleSection(
 		type: "Polygon",
 		coordinates: [coords],
 	};
-}
-
-/**
- * Converts azimuth in radians to unit circle in radians and normalizes angle
- *
- * Azimuth is:
- *  - Clockwise
- *  - Starts at South
- *
- * Unit circle is:
- *  - Counterclockwise
- *  - Starts at East
- */
-export function azimuthRadToUnitCircleRad(azimuthRad: number): number {
-	return ((3 * Math.PI) / 2 - azimuthRad) % MATH_TAU;
 }
 
 /**
@@ -137,9 +120,9 @@ function calculateAngleDifference(startAngle: number, endAngle: number): number 
 	// Normalize angleDifference to be within -PI and PI for the shortest sweep direction
 	// This ensures we always calculate the correct arc, either clockwise or counter-clockwise.
 	if (angleDifference > Math.PI) {
-		angleDifference -= MATH_TAU;
+		angleDifference -= 2 * Math.PI;
 	} else if (angleDifference < -Math.PI) {
-		angleDifference += MATH_TAU;
+		angleDifference += 2 * Math.PI;
 	}
 	return angleDifference;
 }

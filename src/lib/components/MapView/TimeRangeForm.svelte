@@ -2,7 +2,7 @@
 	import { untrack } from "svelte";
 	import Time from "$lib/components/Time.svelte";
 	import { currentTime } from "$lib/stores/currentTime";
-	import * as dateUtils from "./date";
+	import * as dateUtils from "../../utils/date";
 
 	interface Props {
 		value?: Date;

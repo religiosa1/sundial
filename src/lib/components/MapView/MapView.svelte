@@ -4,24 +4,39 @@
 	import { date } from "$lib/stores/date";
 	import { formatAltitude, formatAzimuth } from "./azimuth";
 	import MapViewMap from "./MapViewMap.svelte";
-	import TimeRange from "./TimeRange.svelte";
+	import TimeRangeForm from "./TimeRangeForm.svelte";
 	import Legend from "./Legend.svelte";
+	import AzimuthsCircle from "./AzimuthsCircle/AzimuthsCircle.svelte";
+	import { suncalc } from "$lib/stores/suncalc";
+	import { getGeoAzimuths } from "./getGeoAzimuths";
+
+	interface Props {
+		useGeoJsonRender?: boolean;
+	}
+
+	let { useGeoJsonRender }: Props = $props();
 
 	let time: Date = $state(new Date());
 
 	const sunPos = $derived(getPosition(time, $latitude, $longitude));
 	const moonPos = $derived(getMoonPosition(time, $latitude, $longitude));
+	const geoPos = $derived(getGeoAzimuths($suncalc, $latitude, $longitude));
 </script>
 
 <div class="map-view">
-	<div class="map-wrap">
-		<MapViewMap {sunPos} {moonPos} />
+	<article class="map-wrap">
+		<MapViewMap {sunPos} {moonPos} {useGeoJsonRender} {geoPos} />
+		{#if !useGeoJsonRender}
+			<div class="map-wrap__azimuths">
+				<AzimuthsCircle {sunPos} {moonPos} {geoPos} />
+			</div>
+		{/if}
 		<div class="map-wrap__legend">
 			<Legend />
 		</div>
-	</div>
+	</article>
 	<div class="controls">
-		<TimeRange bind:value={time} baseDate={$date} />
+		<TimeRangeForm bind:value={time} baseDate={$date} />
 		<table class="azimuth-table">
 			<thead>
 				<tr>
@@ -55,6 +70,7 @@
 	}
 
 	.map-wrap {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		flex: 1;
@@ -63,12 +79,16 @@
 		flex-shrink: 0;
 	}
 
+	.map-wrap__azimuths {
+		position: absolute;
+		inset: 5%;
+	}
+
 	@media (aspect-ratio > 1.2) {
 		.map-wrap {
 			display: block;
 			width: 100%;
 			height: 100%;
-			position: relative;
 		}
 		.map-wrap__legend {
 			position: absolute;
