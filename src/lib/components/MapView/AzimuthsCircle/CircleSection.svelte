@@ -3,12 +3,14 @@
 	import { RADIUS, SVG_CENTER } from "./svgconsts";
 
 	interface Props {
-		startAzimuth: number;
-		endAzimuth: number;
+		/** Start azimuth in radians */
+		start: number;
+		/** End azimuth in radians */
+		end: number;
 		/** rgb color hexvalue, without alpha */
 		color: string;
 	}
-	let { startAzimuth, endAzimuth, color }: Props = $props();
+	let { start: startAzimuth, end: endAzimuth, color }: Props = $props();
 
 	const angleStart = $derived(azimuthRadToUnitCircleRad(startAzimuth));
 	const angleEnd = $derived(azimuthRadToUnitCircleRad(endAzimuth));

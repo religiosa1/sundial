@@ -10,12 +10,6 @@
 	import { suncalc } from "$lib/stores/suncalc";
 	import { getGeoAzimuths } from "./getGeoAzimuths";
 
-	interface Props {
-		useGeoJsonRender?: boolean;
-	}
-
-	let { useGeoJsonRender }: Props = $props();
-
 	let time: Date = $state(new Date());
 
 	const sunPos = $derived(getPosition(time, $latitude, $longitude));
@@ -25,12 +19,10 @@
 
 <div class="map-view">
 	<article class="map-wrap">
-		<MapViewMap {sunPos} {moonPos} {useGeoJsonRender} {geoPos} />
-		{#if !useGeoJsonRender}
-			<div class="map-wrap__azimuths">
-				<AzimuthsCircle {sunPos} {moonPos} {geoPos} />
-			</div>
-		{/if}
+		<MapViewMap />
+		<div class="map-wrap__azimuths">
+			<AzimuthsCircle {sunPos} {moonPos} {geoPos} />
+		</div>
 		<div class="map-wrap__legend">
 			<Legend />
 		</div>

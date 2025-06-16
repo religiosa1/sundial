@@ -3,7 +3,7 @@
 	import { RADIUS, SVG_CENTER, SVG_SIZE } from "./svgconsts";
 	import { getSectionColor, SourceNameEnum } from "../sectionsConfig";
 	import AzimuthLine from "./AzimuthLine.svelte";
-	import type { GeoAzimuths } from "../getGeoAzimuths";
+	import type { AzimuthSection, GeoAzimuths } from "../getGeoAzimuths";
 	import CircleSection from "./CircleSection.svelte";
 
 	interface Props {
@@ -15,6 +15,12 @@
 	let { sunPos, moonPos, geoPos }: Props = $props();
 </script>
 
+{#snippet circleSection(sectionName: SourceNameEnum, coords: AzimuthSection | undefined)}
+	{#if coords}
+		<CircleSection color={getSectionColor(sectionName)} {...coords} />
+	{/if}
+{/snippet}
+
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {SVG_SIZE} {SVG_SIZE}">
 	<circle
 		cx={SVG_CENTER}
@@ -23,39 +29,14 @@
 		style:stroke={getSectionColor(SourceNameEnum.Base)}
 	/>
 
-	<CircleSection
-		color={getSectionColor(SourceNameEnum.CivilTwilight)}
-		startAzimuth={geoPos.sunsetEnd}
-		endAzimuth={geoPos.dusk}
-	/>
-	<CircleSection
-		color={getSectionColor(SourceNameEnum.CivilTwilight)}
-		startAzimuth={geoPos.dawn}
-		endAzimuth={geoPos.sunriseStart}
-	/>
+	{@render circleSection(SourceNameEnum.CivilTwilight, geoPos.morningCivilTwilightSection)}
+	{@render circleSection(SourceNameEnum.CivilTwilight, geoPos.eveningCivilTwilightSection)}
 
-	<CircleSection
-		color={getSectionColor(SourceNameEnum.GoldenHour)}
-		startAzimuth={geoPos.sunriseEnd}
-		endAzimuth={geoPos.morningGoldenHour}
-	/>
-	<CircleSection
-		color={getSectionColor(SourceNameEnum.GoldenHour)}
-		startAzimuth={geoPos.eveningGoldenHour}
-		endAzimuth={geoPos.sunsetStart}
-	/>
+	{@render circleSection(SourceNameEnum.GoldenHour, geoPos.morningGoldenHourSection)}
+	{@render circleSection(SourceNameEnum.GoldenHour, geoPos.eveningGoldenHourSection)}
 
-	<CircleSection
-		color={getSectionColor(SourceNameEnum.Sunrise)}
-		startAzimuth={geoPos.sunriseStart}
-		endAzimuth={geoPos.sunriseEnd}
-	/>
-
-	<CircleSection
-		color={getSectionColor(SourceNameEnum.Sunset)}
-		startAzimuth={geoPos.sunsetStart}
-		endAzimuth={geoPos.sunsetEnd}
-	/>
+	{@render circleSection(SourceNameEnum.Sunrise, geoPos.sunriseSection)}
+	{@render circleSection(SourceNameEnum.Sunset, geoPos.sunsetSection)}
 
 	<AzimuthLine stroke={getSectionColor(SourceNameEnum.NoonMarker)} azimuth={geoPos.noon} />
 	<AzimuthLine

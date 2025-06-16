@@ -9,8 +9,6 @@
 	import { page } from "$app/state";
 
 	useSwipeNavigation(AppRouteEnum.yearlyView, undefined);
-
-	const useGeoJsonRender = $derived(page.url.searchParams.has("useGeoJsonRenderer"));
 </script>
 
 <svelte:head>
@@ -18,7 +16,7 @@
 </svelte:head>
 
 {#if webGLSupportStatus === "supported"}
-	<MapView {useGeoJsonRender} />
+	<MapView />
 {:else if webGLSupportStatus === "disabled"}
 	<ErrorPanel error="WebGl is disabled, but required for this funcionality" />
 {:else}
