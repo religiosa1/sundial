@@ -71,7 +71,7 @@
 		}
 	/>
 	<div class="time-value">
-		<Time {value} />
+		<Time {value} format="HH:mm" />
 	</div>
 </div>
 

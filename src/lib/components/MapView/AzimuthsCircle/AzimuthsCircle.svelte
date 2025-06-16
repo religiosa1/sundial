@@ -57,17 +57,17 @@
 		endAzimuth={geoPos.sunsetEnd}
 	/>
 
-	<AzimuthLine
-		stroke={getSectionColor(SourceNameEnum.SunMarker)}
-		azimuth={sunPos.azimuth}
-		dashed={sunPos.altitude < 0}
-	/>
+	<AzimuthLine stroke={getSectionColor(SourceNameEnum.NoonMarker)} azimuth={geoPos.noon} />
 	<AzimuthLine
 		stroke={getSectionColor(SourceNameEnum.MoonMarker)}
 		azimuth={moonPos.azimuth}
 		dashed={moonPos.altitude < 0}
 	/>
-	<AzimuthLine stroke={getSectionColor(SourceNameEnum.NoonMarker)} azimuth={geoPos.noon} />
+	<AzimuthLine
+		stroke={getSectionColor(SourceNameEnum.SunMarker)}
+		azimuth={sunPos.azimuth}
+		dashed={sunPos.altitude < 0}
+	/>
 </svg>
 
 <style>
