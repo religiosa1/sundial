@@ -62,6 +62,7 @@
 }
 
 :root {
+	 color-scheme: light dark;
 	--clr-txt-dark: #020202;
 	--clr-txt-light: #fff;
 
@@ -83,7 +84,6 @@
 		--clr-bg: #1e1e1e;
 		--clr-txt: var(--clr-txt-light);
 		--clr-shadow: #ffffc040;
-		--clr-border: #aaa;
 		--clr-bg-secondary: #2e2e2e;
 	}
 }

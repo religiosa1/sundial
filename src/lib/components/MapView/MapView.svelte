@@ -61,11 +61,13 @@
 		flex-direction: column;
 		width: 100%;
 		height: 100%;
+		margin-top: 45px;
 		margin-bottom: 55px;
 	}
 
 	@media (width > 700px) {
 		.map-view {
+			margin-top: 0;
 			margin-bottom: 0;
 		}
 	}
