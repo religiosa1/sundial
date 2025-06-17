@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { getMoonPosition, getPosition } from "suncalc";
+	import { suncalc } from "$lib/stores/suncalc";
 	import { latitude, longitude } from "$lib/stores/location";
 	import { date } from "$lib/stores/date";
+	import AzimuthsCircle from "./AzimuthsCircle/AzimuthsCircle.svelte";
 	import { formatAltitude, formatAzimuth } from "./azimuth";
 	import MapViewMap from "./MapViewMap.svelte";
 	import TimeRangeForm from "./TimeRangeForm.svelte";
 	import Legend from "./Legend.svelte";
-	import AzimuthsCircle from "./AzimuthsCircle/AzimuthsCircle.svelte";
-	import { suncalc } from "$lib/stores/suncalc";
 	import { getGeoAzimuths } from "./getGeoAzimuths";
 
 	let time: Date = $state(new Date());
@@ -18,12 +18,14 @@
 </script>
 
 <div class="map-view">
-	<article class="map-wrap">
-		<MapViewMap />
-		<div class="map-wrap__azimuths">
-			<AzimuthsCircle {sunPos} {moonPos} {geoPos} />
+	<article class="map-block">
+		<div class="map-wrap">
+			<MapViewMap />
+			<div class="map-wrap__azimuths">
+				<AzimuthsCircle {sunPos} {moonPos} {geoPos} />
+			</div>
 		</div>
-		<div class="map-wrap__legend">
+		<div class="map-block__legend">
 			<Legend />
 		</div>
 	</article>
@@ -59,34 +61,49 @@
 		flex-direction: column;
 		width: 100%;
 		height: 100%;
+		margin-bottom: 55px;
 	}
 
-	.map-wrap {
+	@media (width > 700px) {
+		.map-view {
+			margin-bottom: 0;
+		}
+	}
+
+	.map-block {
 		position: relative;
 		display: flex;
 		flex-direction: column;
 		flex: 1;
 	}
-	.map-wrap__legend {
+	.map-block__legend {
 		flex-shrink: 0;
+	}
+
+	@media (aspect-ratio > 1.2) {
+		.map-block {
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
+		.map-block__legend {
+			position: absolute;
+			top: 1em;
+			left: 1em;
+			z-index: 100;
+		}
+	}
+
+	.map-wrap {
+		position: relative;
+		display: flex;
+		width: 100%;
+		height: 100%;
 	}
 
 	.map-wrap__azimuths {
 		position: absolute;
 		inset: 5%;
-	}
-
-	@media (aspect-ratio > 1.2) {
-		.map-wrap {
-			display: block;
-			width: 100%;
-			height: 100%;
-		}
-		.map-wrap__legend {
-			position: absolute;
-			top: 1em;
-			left: 1em;
-		}
 	}
 
 	.azimuth-table {

@@ -36,6 +36,12 @@
 		border: 1px solid black;
 		color: var(--clr-txt-dark);
 	}
+	@media (width < 700px) {
+		.legend {
+			font-size: smaller;
+		}
+	}
+
 	.legend__content {
 		margin: 0 auto;
 		max-width: 1000px;
@@ -43,6 +49,12 @@
 		column-fill: balance;
 		column-gap: 1em;
 	}
+	@media (width < 1200px) and (aspect-ratio > 1.2) {
+		.legend__content {
+			columns: 1;
+		}
+	}
+
 	.legend__item {
 		break-inside: avoid;
 		display: flex;
