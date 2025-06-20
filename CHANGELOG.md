@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Current position no longer overrides the saved position on app start, if it's
+  within 3km from the saved position or sensor accuracy is lower than the
+  distance between saved position and returned position
 - Visual fixes for color scheme (light/dark) and menu z-index with map during
   page transitions
 

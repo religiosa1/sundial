@@ -2,11 +2,17 @@
 	import { onNavigate, beforeNavigate } from "$app/navigation";
 	import { swipe } from "$lib/actions/swipe.svelte";
 	import { useMyLocation } from "$lib/actions/useMyLocation";
-	import { hasDefaultLocation, saveDefaultLocation } from "$lib/stores/location";
+	import {
+		hasDefaultLocation,
+		latitude,
+		longitude,
+		saveDefaultLocation,
+	} from "$lib/stores/location";
 	import AboutPopup from "$lib/components/AboutPopup.svelte";
 	import Menu from "$lib/components/Menu";
 	import { routeList, type AppRouteEnum } from "$lib/enums/AppRouteEnum";
 	import { version } from "../../package.json";
+	import { calcDistanceBetween } from "$lib/utils/calcDistanceBetween";
 	import "./layout.css";
 
 	let { children } = $props();
@@ -15,11 +21,57 @@
 	let reverseNavigation = $state(false);
 
 	$effect(() => {
+		// minimum distance in meters, that we conside as "user changed his position"
+		const DISTANCE_THRESHOLD_M = 3000;
+
+		// additional 20% margin above the reported accuracy of measurements,
+		const ACCURACY_MARGIN = 1.2;
+
 		useMyLocation()
-			.then(() => {
+			.then((coords) => {
 				if (!hasDefaultLocation()) {
+					$latitude = coords.latitude;
+					$longitude = coords.longitude;
 					saveDefaultLocation();
+					return;
 				}
+				// non-reactive as read in promise
+				const defaultCoord = [$latitude, $longitude] as const;
+
+				const distanceM =
+					calcDistanceBetween(defaultCoord, [coords.latitude, coords.longitude]) * 1000;
+
+				if (!Number.isFinite(coords.accuracy)) {
+					console.log(
+						"location reading don't provide any infformation on readings accuracy.",
+						"Not updating the current coordinates"
+					);
+					return;
+				}
+				// As location can be quite low in accuracy, we're not changing the current location to detemined position,
+				// if it's within DISTANCE_THRESHOLD_KM from the default position.
+				const accuracyWithSafetyMargin = coords.accuracy * ACCURACY_MARGIN;
+				if (distanceM < accuracyWithSafetyMargin) {
+					console.log(
+						`Distance between default and current coords (${distanceM.toFixed(2)}m) is less or is close ` +
+							`to accuracy of measurements: ${coords.accuracy.toFixed(2)}m ` +
+							`(with safety margin is ${accuracyWithSafetyMargin.toFixed(2)}m).`,
+						"Not updating the current coordinates"
+					);
+					return;
+				}
+				if (distanceM < DISTANCE_THRESHOLD_M) {
+					console.log(
+						`Distance between default and current coords (${distanceM.toFixed(2)}m) ` +
+							`is less than allowed threshold: ${DISTANCE_THRESHOLD_M}m.`,
+						"Not updating the current coordinates."
+					);
+					return;
+				}
+
+				console.log("Updating current location on initial load", coords);
+				$latitude = coords.latitude;
+				$longitude = coords.longitude;
 			})
 			.catch(console.warn);
 	});

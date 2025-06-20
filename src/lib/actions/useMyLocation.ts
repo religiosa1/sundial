@@ -1,4 +1,4 @@
-import { latitude, longitude } from "$lib/stores/location";
+import type { LatLngTuple } from "$lib/models/LngLatTuple";
 import { isValidLatitude, isValidLongitude } from "$lib/utils/latlong";
 
 // Maximum age value enables browser to use cached value, which greatly improves
@@ -6,19 +6,20 @@ import { isValidLatitude, isValidLongitude } from "$lib/utils/latlong";
 // precise here.
 const maximumAge = 30 * 60_000;
 
-export function useMyLocation(): Promise<boolean> {
+export function useMyLocation(): Promise<GeolocationCoordinates> {
 	if (!navigator.geolocation) {
 		return Promise.reject(new Error("Geolocation API isn't supported by the system"));
 	}
-	return new Promise<boolean>((resolve, reject) => {
+	return new Promise<GeolocationCoordinates>((resolve, reject) => {
 		navigator.geolocation.getCurrentPosition(
 			(position) => {
 				const { latitude: lat, longitude: lng } = position.coords;
-				if (isValidLatitude(lat) && isValidLongitude(lng)) {
-					latitude.set(lat);
-					longitude.set(lng);
+				if (!isValidLatitude(lat) || !isValidLongitude(lng)) {
+					throw new Error(
+						`Invalid location coordinate returned: ${JSON.stringify(position.coords)}`
+					);
 				}
-				resolve(true);
+				resolve(position.coords);
 			},
 			reject,
 			{
