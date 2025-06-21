@@ -127,7 +127,7 @@
 	footer {
 		position: fixed;
 		bottom: 10px;
-		left: 10px;
+		left: 1rem;
 		font-size: 0.7em;
 		opacity: 0.6;
 	}

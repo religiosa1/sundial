@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Adapativity support on landscape mobile for Map View and menu.
+
 ### Fixed
 
 - Current position no longer overrides the saved position on app start, if it's

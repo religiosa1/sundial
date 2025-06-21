@@ -49,9 +49,17 @@
 		column-fill: balance;
 		column-gap: 1em;
 	}
-	@media (width < 1200px) and (aspect-ratio > 1.2) {
+	@media (width < 1200px) and (aspect-ratio > 1.2),
+		(orientation: landscape) and (aspect-ratio > 1.7) and (width > 700px) {
 		.legend__content {
-			columns: 1;
+			columns: auto;
+		}
+	}
+
+	/* Mobile landscape or ultrawide monitors -- taking the whole vertical space in 1 col */
+	@media (orientation: landscape) and (aspect-ratio > 1.7) and (width > 700px) {
+		.legend {
+			height: 100%;
 		}
 	}
 

@@ -98,4 +98,12 @@
 		margin: 0 0 1rem;
 		cursor: pointer;
 	}
+
+	/* Mobile landscape */
+	@media (orientation: landscape) and (aspect-ratio > 1.7) and (700px < width < 1000px) {
+		label {
+			display: block;
+			margin-bottom: 1em;
+		}
+	}
 </style>

@@ -61,15 +61,17 @@
 		flex-direction: column;
 		width: 100%;
 		height: 100%;
-		margin-top: 45px;
-		margin-bottom: 55px;
+		padding-top: 45px;
+		padding-bottom: 55px;
 	}
 
 	@media (width > 700px) {
 		.map-view {
-			margin-top: 0;
-			margin-bottom: 0;
+			padding: 0;
 		}
+	}
+	.controls {
+		padding: 0 1em;
 	}
 
 	.map-block {
@@ -115,5 +117,29 @@
 		min-width: 6ch;
 		display: inline-block;
 		text-align: right;
+	}
+
+	/* Phone in landscape view or ultrawide monitors -- displaying everything left to right*/
+	@media (orientation: landscape) and (aspect-ratio > 1.7) and (width > 700px) {
+		.map-view {
+			flex-direction: row;
+			/* Some space for menu */
+			padding-right: 70px;
+			/* And for about link in the bottom */
+			padding-bottom: 10px;
+		}
+
+		.map-block {
+			display: flex;
+			flex-flow: row nowrap;
+			justify-content: space-between;
+			align-items: stretch;
+		}
+
+		.map-block__legend {
+			order: -1;
+			position: relative;
+			inset: 0;
+		}
 	}
 </style>
