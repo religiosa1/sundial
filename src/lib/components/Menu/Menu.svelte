@@ -120,6 +120,26 @@
 		align-items: center;
 		justify-content: center;
 	}
+
+	@media (width > 600px) and (height < 390px) {
+		.menu__button {
+			width: 45px;
+			height: 45px;
+		}
+	}
+	@media (width > 600px) and (height < 355px) {
+		.menu__button {
+			width: 40px;
+			height: 40px;
+		}
+	}
+	@media (width > 600px) and (height < 325px) {
+		.menu__button {
+			width: 35px;
+			height: 35px;
+		}
+	}
+
 	.menu__button:focus-visible {
 		border-color: #88f;
 	}
@@ -169,7 +189,9 @@
 			filter: invert(1) brightness(0.9);
 		}
 	}
-	@media (max-width: 700px) {
+
+	/* "mobile" menu -- fixed to top and botton, instead of right edge */
+	@media (width <= 600px) {
 		.menu {
 			top: auto;
 			position: static;

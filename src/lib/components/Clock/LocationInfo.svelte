@@ -15,12 +15,12 @@
 
 <style>
 	.location-info {
-		font-size: 0.6em;
+		font-size: 0.8em;
 		margin: 1em 0;
 	}
-	@media (max-width: 700px) {
+	@media (width > 600px) {
 		.location-info {
-			font-size: 0.8em;
+			font-size: 0.6em;
 		}
 	}
 </style>

@@ -73,11 +73,11 @@
 		align-items: center;
 		justify-content: center;
 		text-align: center;
-		font-size: 3vmin;
+		font-size: 4.5vmin;
 	}
-	@media (max-width: 700px) {
+	@media (width > 600px) {
 		.dial-overlay {
-			font-size: 4.5vmin;
+			font-size: 3vmin;
 		}
 	}
 	.top-marker {

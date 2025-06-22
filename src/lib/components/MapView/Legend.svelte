@@ -35,10 +35,11 @@
 		background-color: #e0dfdf;
 		border: 1px solid black;
 		color: var(--clr-txt-dark);
+		font-size: smaller;
 	}
-	@media (width < 700px) {
+	@media (width > 600px) {
 		.legend {
-			font-size: smaller;
+			font-size: unset;
 		}
 	}
 
@@ -50,14 +51,14 @@
 		column-gap: 1em;
 	}
 	@media (width < 1200px) and (aspect-ratio > 1.2),
-		(orientation: landscape) and (aspect-ratio > 1.7) and (width > 700px) {
+		(orientation: landscape) and (aspect-ratio > 1.7) and (width > 600px) {
 		.legend__content {
 			columns: auto;
 		}
 	}
 
 	/* Mobile landscape or ultrawide monitors -- taking the whole vertical space in 1 col */
-	@media (orientation: landscape) and (aspect-ratio > 1.7) and (width > 700px) {
+	@media (orientation: landscape) and (aspect-ratio > 1.7) and (width > 600px) {
 		.legend {
 			height: 100%;
 		}

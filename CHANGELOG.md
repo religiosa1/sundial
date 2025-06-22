@@ -7,9 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2025-06-22
+
+### Changed
+
+- Mobile menu breakpoint adjusted for menu to be slightly lower, as well as menu
+  is more adaptive in landscape mobile view.
+
 ### Added
 
-- Adapativity support on landscape mobile for Map View and menu.
+- Adapativity support on landscape mobile for Map View.
 
 ### Fixed
 
