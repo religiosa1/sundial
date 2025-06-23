@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Highlight of map view azimuths on hover, to make it clearer what are you
+  currently looking at.
+
+### Changed
+
+- Statusbar color in PWA mode made to match the theme.
+
 ## [0.3.1] - 2025-06-22
 
 ### Changed

@@ -1,10 +1,24 @@
 <script lang="ts">
-	import { FILL_OPACITY, getSectionColor, SourceNameEnum } from "./sectionsConfig";
+	import { FILL_OPACITY, getAzimuthSettings, SunAzimuthTypeEnum } from "./sectionsConfig";
+
+	interface Props {
+		highlightedAzimuthType: SunAzimuthTypeEnum | undefined;
+		onHighlightedType: (id: SunAzimuthTypeEnum | undefined) => void;
+	}
+
+	let { highlightedAzimuthType, onHighlightedType }: Props = $props();
 </script>
 
-{#snippet legend_item(text: string, type: SourceNameEnum, noFill?: boolean)}
-	{@const color = getSectionColor(type)}
-	<div class="legend__item">
+{#snippet legend_item(text: string, type: SunAzimuthTypeEnum, noFill?: boolean)}
+	{@const { color } = getAzimuthSettings(type)}
+	<div
+		role="figure"
+		class="legend__item"
+		class:highlighted={highlightedAzimuthType === type}
+		onfocus={() => onHighlightedType(type)}
+		onmouseover={() => onHighlightedType(type)}
+		onmouseleave={() => onHighlightedType(undefined)}
+	>
 		<dt
 			role="img"
 			aria-label="{text} legend"
@@ -15,16 +29,16 @@
 		<dd>{text}</dd>
 	</div>
 {/snippet}
-
+CivilTwilight
 <div class="legend">
 	<dl class="legend__content">
-		{@render legend_item("Sunrise", SourceNameEnum.Sunrise)}
-		{@render legend_item("Sunset", SourceNameEnum.Sunset)}
-		{@render legend_item("Golden Hour", SourceNameEnum.GoldenHour)}
-		{@render legend_item("Civil Twilight", SourceNameEnum.CivilTwilight)}
-		{@render legend_item("Sun Position", SourceNameEnum.SunMarker, true)}
-		{@render legend_item("Moon Position", SourceNameEnum.MoonMarker, true)}
-		{@render legend_item("Noon", SourceNameEnum.NoonMarker, true)}
+		{@render legend_item("Sunrise", SunAzimuthTypeEnum.Sunrise)}
+		{@render legend_item("Sunset", SunAzimuthTypeEnum.Sunset)}
+		{@render legend_item("Golden Hour", SunAzimuthTypeEnum.GoldenHour)}
+		{@render legend_item("Civil Twilight", SunAzimuthTypeEnum.CivilTwilight)}
+		{@render legend_item("Sun Position", SunAzimuthTypeEnum.SunMarker, true)}
+		{@render legend_item("Moon Position", SunAzimuthTypeEnum.MoonMarker, true)}
+		{@render legend_item("Noon", SunAzimuthTypeEnum.NoonMarker, true)}
 	</dl>
 </div>
 
@@ -94,5 +108,12 @@
 		padding: 0;
 		margin: 0;
 		float: none;
+	}
+
+	.legend__item.highlighted dt {
+		filter: drop-shadow(0 0 2px blue);
+	}
+	.legend__item.highlighted dd {
+		font-weight: bold;
 	}
 </style>

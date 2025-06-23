@@ -3,11 +3,18 @@
 	import { RADIUS, SVG_CENTER } from "./svgconsts";
 
 	interface Props {
-		stroke: string;
+		/** Azimuth label*/
+		name: string;
+		color: string;
 		azimuth: number;
 		dashed?: boolean;
+
+		highlighted?: boolean;
+
+		onmouseover?: () => void | undefined;
+		onmouseleave?: () => void | undefined;
 	}
-	let { azimuth, stroke, dashed }: Props = $props();
+	let { name, highlighted, azimuth, color, dashed, onmouseleave, onmouseover }: Props = $props();
 
 	const [x2, y2] = $derived.by(() => {
 		const angle = azimuthRadToUnitCircleRad(azimuth);
@@ -18,7 +25,20 @@
 	});
 </script>
 
-<line class:dashed x1={SVG_CENTER} y1={SVG_CENTER} {x2} {y2} {stroke} />
+<line
+	role="img"
+	aria-label={name}
+	class:highlighted
+	class:dashed
+	x1={SVG_CENTER}
+	y1={SVG_CENTER}
+	{x2}
+	{y2}
+	stroke={color}
+	onfocus={onmouseover}
+	{onmouseleave}
+	{onmouseover}
+/>
 
 <style>
 	line {
@@ -27,5 +47,11 @@
 	}
 	.dashed {
 		stroke-dasharray: 8px 20px;
+	}
+	line:focus {
+		outline: 0;
+	}
+	.highlighted {
+		filter: drop-shadow(0 0 2px blue);
 	}
 </style>

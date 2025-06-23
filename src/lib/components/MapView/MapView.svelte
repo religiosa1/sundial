@@ -9,8 +9,10 @@
 	import TimeRangeForm from "./TimeRangeForm.svelte";
 	import Legend from "./Legend.svelte";
 	import { getGeoAzimuths } from "./getGeoAzimuths";
+	import { HighlightedAzimuthIdTypeAdapter } from "./HighlightedAzimuthIdTypeAdapter.svelte";
 
 	let time: Date = $state(new Date());
+	let highlightAdapter = new HighlightedAzimuthIdTypeAdapter();
 
 	const sunPos = $derived(getPosition(time, $latitude, $longitude));
 	const moonPos = $derived(getMoonPosition(time, $latitude, $longitude));
@@ -22,11 +24,20 @@
 		<div class="map-wrap">
 			<MapViewMap />
 			<div class="map-wrap__azimuths">
-				<AzimuthsCircle {sunPos} {moonPos} {geoPos} />
+				<AzimuthsCircle
+					{sunPos}
+					{moonPos}
+					{geoPos}
+					highlightedId={highlightAdapter.highlightedAzimuthIds}
+					onHighlightedId={highlightAdapter.onHighlightedId}
+				/>
 			</div>
 		</div>
 		<div class="map-block__legend">
-			<Legend />
+			<Legend
+				highlightedAzimuthType={highlightAdapter.highlightedType}
+				onHighlightedType={highlightAdapter.onHighlightedType}
+			/>
 		</div>
 	</article>
 	<div class="controls">
