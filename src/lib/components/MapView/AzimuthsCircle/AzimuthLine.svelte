@@ -3,6 +3,7 @@
 	import { RADIUS, SVG_CENTER } from "./svgconsts";
 
 	interface Props {
+		id: string;
 		/** Azimuth label*/
 		name: string;
 		color: string;
@@ -14,7 +15,8 @@
 		onmouseover?: () => void | undefined;
 		onmouseleave?: () => void | undefined;
 	}
-	let { name, highlighted, azimuth, color, dashed, onmouseleave, onmouseover }: Props = $props();
+	let { id, name, highlighted, azimuth, color, dashed, onmouseleave, onmouseover }: Props =
+		$props();
 
 	const [x2, y2] = $derived.by(() => {
 		const angle = azimuthRadToUnitCircleRad(azimuth);
@@ -26,6 +28,7 @@
 </script>
 
 <line
+	{id}
 	role="img"
 	aria-label={name}
 	class:highlighted

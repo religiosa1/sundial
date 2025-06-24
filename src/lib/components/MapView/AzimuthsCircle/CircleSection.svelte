@@ -3,6 +3,8 @@
 	import { RADIUS, SVG_CENTER } from "./svgconsts";
 
 	interface Props {
+		/** Heighlighted pass id*/
+		id: string;
 		/** Section label*/
 		name: string;
 		/** Start azimuth in radians */
@@ -11,13 +13,13 @@
 		end: number;
 		/** rgb color hexvalue, without alpha */
 		color: string;
-
 		highlighted?: boolean;
 
 		onmouseover?: () => void | undefined;
 		onmouseleave?: () => void | undefined;
 	}
 	let {
+		id,
 		name,
 		start: startAzimuth,
 		end: endAzimuth,
@@ -53,6 +55,7 @@ L ${SVG_CENTER} ${SVG_CENTER}`
 <path
 	role="img"
 	aria-label={name}
+	class="section"
 	d={path}
 	stroke={color}
 	fill={color}
@@ -63,21 +66,23 @@ L ${SVG_CENTER} ${SVG_CENTER}`
 />
 
 {#if highlighted}
-	<path class="highlight" d={path} />
+	<path {id} class="highlight" d={path} />
 {/if}
 
 <style>
-	path {
+	.section {
 		stroke-width: 5px;
 	}
 
-	path:focus {
+	.section:focus {
 		outline: 0;
 	}
+
 	.highlight {
-		stroke: blue;
-		fill: none;
 		filter: drop-shadow(0 0 2px blue);
 		pointer-events: none;
+		stroke: blue;
+		stroke-width: 5px;
+		fill: none;
 	}
 </style>
