@@ -100,7 +100,7 @@
 	}
 
 	/* Mobile landscape */
-	@media (orientation: landscape) and (aspect-ratio > 1.7) and (600px < width < 1000px) {
+	@media (orientation: landscape) and (aspect-ratio > 1.7) and (600px < width < 1200px) {
 		label {
 			display: block;
 			margin-bottom: 1em;

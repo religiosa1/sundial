@@ -131,7 +131,8 @@
 	}
 
 	/* Phone in landscape view or ultrawide monitors -- displaying everything left to right*/
-	@media (orientation: landscape) and (aspect-ratio > 1.7) and (width > 600px) {
+	@media (orientation: landscape) and (aspect-ratio > 1.7) and (600px < width < 1200px),
+		(orientation: landscape) and (aspect-ratio > 2.5) and (width > 600px) {
 		.map-view {
 			flex-direction: row;
 			/* Some space for menu */

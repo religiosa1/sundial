@@ -29,7 +29,6 @@
 		<dd>{text}</dd>
 	</div>
 {/snippet}
-CivilTwilight
 <div class="legend">
 	<dl class="legend__content">
 		{@render legend_item("Sunrise", SunAzimuthTypeEnum.Sunrise)}
@@ -72,7 +71,8 @@ CivilTwilight
 	}
 
 	/* Mobile landscape or ultrawide monitors -- taking the whole vertical space in 1 col */
-	@media (orientation: landscape) and (aspect-ratio > 1.7) and (width > 600px) {
+	@media (orientation: landscape) and (aspect-ratio > 1.7) and (600px < width < 1200px),
+		(orientation: landscape) and (aspect-ratio > 2.5) and (width > 600px) {
 		.legend {
 			height: 100%;
 		}

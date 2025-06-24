@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - place form "Use My Location" button broken in 0.3.1
+- visual fixes for azimuth form
 
 ## [0.3.1] - 2025-06-22
 
