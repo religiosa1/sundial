@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2025-06-24
+
 ### Added
 
 - Highlight of map view azimuths on hover, to make it clearer what are you
@@ -15,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Statusbar color in PWA mode made to match the theme.
+
+### Fixed
+
+- place form "Use My Location" button broken in 0.3.1
 
 ## [0.3.1] - 2025-06-22
 

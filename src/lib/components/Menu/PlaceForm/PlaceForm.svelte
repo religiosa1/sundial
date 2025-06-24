@@ -9,14 +9,19 @@
 		deleteDefaultLocation,
 	} from "$lib/stores/location";
 	import Dialog from "$lib/components/Dialog.svelte";
-	import UseMyLocationButton from "./UseMyLocationButton.svelte";
+	import FlashMessage from "$lib/components/FlashMessage.svelte";
+	import Spinner from "$lib/components/Spinner.svelte";
 	import ErrorPanel from "$lib/components/ErrorPanel.svelte";
+	import UseMyLocationButton from "./UseMyLocationButton.svelte";
 	import MapInput from "./MapInput.svelte";
 
 	let { open = $bindable() }: { open: boolean } = $props();
 
 	let storedValue = $state(loadLocation());
 	let getMyLocationError = $state(undefined as unknown);
+	let useMyLocationResult = $state<Promise<void> | undefined>();
+
+	let saved: FlashMessage;
 </script>
 
 <Dialog bind:open>
@@ -26,6 +31,7 @@
 		onsubmit={(e) => {
 			e.preventDefault();
 			storedValue = saveDefaultLocation();
+			saved.show();
 		}}
 		onreset={(e) => {
 			e.preventDefault();
@@ -85,9 +91,25 @@
 			<button type="reset" disabled={storedValue == null}>Clear</button>
 			{#if "geolocation" in navigator}
 				<UseMyLocationButton
-					onLocationSaved={(v) => (storedValue = v)}
-					onError={(e) => (getMyLocationError = e)}
+					onClick={(prms) =>
+						(useMyLocationResult = prms
+							.then((location) => {
+								getMyLocationError = undefined;
+								$latitude = location.latitude;
+								$longitude = location.longitude;
+							})
+							.catch((e) => (getMyLocationError = e)))}
 				/>
+			{/if}
+			<FlashMessage bind:this={saved} noShowOnMount>Saved</FlashMessage>
+			{#if useMyLocationResult != null}
+				{#await useMyLocationResult}
+					<FlashMessage reversed>
+						Retrieving... <Spinner />
+					</FlashMessage>
+				{:then}
+					<FlashMessage>Ok</FlashMessage>
+				{/await}
 			{/if}
 		</div>
 		<ErrorPanel error={getMyLocationError}>Error retrieving location:</ErrorPanel>
