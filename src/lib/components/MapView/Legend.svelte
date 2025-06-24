@@ -23,7 +23,7 @@
 			role="img"
 			aria-label="{text} legend"
 			class:noFill
-			style:border-color={color}
+			style:color
 			style:background-color={color + (255 * FILL_OPACITY).toString(16)}
 		></dt>
 		<dd>{text}</dd>
@@ -98,7 +98,7 @@ CivilTwilight
 		display: inline-block;
 		width: 2em;
 		height: 1.2em;
-		border: 3px solid;
+		border: 3px solid currentColor;
 	}
 	.legend dt.noFill {
 		height: 0;
@@ -111,7 +111,8 @@ CivilTwilight
 	}
 
 	.legend__item.highlighted dt {
-		filter: drop-shadow(0 0 2px blue);
+		box-shadow: 0 0 2px 0 blue;
+		border-color: blue;
 	}
 	.legend__item.highlighted dd {
 		font-weight: bold;

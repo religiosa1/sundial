@@ -41,16 +41,19 @@
 		const y2 = SVG_CENTER + RADIUS * -Math.sin(angle);
 		return [x2, y2];
 	}
+
+	const path = $derived(
+		`M ${SVG_CENTER},${SVG_CENTER}
+L ${arcStartX},${arcStartY}
+A ${RADIUS} ${RADIUS} 0 ${largeArcFlag} ${sweepFlag} ${arcEndX} ${arcEndY}
+L ${SVG_CENTER} ${SVG_CENTER}`
+	);
 </script>
 
 <path
 	role="img"
 	aria-label={name}
-	class:highlighted
-	d="M {SVG_CENTER},{SVG_CENTER}
-  L {arcStartX},{arcStartY}
-  A {RADIUS} {RADIUS} 0 {largeArcFlag} {sweepFlag} {arcEndX} {arcEndY}
-  L {SVG_CENTER} {SVG_CENTER}"
+	d={path}
 	stroke={color}
 	fill={color}
 	fill-opacity="0.5"
@@ -58,6 +61,10 @@
 	{onmouseleave}
 	{onmouseover}
 />
+
+{#if highlighted}
+	<path class="highlight" d={path} />
+{/if}
 
 <style>
 	path {
@@ -67,8 +74,10 @@
 	path:focus {
 		outline: 0;
 	}
-
-	.highlighted {
+	.highlight {
+		stroke: blue;
+		fill: none;
 		filter: drop-shadow(0 0 2px blue);
+		pointer-events: none;
 	}
 </style>

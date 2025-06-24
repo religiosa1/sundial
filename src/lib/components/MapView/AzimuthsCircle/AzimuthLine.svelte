@@ -53,5 +53,7 @@
 	}
 	.highlighted {
 		filter: drop-shadow(0 0 2px blue);
+		stroke-dasharray: none;
+		stroke: blue;
 	}
 </style>
