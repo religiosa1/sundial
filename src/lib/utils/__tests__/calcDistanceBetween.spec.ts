@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, expect, it } from "vitest";
 import { calcDistanceBetween } from "../calcDistanceBetween";
 import type { LatLngTuple } from "$lib/models/LngLatTuple";

@@ -60,7 +60,7 @@
 
 	<!-- separate clone of highlihted element, to raise z-index
 	https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/use -->
-	{#each highlightedId as id}
+	{#each highlightedId as id (id)}
 		<use class="highlight" href="#{id}" />
 	{/each}
 </svg>

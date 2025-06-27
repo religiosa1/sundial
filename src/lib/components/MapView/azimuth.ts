@@ -31,5 +31,5 @@ export function formatAzimuth(azimuthRad: number, precision = 1): string {
  */
 export function formatAltitude(altitudeRad: number, precision = 1): string {
 	const degrees = (altitudeRad / Math.PI) * 180;
-	return `${degrees.toFixed(1)}°`;
+	return `${degrees.toFixed(precision)}°`;
 }

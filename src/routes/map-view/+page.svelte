@@ -6,7 +6,6 @@
 	import MapView from "$lib/components/MapView/MapView.svelte";
 	import ErrorPanel from "$lib/components/ErrorPanel.svelte";
 	import { webGLSupportStatus } from "$lib/utils/webGlSupportStatus";
-	import { page } from "$app/state";
 
 	useSwipeNavigation(AppRouteEnum.yearlyView, undefined);
 </script>

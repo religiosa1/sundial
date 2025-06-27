@@ -16,7 +16,7 @@
 		</text>
 	{/snippet}
 
-	{#each { length: 24 } as _, hour}
+	{#each { length: 24 } as _, hour (hour)}
 		{@const y = timeToY(new Date(baseYear, baseMonth, baseDay, hour))}
 		{@render marker(hour, y)}
 	{/each}

@@ -14,7 +14,7 @@
 </script>
 
 <g class="ring-sections">
-	{#each sections as section}
+	{#each sections as section (section.id)}
 		<RingSection {section} selected={selectedSectionId === section.id} {onSectionSelect}>
 			<desc>
 				{section.name}

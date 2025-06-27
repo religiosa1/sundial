@@ -1,4 +1,3 @@
-import type { LatLngTuple } from "$lib/models/LngLatTuple";
 import { isValidLatitude, isValidLongitude } from "$lib/utils/latlong";
 
 // Maximum age value enables browser to use cached value, which greatly improves

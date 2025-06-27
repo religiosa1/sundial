@@ -43,7 +43,7 @@
 </script>
 
 <g class="days">
-	{#each days as day}
+	{#each days as day (day.date)}
 		{#if Number.isFinite(day.startY)}
 			<line class="hour-line" x1={day.x} x2={day.x} y1={day.startY} y2={day.endY} />
 			<circle class="marker marker_start" cx={day.x} cy={day.startY} r="1" />

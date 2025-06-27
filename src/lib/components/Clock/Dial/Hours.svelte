@@ -37,7 +37,7 @@
 </script>
 
 <g class="hours">
-	{#each hours as hour}
+	{#each hours as hour (hour.value)}
 		<g
 			role="img"
 			aria-label="{hour.value} hour mark"

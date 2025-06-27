@@ -17,7 +17,7 @@ export const webGLSupportStatus = ((): WebGLSupportStatusType => {
 		} else {
 			return "unsupported";
 		}
-	} catch (e) {
+	} catch {
 		return "disabled";
 	}
 })();

@@ -18,7 +18,7 @@
 </script>
 
 <g class="months">
-	{#each months as month, index}
+	{#each months as month, index (month.idx)}
 		{#if index < months.length - 1}
 			<line class="month-line" x1={month.end} x2={month.end} y1={conf.yPad} y2={conf.lineEndY} />
 		{/if}
