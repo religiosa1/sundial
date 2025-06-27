@@ -3,7 +3,7 @@
 A webapp for displaying sunlight phases (times for sunrise, sunset, dusk, etc.)
 on per day or per year basis for the provided date and location.
 
-Can be viewed in a browser, or installed as a PWA.
+Can be viewed in a browser, or installed as a PWA for offline usage.
 
 Can display sunlight phases for your current or chosen locations as:
 
@@ -11,6 +11,7 @@ Can display sunlight phases for your current or chosen locations as:
 - table; showing the same information in a tabular view
 - yearly chart; plotting sunrise and sunset times for each day of the year.
 - sun positions on a map; displaying azimuth of various sunlight phases
+  (requires Internet connection for maps to load)
 
 Actual calculations of different sections of the day performed by the wonderful
 [suncalc](https://github.com/mourner/suncalc) library written by
