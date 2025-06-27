@@ -43,6 +43,6 @@
 		transition: stroke 0.2s ease;
 	}
 	.time-mark.selected {
-		filter: drop-shadow(0 0 3px blue);
+		filter: drop-shadow(0 0 3px var(--clr-figure-highlight));
 	}
 </style>

@@ -55,8 +55,8 @@
 		outline: 0;
 	}
 	.highlighted {
-		filter: drop-shadow(0 0 2px blue);
+		filter: drop-shadow(0 0 2px var(--clr-figure-highlight));
 		stroke-dasharray: none;
-		stroke: blue;
+		stroke: var(--clr-figure-highlight);
 	}
 </style>

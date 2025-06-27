@@ -111,8 +111,8 @@
 	}
 
 	.legend__item.highlighted dt {
-		box-shadow: 0 0 2px 0 blue;
-		border-color: blue;
+		box-shadow: 0 0 2px 0 var(--clr-figure-highlight);
+		border-color: var(--clr-figure-highlight);
 	}
 	.legend__item.highlighted dd {
 		font-weight: bold;

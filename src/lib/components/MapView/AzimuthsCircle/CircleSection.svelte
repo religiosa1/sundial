@@ -79,9 +79,9 @@ L ${SVG_CENTER} ${SVG_CENTER}`
 	}
 
 	.highlight {
-		filter: drop-shadow(0 0 2px blue);
+		filter: drop-shadow(0 0 2px var(--clr-figure-highlight));
 		pointer-events: none;
-		stroke: blue;
+		stroke: var(--clr-figure-highlight);
 		stroke-width: 5px;
 		fill: none;
 	}

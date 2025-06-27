@@ -57,6 +57,6 @@
 		outline: 0;
 	}
 	.ring-section.selected {
-		filter: drop-shadow(0 0 2px blue);
+		filter: drop-shadow(0 0 2px var(--clr-figure-highlight));
 	}
 </style>

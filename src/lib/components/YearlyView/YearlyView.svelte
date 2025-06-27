@@ -36,24 +36,26 @@
 	<desc>Daytime duration in a year</desc>
 	<HourMarkers />
 	<MonthMarkers />
-	<CurrentDayTime {currentTime} />
 	<HoverMarker {mouseOverPosition} />
 	<DayLength {latitude} {longitude} />
+	<CurrentDayTime {currentTime} />
 </svg>
 
 <style>
 	.year {
 		display: block;
-		max-width: calc(100vw - 20px);
 		margin: auto;
-	}
-	@media (min-width: 1000px) {
-		.year {
+
+		/* mobile landscape */
+		@media (width > 600px) {
+			padding-right: 75px;
+		}
+		/* Just wide screens */
+		@media (width > 1000px) {
+			padding-right: 0;
 			max-width: calc(100vw - 100px);
 		}
-	}
-	@media (min-width: 1200px) {
-		.year {
+		@media (width > 1200px) {
 			max-width: calc(100vw - 200px);
 		}
 	}

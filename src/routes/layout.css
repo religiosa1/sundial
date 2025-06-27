@@ -68,8 +68,11 @@
 
 	--clr-bg: #fff;
 	--clr-txt: var(--clr-txt-dark);
+	/* Highlight of elements on regular background */
 	--clr-highlight: #9b2423;
 	--clr-highlight-secondary: #ff00ff;
+	/* Highlight of graphics -- ring sections and azimuths */
+	--clr-figure-highlight: #0000ff;
 	--clr-shadow: #00000a80;
 	--clr-border: #aaa;
 	--clr-bg-main: var(--clr-bg);

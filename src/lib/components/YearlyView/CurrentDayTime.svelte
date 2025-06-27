@@ -24,7 +24,11 @@
 <style>
 	.line {
 		stroke: var(--clr-highlight);
-		stroke-width: 1px;
+		stroke-width: 3px;
+
+		@media (width > 1000px) {
+			stroke-width: 1px;
+		}
 	}
 	.text {
 		font-size: 9px;

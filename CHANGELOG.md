@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for swipe navigation on landscape oriented touch devies
 
+### Changed
+
+- Better marker visibility on mobile and adaptivity for landscape mobile on
+  yearly view page.
+
 ### Fixed
 
 - Placeform flicker on current geolocation retrieval.
