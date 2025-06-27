@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support for swipe navigation on landscape oriented touch devies
+
 ### Fixed
 
 - Placeform flicker on current geolocation retrieval.

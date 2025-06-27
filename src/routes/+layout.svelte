@@ -101,7 +101,7 @@
 	});
 </script>
 
-<main class="page-container" class:reverseNavigation use:swipe>
+<main class="page-container" class:reverseNavigation {@attach swipe}>
 	{@render children()}
 </main>
 <Menu />
