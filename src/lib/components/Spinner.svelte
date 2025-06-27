@@ -1,4 +1,11 @@
-<span class="spinner"></span>
+<script lang="ts">
+	interface Props {
+		title?: string;
+	}
+	let { title }: Props = $props();
+</script>
+
+<span class="spinner" {title}></span>
 
 <style>
 	.spinner {

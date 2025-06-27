@@ -5,6 +5,19 @@ import type { AppRouteEnum } from "$lib/enums/AppRouteEnum";
 const SWIPE_LEFT_EVENT = "swipeLeft";
 const SWIPE_RIGHT_EVENT = "swipeRight";
 
+const INTERACTIVE_ELEMENTS = [
+	"INPUT", //
+	"TEXTAREA",
+];
+
+function isInteractiveElement(element: Element): boolean {
+	return (
+		INTERACTIVE_ELEMENTS.includes(element.tagName) ||
+		element.hasAttribute("contenteditable") ||
+		element.closest("[contenteditable]") !== null
+	);
+}
+
 export function useSwipeNavigation(
 	prev: AppRouteEnum | undefined,
 	next?: AppRouteEnum | undefined
@@ -38,7 +51,12 @@ export function swipe(el: HTMLElement, { threshold = 0.2 }: SwipeOptions = {}) {
 			el,
 			"touchstart",
 			(e) => {
-				lastStart = e.changedTouches.item(0) ?? undefined;
+				const touch = e.changedTouches.item(0);
+				if (!touch || isInteractiveElement(e.target as Element)) {
+					lastStart = undefined;
+					return;
+				}
+				lastStart = touch;
 			},
 			{
 				signal: ac.signal,

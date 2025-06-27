@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Placeform flicker on current geolocation retrieval.
+- Page swiping on interaction with range inputs
+
 ## [0.3.2] - 2025-06-24
 
 ### Added

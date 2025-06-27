@@ -105,7 +105,7 @@
 			{#if useMyLocationResult != null}
 				{#await useMyLocationResult}
 					<FlashMessage reversed>
-						Retrieving... <Spinner />
+						<Spinner title="Retrieving position..." />
 					</FlashMessage>
 				{:then}
 					<FlashMessage>Ok</FlashMessage>
@@ -123,5 +123,8 @@
 		gap: 0.75em;
 		margin: 0.5em 0 1em;
 		align-items: center;
+	}
+	.controls button {
+		flex-shrink: 0;
 	}
 </style>
