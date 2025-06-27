@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.3] - 2025-06-27
+
 ### Added
 
-- Support for swipe navigation on landscape oriented touch devies
+- Support for swipe navigation on landscape oriented touch devices
 
 ### Changed
 
