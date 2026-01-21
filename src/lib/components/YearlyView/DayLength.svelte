@@ -1,45 +1,10 @@
 <script lang="ts">
-	import { setDayOfYear } from "date-fns";
-	import suncalc from "suncalc";
-	import { range } from "$lib/utils/range";
-	import { dayToX, timeToY } from "./coordinates";
-	import { conf } from "./yearlyViewBoxConfig";
+	import type { DayLengthInfo } from "./calculateYearValues";
 
 	interface Props {
-		latitude: number;
-		longitude: number;
+		days: DayLengthInfo[];
 	}
-	const { latitude, longitude }: Props = $props();
-
-	const days = $derived(
-		Array.from(range(364), (_, i) => {
-			const d = setDayOfYear(new Date(new Date().getFullYear(), 0, 1), i + 1);
-			const t = suncalc.getTimes(d, latitude, longitude);
-
-			let startY = timeToY(t.sunrise);
-			let endY = timeToY(t.sunset);
-			if (!isDefinedLength(startY, endY)) {
-				const sunpos = suncalc.getPosition(d, latitude, longitude);
-				if (sunpos.altitude > 0) {
-					startY = conf.yPad;
-					endY = conf.fieldHeight;
-				}
-			}
-			const data = {
-				date: d,
-				x: dayToX(d),
-				startY,
-				endY,
-				noonY: timeToY(t.solarNoon),
-			};
-
-			return data;
-		})
-	);
-
-	function isDefinedLength(startY: number, endY: number): boolean {
-		return Number.isFinite(startY) && Number.isFinite(endY);
-	}
+	const { days }: Props = $props();
 </script>
 
 <g class="days">
@@ -49,7 +14,9 @@
 			<circle class="marker marker_start" cx={day.x} cy={day.startY} r="1" />
 			<circle class="marker marker_end" cx={day.x} cy={day.endY} r="1" />
 		{/if}
-		<circle class="marker marker_noon" cx={day.x} cy={day.noonY} r="1" />
+		{#if Number.isFinite(day.noonY)}
+			<circle class="marker marker_noon" cx={day.x} cy={day.noonY} r="1" />
+		{/if}
 	{/each}
 </g>
 

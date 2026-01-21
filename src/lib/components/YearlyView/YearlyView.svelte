@@ -3,8 +3,9 @@
 	import DayLength from "./DayLength.svelte";
 	import MonthMarkers from "./MonthMarkers.svelte";
 	import CurrentDayTime from "./CurrentDayTime.svelte";
+	import HoverDateTimeMarker from "$lib/components/YearlyView/HoverDateTimeMarker.svelte";
+	import { calculateYearValues } from "./calculateYearValues";
 	import { conf } from "./yearlyViewBoxConfig";
-	import HoverMarker from "$lib/components/YearlyView/HoverMarker.svelte";
 
 	interface Props {
 		currentTime: Date;
@@ -12,7 +13,7 @@
 		longitude: number;
 	}
 	const { currentTime, latitude, longitude }: Props = $props();
-
+	const days = $derived(calculateYearValues(latitude, longitude));
 	let mouseOverPosition: { x: number; y: number } | undefined = $state();
 </script>
 
@@ -36,8 +37,8 @@
 	<desc>Daytime duration in a year</desc>
 	<HourMarkers />
 	<MonthMarkers />
-	<HoverMarker {mouseOverPosition} />
-	<DayLength {latitude} {longitude} />
+	<HoverDateTimeMarker {mouseOverPosition} />
+	<DayLength {days} />
 	<CurrentDayTime {currentTime} />
 </svg>
 

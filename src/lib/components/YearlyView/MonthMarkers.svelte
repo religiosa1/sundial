@@ -22,7 +22,7 @@
 		{#if index < months.length - 1}
 			<line class="month-line" x1={month.end} x2={month.end} y1={conf.yPad} y2={conf.lineEndY} />
 		{/if}
-		<text x={(month.end + month.start) / 2} y={conf.lineEndY + conf.yPad * 0.8} class="month-label">
+		<text x={(month.end + month.start) / 2} y={conf.lineEndY + conf.yPad * 0.9} class="month-label">
 			{monthNames[month.idx]}
 		</text>
 	{/each}
@@ -35,9 +35,9 @@
 		stroke-dasharray: 1px;
 	}
 	.month-label {
-		font-size: 9px;
+		font-size: 11px;
 		text-anchor: middle;
-		stroke: var(--clr-txt);
-		stroke-width: 1;
+		fill: var(--clr-txt);
+		font-weight: bold;
 	}
 </style>

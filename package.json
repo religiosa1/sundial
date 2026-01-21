@@ -1,46 +1,593 @@
 {
-	"name": "sundial",
-	"version": "0.3.3",
-	"private": true,
-	"type": "module",
-	"license": "MIT",
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"format": "prettier --write .",
-		"lint": "prettier --check . && eslint .",
-		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run"
-	},
-	"devDependencies": {
-		"@eslint/compat": "^1.2.9",
-		"@eslint/js": "^9.18.0",
-		"@sveltejs/adapter-netlify": "^5.0.2",
-		"@sveltejs/kit": "^2.21.1",
-		"@sveltejs/vite-plugin-svelte": "^5.0.3",
-		"@types/eslint": "^9.6.1",
-		"@types/geojson": "^7946.0.16",
-		"@types/suncalc": "^1.9.2",
-		"eslint": "^9.28.0",
-		"eslint-config-prettier": "^10.1.5",
-		"eslint-plugin-svelte": "^3.9.0",
-		"globals": "^16.2.0",
-		"prettier": "^3.5.3",
-		"prettier-plugin-svelte": "^3.4.0",
-		"svelte": "^5.33.10",
-		"svelte-check": "^4.2.1",
-		"typescript": "^5.8.3",
-		"typescript-eslint": "^8.33.0",
-		"vite": "^6.3.5",
-		"vite-plugin-devtools-json": "^0.2.0",
-		"vitest": "^3.1.4"
-	},
-	"dependencies": {
-		"date-fns": "^4.1.0",
-		"maplibre-gl": "^5.5.0",
-		"suncalc": "^1.9.0"
-	}
+  "name": "sundial",
+  "version": "0.3.4",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "format": "prettier --write .",
+    "lint": "prettier --check . && eslint .",
+    "test:unit": "vitest",
+    "test": "npm run test:unit -- --run"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^2.0.1",
+    "@eslint/js": "^9.39.2",
+    "@sveltejs/adapter-netlify": "^5.2.4",
+    "@sveltejs/kit": "^2.50.0",
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@types/eslint": "^9.6.1",
+    "@types/geojson": "^7946.0.16",
+    "@types/suncalc": "^1.9.2",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-svelte": "^3.14.0",
+    "globals": "^16.2.0",
+    "prettier": "^3.8.1",
+    "prettier-plugin-svelte": "^3.4.1",
+    "svelte": "^5.47.1",
+    "svelte-check": "^4.3.5",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.53.1",
+    "vite": "^6.3.5",
+    "vite-plugin-devtools-json": "^0.2.0",
+    "vitest": "^3.1.4"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "maplibre-gl": "^5.16.0",
+    "suncalc": "^1.9.0"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    "./actions/swipe.svelte": {
+      "types": "./package/actions/swipe.svelte.d.ts",
+      "default": "./package/actions/swipe.svelte.js"
+    },
+    "./actions/useMyLocation": {
+      "types": "./package/actions/useMyLocation.d.ts",
+      "default": "./package/actions/useMyLocation.js"
+    },
+    "./components/AboutPopup.svelte": {
+      "types": "./package/components/AboutPopup.svelte.d.ts",
+      "svelte": "./package/components/AboutPopup.svelte",
+      "default": "./package/components/AboutPopup.svelte"
+    },
+    "./components/Clock/Clock.svelte": {
+      "types": "./package/components/Clock/Clock.svelte.d.ts",
+      "svelte": "./package/components/Clock/Clock.svelte",
+      "default": "./package/components/Clock/Clock.svelte"
+    },
+    "./components/Clock/Dial/ClockSection": {
+      "types": "./package/components/Clock/Dial/ClockSection.d.ts",
+      "default": "./package/components/Clock/Dial/ClockSection.js"
+    },
+    "./components/Clock/Dial/Dial.svelte": {
+      "types": "./package/components/Clock/Dial/Dial.svelte.d.ts",
+      "svelte": "./package/components/Clock/Dial/Dial.svelte",
+      "default": "./package/components/Clock/Dial/Dial.svelte"
+    },
+    "./components/Clock/Dial/Hours.svelte": {
+      "types": "./package/components/Clock/Dial/Hours.svelte.d.ts",
+      "svelte": "./package/components/Clock/Dial/Hours.svelte",
+      "default": "./package/components/Clock/Dial/Hours.svelte"
+    },
+    "./components/Clock/Dial/NoonNadirMarkers.svelte": {
+      "types": "./package/components/Clock/Dial/NoonNadirMarkers.svelte.d.ts",
+      "svelte": "./package/components/Clock/Dial/NoonNadirMarkers.svelte",
+      "default": "./package/components/Clock/Dial/NoonNadirMarkers.svelte"
+    },
+    "./components/Clock/Dial/RingSection.svelte": {
+      "types": "./package/components/Clock/Dial/RingSection.svelte.d.ts",
+      "svelte": "./package/components/Clock/Dial/RingSection.svelte",
+      "default": "./package/components/Clock/Dial/RingSection.svelte"
+    },
+    "./components/Clock/Dial/RingSections.svelte": {
+      "types": "./package/components/Clock/Dial/RingSections.svelte.d.ts",
+      "svelte": "./package/components/Clock/Dial/RingSections.svelte",
+      "default": "./package/components/Clock/Dial/RingSections.svelte"
+    },
+    "./components/Clock/Dial/config": {
+      "types": "./package/components/Clock/Dial/config.d.ts",
+      "default": "./package/components/Clock/Dial/config.js"
+    },
+    "./components/Clock/Dial/helpers": {
+      "types": "./package/components/Clock/Dial/helpers.d.ts",
+      "default": "./package/components/Clock/Dial/helpers.js"
+    },
+    "./components/Clock/LocationInfo.svelte": {
+      "types": "./package/components/Clock/LocationInfo.svelte.d.ts",
+      "svelte": "./package/components/Clock/LocationInfo.svelte",
+      "default": "./package/components/Clock/LocationInfo.svelte"
+    },
+    "./components/Clock/SectionInfo.svelte": {
+      "types": "./package/components/Clock/SectionInfo.svelte.d.ts",
+      "svelte": "./package/components/Clock/SectionInfo.svelte",
+      "default": "./package/components/Clock/SectionInfo.svelte"
+    },
+    "./components/Clock/SunsetSunriseInfo.svelte": {
+      "types": "./package/components/Clock/SunsetSunriseInfo.svelte.d.ts",
+      "svelte": "./package/components/Clock/SunsetSunriseInfo.svelte",
+      "default": "./package/components/Clock/SunsetSunriseInfo.svelte"
+    },
+    "./components/Clock/TimeDisplay.svelte": {
+      "types": "./package/components/Clock/TimeDisplay.svelte.d.ts",
+      "svelte": "./package/components/Clock/TimeDisplay.svelte",
+      "default": "./package/components/Clock/TimeDisplay.svelte"
+    },
+    "./components/Clock": {
+      "types": "./package/components/Clock/index.d.ts",
+      "svelte": "./package/components/Clock/index.js",
+      "default": "./package/components/Clock/index.js"
+    },
+    "./components/Dialog.svelte": {
+      "types": "./package/components/Dialog.svelte.d.ts",
+      "svelte": "./package/components/Dialog.svelte",
+      "default": "./package/components/Dialog.svelte"
+    },
+    "./components/ErrorPanel.svelte": {
+      "types": "./package/components/ErrorPanel.svelte.d.ts",
+      "svelte": "./package/components/ErrorPanel.svelte",
+      "default": "./package/components/ErrorPanel.svelte"
+    },
+    "./components/FlashMessage.svelte": {
+      "types": "./package/components/FlashMessage.svelte.d.ts",
+      "svelte": "./package/components/FlashMessage.svelte",
+      "default": "./package/components/FlashMessage.svelte"
+    },
+    "./components/MapView/AzimuthsCircle/AzimuthLine.svelte": {
+      "types": "./package/components/MapView/AzimuthsCircle/AzimuthLine.svelte.d.ts",
+      "svelte": "./package/components/MapView/AzimuthsCircle/AzimuthLine.svelte",
+      "default": "./package/components/MapView/AzimuthsCircle/AzimuthLine.svelte"
+    },
+    "./components/MapView/AzimuthsCircle/AzimuthsCircle.svelte": {
+      "types": "./package/components/MapView/AzimuthsCircle/AzimuthsCircle.svelte.d.ts",
+      "svelte": "./package/components/MapView/AzimuthsCircle/AzimuthsCircle.svelte",
+      "default": "./package/components/MapView/AzimuthsCircle/AzimuthsCircle.svelte"
+    },
+    "./components/MapView/AzimuthsCircle/CircleSection.svelte": {
+      "types": "./package/components/MapView/AzimuthsCircle/CircleSection.svelte.d.ts",
+      "svelte": "./package/components/MapView/AzimuthsCircle/CircleSection.svelte",
+      "default": "./package/components/MapView/AzimuthsCircle/CircleSection.svelte"
+    },
+    "./components/MapView/AzimuthsCircle/svgconsts": {
+      "types": "./package/components/MapView/AzimuthsCircle/svgconsts.d.ts",
+      "default": "./package/components/MapView/AzimuthsCircle/svgconsts.js"
+    },
+    "./components/MapView/HighlightedAzimuthIdTypeAdapter.svelte": {
+      "types": "./package/components/MapView/HighlightedAzimuthIdTypeAdapter.svelte.d.ts",
+      "default": "./package/components/MapView/HighlightedAzimuthIdTypeAdapter.svelte.js"
+    },
+    "./components/MapView/Legend.svelte": {
+      "types": "./package/components/MapView/Legend.svelte.d.ts",
+      "svelte": "./package/components/MapView/Legend.svelte",
+      "default": "./package/components/MapView/Legend.svelte"
+    },
+    "./components/MapView/MapView.svelte": {
+      "types": "./package/components/MapView/MapView.svelte.d.ts",
+      "svelte": "./package/components/MapView/MapView.svelte",
+      "default": "./package/components/MapView/MapView.svelte"
+    },
+    "./components/MapView/MapViewMap.svelte": {
+      "types": "./package/components/MapView/MapViewMap.svelte.d.ts",
+      "svelte": "./package/components/MapView/MapViewMap.svelte",
+      "default": "./package/components/MapView/MapViewMap.svelte"
+    },
+    "./components/MapView/TimeRangeForm.svelte": {
+      "types": "./package/components/MapView/TimeRangeForm.svelte.d.ts",
+      "svelte": "./package/components/MapView/TimeRangeForm.svelte",
+      "default": "./package/components/MapView/TimeRangeForm.svelte"
+    },
+    "./components/MapView/azimuth": {
+      "types": "./package/components/MapView/azimuth.d.ts",
+      "default": "./package/components/MapView/azimuth.js"
+    },
+    "./components/MapView/getGeoAzimuths": {
+      "types": "./package/components/MapView/getGeoAzimuths.d.ts",
+      "default": "./package/components/MapView/getGeoAzimuths.js"
+    },
+    "./components/MapView/sectionsConfig": {
+      "types": "./package/components/MapView/sectionsConfig.d.ts",
+      "default": "./package/components/MapView/sectionsConfig.js"
+    },
+    "./components/Menu/DateForm/DateForm.svelte": {
+      "types": "./package/components/Menu/DateForm/DateForm.svelte.d.ts",
+      "svelte": "./package/components/Menu/DateForm/DateForm.svelte",
+      "default": "./package/components/Menu/DateForm/DateForm.svelte"
+    },
+    "./components/Menu/DateForm/DateSlider.svelte": {
+      "types": "./package/components/Menu/DateForm/DateSlider.svelte.d.ts",
+      "svelte": "./package/components/Menu/DateForm/DateSlider.svelte",
+      "default": "./package/components/Menu/DateForm/DateSlider.svelte"
+    },
+    "./components/Menu/Menu.svelte": {
+      "types": "./package/components/Menu/Menu.svelte.d.ts",
+      "svelte": "./package/components/Menu/Menu.svelte",
+      "default": "./package/components/Menu/Menu.svelte"
+    },
+    "./components/Menu/PlaceForm/MapInput.svelte": {
+      "types": "./package/components/Menu/PlaceForm/MapInput.svelte.d.ts",
+      "svelte": "./package/components/Menu/PlaceForm/MapInput.svelte",
+      "default": "./package/components/Menu/PlaceForm/MapInput.svelte"
+    },
+    "./components/Menu/PlaceForm/PlaceForm.svelte": {
+      "types": "./package/components/Menu/PlaceForm/PlaceForm.svelte.d.ts",
+      "svelte": "./package/components/Menu/PlaceForm/PlaceForm.svelte",
+      "default": "./package/components/Menu/PlaceForm/PlaceForm.svelte"
+    },
+    "./components/Menu/PlaceForm/UseMyLocationButton.svelte": {
+      "types": "./package/components/Menu/PlaceForm/UseMyLocationButton.svelte.d.ts",
+      "svelte": "./package/components/Menu/PlaceForm/UseMyLocationButton.svelte",
+      "default": "./package/components/Menu/PlaceForm/UseMyLocationButton.svelte"
+    },
+    "./components/Menu/PlaceForm": {
+      "types": "./package/components/Menu/PlaceForm/index.d.ts",
+      "svelte": "./package/components/Menu/PlaceForm/index.js",
+      "default": "./package/components/Menu/PlaceForm/index.js"
+    },
+    "./components/Menu": {
+      "types": "./package/components/Menu/index.d.ts",
+      "svelte": "./package/components/Menu/index.js",
+      "default": "./package/components/Menu/index.js"
+    },
+    "./components/Spinner.svelte": {
+      "types": "./package/components/Spinner.svelte.d.ts",
+      "svelte": "./package/components/Spinner.svelte",
+      "default": "./package/components/Spinner.svelte"
+    },
+    "./components/Time.svelte": {
+      "types": "./package/components/Time.svelte.d.ts",
+      "svelte": "./package/components/Time.svelte",
+      "default": "./package/components/Time.svelte"
+    },
+    "./components/YearlyView/CurrentDayTime.svelte": {
+      "types": "./package/components/YearlyView/CurrentDayTime.svelte.d.ts",
+      "svelte": "./package/components/YearlyView/CurrentDayTime.svelte",
+      "default": "./package/components/YearlyView/CurrentDayTime.svelte"
+    },
+    "./components/YearlyView/DayLength.svelte": {
+      "types": "./package/components/YearlyView/DayLength.svelte.d.ts",
+      "svelte": "./package/components/YearlyView/DayLength.svelte",
+      "default": "./package/components/YearlyView/DayLength.svelte"
+    },
+    "./components/YearlyView/EquinoxMarkers.svelte": {
+      "types": "./package/components/YearlyView/EquinoxMarkers.svelte.d.ts",
+      "svelte": "./package/components/YearlyView/EquinoxMarkers.svelte",
+      "default": "./package/components/YearlyView/EquinoxMarkers.svelte"
+    },
+    "./components/YearlyView/HourMarkers.svelte": {
+      "types": "./package/components/YearlyView/HourMarkers.svelte.d.ts",
+      "svelte": "./package/components/YearlyView/HourMarkers.svelte",
+      "default": "./package/components/YearlyView/HourMarkers.svelte"
+    },
+    "./components/YearlyView/HoverDateTimeMarker.svelte": {
+      "types": "./package/components/YearlyView/HoverDateTimeMarker.svelte.d.ts",
+      "svelte": "./package/components/YearlyView/HoverDateTimeMarker.svelte",
+      "default": "./package/components/YearlyView/HoverDateTimeMarker.svelte"
+    },
+    "./components/YearlyView/MonthMarkers.svelte": {
+      "types": "./package/components/YearlyView/MonthMarkers.svelte.d.ts",
+      "svelte": "./package/components/YearlyView/MonthMarkers.svelte",
+      "default": "./package/components/YearlyView/MonthMarkers.svelte"
+    },
+    "./components/YearlyView/YearlyView.svelte": {
+      "types": "./package/components/YearlyView/YearlyView.svelte.d.ts",
+      "svelte": "./package/components/YearlyView/YearlyView.svelte",
+      "default": "./package/components/YearlyView/YearlyView.svelte"
+    },
+    "./components/YearlyView/calculateYearValues": {
+      "types": "./package/components/YearlyView/calculateYearValues.d.ts",
+      "default": "./package/components/YearlyView/calculateYearValues.js"
+    },
+    "./components/YearlyView/coordinates.spec": {
+      "types": "./package/components/YearlyView/coordinates.spec.d.ts",
+      "default": "./package/components/YearlyView/coordinates.spec.js"
+    },
+    "./components/YearlyView/coordinates": {
+      "types": "./package/components/YearlyView/coordinates.d.ts",
+      "default": "./package/components/YearlyView/coordinates.js"
+    },
+    "./components/YearlyView": {
+      "types": "./package/components/YearlyView/index.d.ts",
+      "svelte": "./package/components/YearlyView/index.js",
+      "default": "./package/components/YearlyView/index.js"
+    },
+    "./components/YearlyView/yearlyViewBoxConfig": {
+      "types": "./package/components/YearlyView/yearlyViewBoxConfig.d.ts",
+      "default": "./package/components/YearlyView/yearlyViewBoxConfig.js"
+    },
+    "./constants": {
+      "types": "./package/constants.d.ts",
+      "default": "./package/constants.js"
+    },
+    "./enums/AppRouteEnum": {
+      "types": "./package/enums/AppRouteEnum.d.ts",
+      "default": "./package/enums/AppRouteEnum.js"
+    },
+    "./enums/LocalStorageKeyEnum": {
+      "types": "./package/enums/LocalStorageKeyEnum.d.ts",
+      "default": "./package/enums/LocalStorageKeyEnum.js"
+    },
+    "./models/DaySection": {
+      "types": "./package/models/DaySection.d.ts",
+      "default": "./package/models/DaySection.js"
+    },
+    "./models/LngLatTuple": {
+      "types": "./package/models/LngLatTuple.d.ts",
+      "default": "./package/models/LngLatTuple.js"
+    },
+    "./models/SuncalcData": {
+      "types": "./package/models/SuncalcData.d.ts",
+      "default": "./package/models/SuncalcData.js"
+    },
+    "./stores/currentTime": {
+      "types": "./package/stores/currentTime.d.ts",
+      "default": "./package/stores/currentTime.js"
+    },
+    "./stores/date": {
+      "types": "./package/stores/date.d.ts",
+      "default": "./package/stores/date.js"
+    },
+    "./stores/location": {
+      "types": "./package/stores/location.d.ts",
+      "default": "./package/stores/location.js"
+    },
+    "./stores/suncalc": {
+      "types": "./package/stores/suncalc.d.ts",
+      "default": "./package/stores/suncalc.js"
+    },
+    "./utils/calcDistanceBetween": {
+      "types": "./package/utils/calcDistanceBetween.d.ts",
+      "default": "./package/utils/calcDistanceBetween.js"
+    },
+    "./utils/circular": {
+      "types": "./package/utils/circular.d.ts",
+      "default": "./package/utils/circular.js"
+    },
+    "./utils/date": {
+      "types": "./package/utils/date.d.ts",
+      "default": "./package/utils/date.js"
+    },
+    "./utils/latlong": {
+      "types": "./package/utils/latlong.d.ts",
+      "default": "./package/utils/latlong.js"
+    },
+    "./utils/range": {
+      "types": "./package/utils/range.d.ts",
+      "default": "./package/utils/range.js"
+    },
+    "./utils/timeToDeg": {
+      "types": "./package/utils/timeToDeg.d.ts",
+      "default": "./package/utils/timeToDeg.js"
+    },
+    "./utils/webGlSupportStatus": {
+      "types": "./package/utils/webGlSupportStatus.d.ts",
+      "default": "./package/utils/webGlSupportStatus.js"
+    }
+  },
+  "files": [
+    "package"
+  ],
+  "typesVersions": {
+    ">4.0": {
+      "actions/swipe.svelte": [
+        "./package/actions/swipe.svelte.d.ts"
+      ],
+      "actions/useMyLocation": [
+        "./package/actions/useMyLocation.d.ts"
+      ],
+      "components/AboutPopup.svelte": [
+        "./package/components/AboutPopup.svelte.d.ts"
+      ],
+      "components/Clock/Clock.svelte": [
+        "./package/components/Clock/Clock.svelte.d.ts"
+      ],
+      "components/Clock/Dial/ClockSection": [
+        "./package/components/Clock/Dial/ClockSection.d.ts"
+      ],
+      "components/Clock/Dial/Dial.svelte": [
+        "./package/components/Clock/Dial/Dial.svelte.d.ts"
+      ],
+      "components/Clock/Dial/Hours.svelte": [
+        "./package/components/Clock/Dial/Hours.svelte.d.ts"
+      ],
+      "components/Clock/Dial/NoonNadirMarkers.svelte": [
+        "./package/components/Clock/Dial/NoonNadirMarkers.svelte.d.ts"
+      ],
+      "components/Clock/Dial/RingSection.svelte": [
+        "./package/components/Clock/Dial/RingSection.svelte.d.ts"
+      ],
+      "components/Clock/Dial/RingSections.svelte": [
+        "./package/components/Clock/Dial/RingSections.svelte.d.ts"
+      ],
+      "components/Clock/Dial/config": [
+        "./package/components/Clock/Dial/config.d.ts"
+      ],
+      "components/Clock/Dial/helpers": [
+        "./package/components/Clock/Dial/helpers.d.ts"
+      ],
+      "components/Clock/LocationInfo.svelte": [
+        "./package/components/Clock/LocationInfo.svelte.d.ts"
+      ],
+      "components/Clock/SectionInfo.svelte": [
+        "./package/components/Clock/SectionInfo.svelte.d.ts"
+      ],
+      "components/Clock/SunsetSunriseInfo.svelte": [
+        "./package/components/Clock/SunsetSunriseInfo.svelte.d.ts"
+      ],
+      "components/Clock/TimeDisplay.svelte": [
+        "./package/components/Clock/TimeDisplay.svelte.d.ts"
+      ],
+      "components/Clock": [
+        "./package/components/Clock/index.d.ts"
+      ],
+      "components/Dialog.svelte": [
+        "./package/components/Dialog.svelte.d.ts"
+      ],
+      "components/ErrorPanel.svelte": [
+        "./package/components/ErrorPanel.svelte.d.ts"
+      ],
+      "components/FlashMessage.svelte": [
+        "./package/components/FlashMessage.svelte.d.ts"
+      ],
+      "components/MapView/AzimuthsCircle/AzimuthLine.svelte": [
+        "./package/components/MapView/AzimuthsCircle/AzimuthLine.svelte.d.ts"
+      ],
+      "components/MapView/AzimuthsCircle/AzimuthsCircle.svelte": [
+        "./package/components/MapView/AzimuthsCircle/AzimuthsCircle.svelte.d.ts"
+      ],
+      "components/MapView/AzimuthsCircle/CircleSection.svelte": [
+        "./package/components/MapView/AzimuthsCircle/CircleSection.svelte.d.ts"
+      ],
+      "components/MapView/AzimuthsCircle/svgconsts": [
+        "./package/components/MapView/AzimuthsCircle/svgconsts.d.ts"
+      ],
+      "components/MapView/HighlightedAzimuthIdTypeAdapter.svelte": [
+        "./package/components/MapView/HighlightedAzimuthIdTypeAdapter.svelte.d.ts"
+      ],
+      "components/MapView/Legend.svelte": [
+        "./package/components/MapView/Legend.svelte.d.ts"
+      ],
+      "components/MapView/MapView.svelte": [
+        "./package/components/MapView/MapView.svelte.d.ts"
+      ],
+      "components/MapView/MapViewMap.svelte": [
+        "./package/components/MapView/MapViewMap.svelte.d.ts"
+      ],
+      "components/MapView/TimeRangeForm.svelte": [
+        "./package/components/MapView/TimeRangeForm.svelte.d.ts"
+      ],
+      "components/MapView/azimuth": [
+        "./package/components/MapView/azimuth.d.ts"
+      ],
+      "components/MapView/getGeoAzimuths": [
+        "./package/components/MapView/getGeoAzimuths.d.ts"
+      ],
+      "components/MapView/sectionsConfig": [
+        "./package/components/MapView/sectionsConfig.d.ts"
+      ],
+      "components/Menu/DateForm/DateForm.svelte": [
+        "./package/components/Menu/DateForm/DateForm.svelte.d.ts"
+      ],
+      "components/Menu/DateForm/DateSlider.svelte": [
+        "./package/components/Menu/DateForm/DateSlider.svelte.d.ts"
+      ],
+      "components/Menu/Menu.svelte": [
+        "./package/components/Menu/Menu.svelte.d.ts"
+      ],
+      "components/Menu/PlaceForm/MapInput.svelte": [
+        "./package/components/Menu/PlaceForm/MapInput.svelte.d.ts"
+      ],
+      "components/Menu/PlaceForm/PlaceForm.svelte": [
+        "./package/components/Menu/PlaceForm/PlaceForm.svelte.d.ts"
+      ],
+      "components/Menu/PlaceForm/UseMyLocationButton.svelte": [
+        "./package/components/Menu/PlaceForm/UseMyLocationButton.svelte.d.ts"
+      ],
+      "components/Menu/PlaceForm": [
+        "./package/components/Menu/PlaceForm/index.d.ts"
+      ],
+      "components/Menu": [
+        "./package/components/Menu/index.d.ts"
+      ],
+      "components/Spinner.svelte": [
+        "./package/components/Spinner.svelte.d.ts"
+      ],
+      "components/Time.svelte": [
+        "./package/components/Time.svelte.d.ts"
+      ],
+      "components/YearlyView/CurrentDayTime.svelte": [
+        "./package/components/YearlyView/CurrentDayTime.svelte.d.ts"
+      ],
+      "components/YearlyView/DayLength.svelte": [
+        "./package/components/YearlyView/DayLength.svelte.d.ts"
+      ],
+      "components/YearlyView/EquinoxMarkers.svelte": [
+        "./package/components/YearlyView/EquinoxMarkers.svelte.d.ts"
+      ],
+      "components/YearlyView/HourMarkers.svelte": [
+        "./package/components/YearlyView/HourMarkers.svelte.d.ts"
+      ],
+      "components/YearlyView/HoverDateTimeMarker.svelte": [
+        "./package/components/YearlyView/HoverDateTimeMarker.svelte.d.ts"
+      ],
+      "components/YearlyView/MonthMarkers.svelte": [
+        "./package/components/YearlyView/MonthMarkers.svelte.d.ts"
+      ],
+      "components/YearlyView/YearlyView.svelte": [
+        "./package/components/YearlyView/YearlyView.svelte.d.ts"
+      ],
+      "components/YearlyView/calculateYearValues": [
+        "./package/components/YearlyView/calculateYearValues.d.ts"
+      ],
+      "components/YearlyView/coordinates.spec": [
+        "./package/components/YearlyView/coordinates.spec.d.ts"
+      ],
+      "components/YearlyView/coordinates": [
+        "./package/components/YearlyView/coordinates.d.ts"
+      ],
+      "components/YearlyView": [
+        "./package/components/YearlyView/index.d.ts"
+      ],
+      "components/YearlyView/yearlyViewBoxConfig": [
+        "./package/components/YearlyView/yearlyViewBoxConfig.d.ts"
+      ],
+      "constants": [
+        "./package/constants.d.ts"
+      ],
+      "enums/AppRouteEnum": [
+        "./package/enums/AppRouteEnum.d.ts"
+      ],
+      "enums/LocalStorageKeyEnum": [
+        "./package/enums/LocalStorageKeyEnum.d.ts"
+      ],
+      "models/DaySection": [
+        "./package/models/DaySection.d.ts"
+      ],
+      "models/LngLatTuple": [
+        "./package/models/LngLatTuple.d.ts"
+      ],
+      "models/SuncalcData": [
+        "./package/models/SuncalcData.d.ts"
+      ],
+      "stores/currentTime": [
+        "./package/stores/currentTime.d.ts"
+      ],
+      "stores/date": [
+        "./package/stores/date.d.ts"
+      ],
+      "stores/location": [
+        "./package/stores/location.d.ts"
+      ],
+      "stores/suncalc": [
+        "./package/stores/suncalc.d.ts"
+      ],
+      "utils/calcDistanceBetween": [
+        "./package/utils/calcDistanceBetween.d.ts"
+      ],
+      "utils/circular": [
+        "./package/utils/circular.d.ts"
+      ],
+      "utils/date": [
+        "./package/utils/date.d.ts"
+      ],
+      "utils/latlong": [
+        "./package/utils/latlong.d.ts"
+      ],
+      "utils/range": [
+        "./package/utils/range.d.ts"
+      ],
+      "utils/timeToDeg": [
+        "./package/utils/timeToDeg.d.ts"
+      ],
+      "utils/webGlSupportStatus": [
+        "./package/utils/webGlSupportStatus.d.ts"
+      ]
+    }
+  }
 }

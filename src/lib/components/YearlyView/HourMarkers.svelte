@@ -32,8 +32,7 @@
 	.hour-label {
 		font-size: 9px;
 		text-anchor: start;
-		stroke: var(--clr-txt);
-		stroke-width: 0.5px;
+		fill: var(--clr-txt);
 		dominant-baseline: central;
 	}
 </style>

@@ -36,7 +36,6 @@
 	.text {
 		font-size: 9px;
 		text-anchor: start;
-		stroke: var(--clr-highlight-secondary);
-		stroke-width: 0.5px;
+		fill: var(--clr-highlight-secondary);
 	}
 </style>
