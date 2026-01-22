@@ -9,7 +9,8 @@ export const Time = {
 
 /** Applies time-only in ms of one timeSource to date-only portion of dateSource
  * returning a new resulting date object that's combination of both sources.*/
-export function setTimeMs(dateSource: Date, timeMs: number): Date {
+export function setTimeMs(dateSource: Date, time: Date | number): Date {
+	const timeMs = time instanceof Date ? getTimeonlyMs(time) : time;
 	return addMilliseconds(startOfDay(dateSource), timeMs);
 }
 

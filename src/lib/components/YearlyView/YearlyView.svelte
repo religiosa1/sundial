@@ -6,6 +6,7 @@
 	import HoverDateTimeMarker from "$lib/components/YearlyView/HoverDateTimeMarker.svelte";
 	import { calculateYearValues } from "./calculateYearValues";
 	import { conf } from "./yearlyViewBoxConfig";
+	import EquinoxMarkers from "./EquinoxMarkers.svelte";
 
 	interface Props {
 		currentTime: Date;
@@ -39,6 +40,7 @@
 	<MonthMarkers />
 	<HoverDateTimeMarker {mouseOverPosition} />
 	<DayLength {days} />
+	<EquinoxMarkers {days} />
 	<CurrentDayTime {currentTime} />
 </svg>
 
