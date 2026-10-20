@@ -10,7 +10,9 @@ export function dayToX(date: Date, config = conf): number {
 	return config.lineStartX + (getDayOfYear(date) / totalDays) * config.fieldWidth;
 }
 
-export function timeToY(time: Date, config = conf): number {
+export function timeToY(time: Date | null, config = conf): number {
+	// suncalc reports events that don't happen on the day as null
+	if (!time) return NaN;
 	const ms = sum(
 		hoursToMilliseconds(time.getHours()),
 		minutesToMilliseconds(time.getMinutes()),

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { timeToY } from "$lib/components/YearlyView/coordinates";
+	import { timeToY } from "#lib/components/YearlyView/coordinates.js";
 	import { conf } from "./yearlyViewBoxConfig";
 
 	const baseDate = new Date();

@@ -1,14 +1,15 @@
 <script lang="ts">
-	import maplibregl from "maplibre-gl";
+	import "#lib/utils/maplibreWorker.js";
+	import { AttributionControl, Map as MapLibreMap } from "maplibre-gl";
 	import { get } from "svelte/store";
-	import { MAP_TILES_STYLE } from "$lib/constants";
-	import { latitude, longitude } from "$lib/stores/location";
+	import { MAP_TILES_STYLE } from "#lib/constants.js";
+	import { latitude, longitude } from "#lib/stores/location.js";
 </script>
 
 <div
 	class="map-container"
 	{@attach (element) => {
-		const map = new maplibregl.Map({
+		const map = new MapLibreMap({
 			container: element,
 			style: MAP_TILES_STYLE,
 			center: [get(longitude), get(latitude)], // starting position [lng, lat]
@@ -16,7 +17,7 @@
 			attributionControl: false,
 			interactive: false,
 		});
-		map.addControl(new maplibregl.AttributionControl(), "bottom-left");
+		map.addControl(new AttributionControl(), "bottom-left");
 
 		$effect(() => {
 			map.panTo([$longitude, $latitude]);

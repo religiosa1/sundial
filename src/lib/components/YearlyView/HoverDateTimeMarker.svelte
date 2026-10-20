@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { format } from "date-fns";
 	import { conf } from "./yearlyViewBoxConfig";
-	import { coordinatesToDatetime } from "$lib/components/YearlyView/coordinates";
+	import { coordinatesToDatetime } from "#lib/components/YearlyView/coordinates.js";
 
 	interface Props {
 		mouseOverPosition: { x: number; y: number } | undefined;

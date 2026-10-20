@@ -1,4 +1,4 @@
-import { colors } from "$lib/constants";
+import { colors } from "#lib/constants.js";
 
 /** Sun azimuth types */
 export const SunAzimuthTypeEnum = {

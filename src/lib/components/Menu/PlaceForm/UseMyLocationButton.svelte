@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { useMyLocation } from "$lib/actions/useMyLocation";
+	import { useMyLocation } from "#lib/actions/useMyLocation.js";
 
 	interface Props {
 		onClick: (location: Promise<GeolocationCoordinates>) => void;

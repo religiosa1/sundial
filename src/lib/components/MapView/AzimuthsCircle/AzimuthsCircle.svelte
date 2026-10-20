@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GetMoonPositionResult, GetSunPositionResult } from "suncalc";
+	import type { MoonPosition, Position } from "suncalc";
 	import { RADIUS, SVG_CENTER, SVG_SIZE } from "./svgconsts";
 	import type { AzimuthSection, GeoAzimuths } from "../getGeoAzimuths";
 	import { SunAzimutIdEnum, getAzimuthSettingsById, DEFAULT_COLOR } from "../sectionsConfig";
@@ -7,8 +7,8 @@
 	import CircleSection from "./CircleSection.svelte";
 
 	interface Props {
-		sunPos: GetSunPositionResult;
-		moonPos: GetMoonPositionResult;
+		sunPos: Position;
+		moonPos: MoonPosition;
 		geoPos: GeoAzimuths;
 		highlightedId: SunAzimutIdEnum[];
 		onHighlightedId: (a: SunAzimutIdEnum | undefined) => void;

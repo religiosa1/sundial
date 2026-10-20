@@ -1,6 +1,6 @@
-import { browser } from "$app/environment";
-import { LocalStorageKeyEnum } from "$lib/enums/LocalStorageKeyEnum";
-import { isValidLatitude, isValidLongitude } from "$lib/utils/latlong";
+import { browser } from "$app/env";
+import { LocalStorageKeyEnum } from "#lib/enums/LocalStorageKeyEnum.js";
+import { isValidLatitude, isValidLongitude } from "#lib/utils/latlong.js";
 import { writable, get } from "svelte/store";
 
 // default values are set to Greenwhich

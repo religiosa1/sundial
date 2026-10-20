@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
-	import type { DaySectionId } from "$lib/models/DaySection";
+	import type { DaySectionId } from "#lib/models/DaySection.js";
 	import type { ClockSection } from "./ClockSection";
 	import { calculatePath } from "./helpers";
 	import * as config from "./config";

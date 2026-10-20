@@ -3,7 +3,7 @@
 	import DayLength from "./DayLength.svelte";
 	import MonthMarkers from "./MonthMarkers.svelte";
 	import CurrentDayTime from "./CurrentDayTime.svelte";
-	import HoverDateTimeMarker from "$lib/components/YearlyView/HoverDateTimeMarker.svelte";
+	import HoverDateTimeMarker from "#lib/components/YearlyView/HoverDateTimeMarker.svelte";
 	import { calculateYearValues } from "./calculateYearValues";
 	import { conf } from "./yearlyViewBoxConfig";
 

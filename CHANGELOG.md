@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 0.4.0 - 2026-10-20
+
+### Changed
+
+- Upgraded to SvelteKit 3. The service worker moved to `src/service-worker/` with its own
+  TypeScript project.
+- Upgraded to MapLibre GL JS 6. Maps now require WebGL2; browsers with WebGL1 only get the
+  "WebGL unsupported" fallback.
+- Upgraded to SunCalc 2, with noticeably more precise sun and moon positions and event times.
+  Altitudes are now refraction-corrected, so the sun right at the horizon is shown as risen,
+  matching what you'd actually observe.
+- Sun times are now calculated for the browser's calendar day (SunCalc's `utcOffset`)
+  instead of the location's solar day. Previously, between local midnight and solar
+  midnight the app could show the previous or the next day's times.
+- Upgraded other dependencies: vitest 5, vite-plugin-devtools-json 1, TypeScript 6.0.3,
+  typescript-eslint, prettier-plugin-svelte 4.
+- Node.js 24 or later is required.
+
+### Fixed
+
+- Polar day/night detection on the dial and the yearly view used the sun's altitude at the
+  current time of day, instead of checking the whole day.
+- Polar day on the dial was labeled as "night".
+
 ## 0.3.4 - 2025-01-22
 
 ### Fixed

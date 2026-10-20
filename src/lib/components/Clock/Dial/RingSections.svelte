@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { format } from "date-fns";
-	import type { DaySectionId } from "$lib/models/DaySection";
-	import type { ClockSection } from "$lib/components/Clock/Dial/ClockSection";
+	import type { DaySectionId } from "#lib/models/DaySection.js";
+	import type { ClockSection } from "#lib/components/Clock/Dial/ClockSection.js";
 	import Hours from "./Hours.svelte";
 	import RingSection from "./RingSection.svelte";
 

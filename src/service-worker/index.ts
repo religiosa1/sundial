@@ -1,18 +1,15 @@
 /** @see https://svelte.dev/docs/kit/service-workers */
-/// <reference types="@sveltejs/kit" />
-/// <reference no-default-lib="true"/>
-/// <reference lib="esnext" />
-/// <reference lib="webworker" />
-import { build, files, version } from "$service-worker";
-
-declare let self: ServiceWorkerGlobalScope;
+import { version } from "$app/env";
+import { assets, immutable } from "$app/manifest";
+import { self } from "$app/service-worker";
 
 // Create a unique cache name for this deployment
 const CACHE = `cache-${version}`;
+// Manifest paths are relative to the base path, so resolve them against the worker's location
 const ASSETS = [
-	...build, // the app itself
-	...files, // everything in `static`
-];
+	...immutable, // the app itself
+	...assets, // everything in `static`
+].map(({ path }) => new URL(path, self.location.href).pathname);
 
 self.addEventListener("install", (event) => {
 	event.waitUntil(addFilesToCache());

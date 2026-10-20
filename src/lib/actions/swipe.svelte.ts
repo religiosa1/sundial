@@ -2,7 +2,7 @@ import { on } from "svelte/events";
 import { goto } from "$app/navigation";
 import type { Attachment } from "svelte/attachments";
 import { MediaQuery } from "svelte/reactivity";
-import type { AppRouteEnum } from "$lib/enums/AppRouteEnum";
+import type { AppRouteEnum } from "#lib/enums/AppRouteEnum.js";
 
 export function useSwipeNavigation(
 	prev: AppRouteEnum | undefined,

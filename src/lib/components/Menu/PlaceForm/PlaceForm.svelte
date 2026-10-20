@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { formatLatAsDegree, formatLongAsDegree } from "$lib/utils/latlong";
-	import { webGLSupportStatus } from "$lib/utils/webGlSupportStatus";
+	import { formatLatAsDegree, formatLongAsDegree } from "#lib/utils/latlong.js";
+	import { webGLSupportStatus } from "#lib/utils/webGlSupportStatus.js";
 	import {
 		latitude,
 		longitude,
 		saveDefaultLocation,
 		loadLocation,
 		deleteDefaultLocation,
-	} from "$lib/stores/location";
-	import Dialog from "$lib/components/Dialog.svelte";
-	import FlashMessage from "$lib/components/FlashMessage.svelte";
-	import Spinner from "$lib/components/Spinner.svelte";
-	import ErrorPanel from "$lib/components/ErrorPanel.svelte";
+	} from "#lib/stores/location.js";
+	import Dialog from "#lib/components/Dialog.svelte";
+	import FlashMessage from "#lib/components/FlashMessage.svelte";
+	import Spinner from "#lib/components/Spinner.svelte";
+	import ErrorPanel from "#lib/components/ErrorPanel.svelte";
 	import UseMyLocationButton from "./UseMyLocationButton.svelte";
 	import MapInput from "./MapInput.svelte";
 

@@ -1,4 +1,4 @@
-import type { DaySectionId } from "$lib/models/DaySection";
+import type { DaySectionId } from "#lib/models/DaySection.js";
 
 export const size = 306;
 export const padding = 3;

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { colors } from "$lib/constants";
-	import type { SuncalcData } from "$lib/models/SuncalcData";
-	import type { DaySectionId } from "$lib/models/DaySection";
+	import { colors } from "#lib/constants.js";
+	import type { SuncalcData } from "#lib/models/SuncalcData.js";
+	import type { DaySectionId } from "#lib/models/DaySection.js";
 
-	import { timeToDeg } from "$lib/utils/timeToDeg";
+	import { timeToDeg } from "#lib/utils/timeToDeg.js";
 
 	import { makeClockSectionsArray } from "./ClockSection";
 	import NoonNadirMarkers from "./NoonNadirMarkers.svelte";

@@ -1,15 +1,16 @@
 <script lang="ts">
 	import "maplibre-gl/dist/maplibre-gl.css";
-	import maplibregl, { Marker } from "maplibre-gl";
-	import { latitude, longitude } from "$lib/stores/location";
+	import "#lib/utils/maplibreWorker.js";
+	import { GlobeControl, Map as MapLibreMap, Marker } from "maplibre-gl";
+	import { latitude, longitude } from "#lib/stores/location.js";
 	import { get } from "svelte/store";
-	import { MAP_TILES_STYLE } from "$lib/constants";
+	import { MAP_TILES_STYLE } from "#lib/constants.js";
 </script>
 
 <div
 	class="map-container"
 	{@attach (element) => {
-		const map = new maplibregl.Map({
+		const map = new MapLibreMap({
 			container: element,
 			// style: "https://demotiles.maplibre.org/style.json",
 			style: MAP_TILES_STYLE,
@@ -17,7 +18,7 @@
 			zoom: 1, // starting zoom
 		});
 
-		map.addControl(new maplibregl.GlobeControl(), "top-right");
+		map.addControl(new GlobeControl(), "top-right");
 		map.on("style.load", () => {
 			map.setProjection({
 				type: "globe", // Set projection to globe

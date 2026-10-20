@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { onNavigate, beforeNavigate } from "$app/navigation";
-	import { swipe } from "$lib/actions/swipe.svelte";
-	import { useMyLocation } from "$lib/actions/useMyLocation";
+	import { swipe } from "#lib/actions/swipe.svelte.js";
+	import { useMyLocation } from "#lib/actions/useMyLocation.js";
 	import {
 		hasDefaultLocation,
 		latitude,
 		longitude,
 		saveDefaultLocation,
-	} from "$lib/stores/location";
-	import AboutPopup from "$lib/components/AboutPopup.svelte";
-	import Menu from "$lib/components/Menu";
-	import { routeList, type AppRouteEnum } from "$lib/enums/AppRouteEnum";
+	} from "#lib/stores/location.js";
+	import AboutPopup from "#lib/components/AboutPopup.svelte";
+	import Menu from "#lib/components/Menu/index.js";
+	import { routeList, type AppRouteEnum } from "#lib/enums/AppRouteEnum.js";
 	import { version } from "../../package.json";
-	import { calcDistanceBetween } from "$lib/utils/calcDistanceBetween";
+	import { calcDistanceBetween } from "#lib/utils/calcDistanceBetween.js";
 	import "./layout.css";
 
 	let { children } = $props();
@@ -77,6 +77,7 @@
 	});
 
 	beforeNavigate((e) => {
+		if (e.shallow && e.type === "goto") return;
 		if (!e.from?.route.id || !e.to?.route.id) return;
 		const startIdx = routeList.indexOf(e.from.route.id as AppRouteEnum);
 		const endIdx = routeList.indexOf(e.to.route.id as AppRouteEnum);
@@ -88,6 +89,8 @@
 	});
 
 	onNavigate((navigation) => {
+		if (navigation.shallow && navigation.type === "goto") return;
+
 		if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) {
 			return;
 		}
@@ -107,7 +110,8 @@
 <Menu />
 
 <footer>
-	<button class="about-btn" type="button" onclick={() => (showAboutHelp = true)}> About </button>
+	<button class="about-btn" type="button" onclick={() => (showAboutHelp = true)}>About</button>
+
 	v{version}
 </footer>
 

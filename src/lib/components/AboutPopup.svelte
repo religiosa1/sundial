@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Dialog from "$lib/components/Dialog.svelte";
-	import { version } from "$lib/../../package.json";
-	import LICENSE from "$lib/../../LICENSE.txt?raw";
+	import Dialog from "#lib/components/Dialog.svelte";
+	import { version } from "#lib/../../package.json";
+	import LICENSE from "#lib/../../LICENSE.txt?raw";
 
 	let { open = $bindable() }: { open: boolean } = $props();
 

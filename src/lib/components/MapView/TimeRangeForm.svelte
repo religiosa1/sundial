@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { untrack } from "svelte";
-	import Time from "$lib/components/Time.svelte";
-	import { currentTime } from "$lib/stores/currentTime";
+	import Time from "#lib/components/Time.svelte";
+	import { currentTime } from "#lib/stores/currentTime.js";
 	import * as dateUtils from "../../utils/date";
 
 	interface Props {

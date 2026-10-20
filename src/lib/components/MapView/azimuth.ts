@@ -1,35 +1,29 @@
 /**
- * Converts azimuth in radians to unit circle in radians and normalizes angle
+ * Converts azimuth in degrees to unit circle in radians and normalizes angle to [0, 2π)
  *
  * Azimuth is:
  *  - Clockwise
- *  - Starts at South
+ *  - Starts at North
  *
  * Unit circle is:
  *  - Counterclockwise
  *  - Starts at East
  */
-export function azimuthRadToUnitCircleRad(azimuthRad: number): number {
-	return ((3 * Math.PI) / 2 - azimuthRad) % (2 * Math.PI);
+export function azimuthDegToUnitCircleRad(azimuthDeg: number): number {
+	// positive modulo, as arc sweep calculations rely on the normalized range
+	const degrees = (((90 - azimuthDeg) % 360) + 360) % 360;
+	return (degrees * Math.PI) / 180;
 }
 
-/** Formats suncalc azimut as compass degress.
+/** Formats suncalc azimuth as compass degrees.
  *
- * Azimuth in suncalc starts at south and goes clockwise.
- * Degress on compass start at north and goes clockwise, so we need to offset
- * it 180 degrees
+ * Azimuth in suncalc starts at north and goes clockwise, same as a compass.
  */
-export function formatAzimuth(azimuthRad: number, precision = 1): string {
-	const degrees = ((Math.PI + azimuthRad) / (Math.PI * 2)) * 360;
-	return `${degrees.toFixed(precision)}°`;
+export function formatAzimuth(azimuthDeg: number, precision = 1): string {
+	return `${azimuthDeg.toFixed(precision)}°`;
 }
 
-/** Formats altitude in suncalc to degrees.
- *
- * Altitude in suncalc is 0 at the horizon and PI/2 at the zenith (straight over your head).
- * We're just converting it to degrees -- 0 at horizon, 90 at the zenith.
- */
-export function formatAltitude(altitudeRad: number, precision = 1): string {
-	const degrees = (altitudeRad / Math.PI) * 180;
-	return `${degrees.toFixed(precision)}°`;
+/** Formats suncalc altitude as degrees -- 0 at horizon, 90 at the zenith. */
+export function formatAltitude(altitudeDeg: number, precision = 1): string {
+	return `${altitudeDeg.toFixed(precision)}°`;
 }

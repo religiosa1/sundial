@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { timeToY, dayToX, coordinatesToDatetime } from "./coordinates";
 import { isSameHour, isSameMinute, isSameSecond, setDayOfYear } from "date-fns";
 import { getDayOfYear } from "date-fns/fp";
-import { conf } from "$lib/components/YearlyView/yearlyViewBoxConfig";
+import { conf } from "#lib/components/YearlyView/yearlyViewBoxConfig.js";
 
 describe("coordinates", () => {
 	describe("coordinatesToDatetime", () => {
@@ -53,6 +53,12 @@ describe("coordinates", () => {
 			expect(isSameHour(calculatedDate!, date)).toBe(true);
 			expect(isSameMinute(calculatedDate!, date)).toBe(true);
 			expect(isSameSecond(calculatedDate!, date)).toBe(true);
+		});
+	});
+
+	describe("timeToY", () => {
+		it("returns NaN for a missing time", () => {
+			expect(timeToY(null)).toBeNaN();
 		});
 	});
 });

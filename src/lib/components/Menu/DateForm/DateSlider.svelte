@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { date, manualDayOfYear } from "$lib/stores/date";
+	import { date, manualDayOfYear } from "#lib/stores/date.js";
 	import { format, getDayOfYear, setDayOfYear } from "date-fns";
 
 	interface Props {

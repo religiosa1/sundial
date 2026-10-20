@@ -2,7 +2,7 @@
 	import { format, isValid } from "date-fns";
 
 	interface Props {
-		value: Date | undefined;
+		value: Date | null | undefined;
 		fallback?: string;
 		format?: string;
 	}

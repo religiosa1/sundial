@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { DaySectionId } from "$lib/models/DaySection";
-	import { range } from "$lib/utils/range";
+	import type { DaySectionId } from "#lib/models/DaySection.js";
+	import { range } from "#lib/utils/range.js";
 
 	import type { ClockSection } from "./ClockSection";
 

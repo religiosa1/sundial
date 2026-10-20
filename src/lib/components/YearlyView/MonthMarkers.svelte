@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { endOfMonth } from "date-fns";
-	import { range } from "$lib/utils/range";
+	import { range } from "#lib/utils/range.js";
 	import { dayToX } from "./coordinates";
 	import { conf, monthNames } from "./yearlyViewBoxConfig";
 

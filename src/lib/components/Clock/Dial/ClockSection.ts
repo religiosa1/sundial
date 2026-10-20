@@ -1,10 +1,10 @@
 import { isValid } from "date-fns";
 
-import type { SuncalcData } from "$lib/models/SuncalcData";
-import { DaySectionEnum, type DaySectionId } from "$lib/models/DaySection";
+import type { SuncalcData } from "#lib/models/SuncalcData.js";
+import { DaySectionEnum, type DaySectionId } from "#lib/models/DaySection.js";
 
-import { circular } from "$lib/utils/circular";
-import { timeToDeg } from "$lib/utils/timeToDeg";
+import { circular } from "#lib/utils/circular.js";
+import { timeToDeg } from "#lib/utils/timeToDeg.js";
 
 import { colors } from "./config";
 
@@ -26,7 +26,8 @@ export function makeClockSectionsArray(times: SuncalcData): ClockSection[] {
 
 	for (let i = 0; i < sections.length; i++) {
 		const s = sections[i];
-		if (!s || !isValid(times[s.start])) {
+		const start = s && times[s.start];
+		if (!s || !isValidTime(start)) {
 			continue;
 		}
 
@@ -34,19 +35,21 @@ export function makeClockSectionsArray(times: SuncalcData): ClockSection[] {
 			id: s.id,
 			name: s.name,
 			color: colors[s.id],
-			start: times[s.start],
+			start,
 			startDeg: NaN,
 			endDeg: NaN,
 			end: new Date("INVALID"),
 			overspanned: false,
 		};
 
-		if (s && isValid(times[s.end])) {
-			r.end = times[s.end];
+		const end = times[s.end];
+		if (isValidTime(end)) {
+			r.end = end;
 		} else {
 			for (const nr of circular(sections, i, { omitFirst: true })) {
-				if (nr && isValid(times[nr.end])) {
-					r.end = times[nr.end];
+				const overspannedEnd = nr && times[nr.end];
+				if (isValidTime(overspannedEnd)) {
+					r.end = overspannedEnd;
 					r.overspanned = true;
 					break;
 				}
@@ -60,8 +63,7 @@ export function makeClockSectionsArray(times: SuncalcData): ClockSection[] {
 
 	// Special cases in far north/south -- when all we have is just night or day.
 	if (!retval.length) {
-		const isNight = times.altitude < 0;
-		const item: ClockSection = isNight
+		const item: ClockSection = !times.alwaysUp
 			? {
 					id: "night",
 					name: "night",
@@ -74,7 +76,7 @@ export function makeClockSectionsArray(times: SuncalcData): ClockSection[] {
 				}
 			: {
 					id: "day",
-					name: "night",
+					name: "day",
 					color: colors.day,
 					start: times.solarNoon,
 					end: times.solarNoon,
@@ -86,4 +88,8 @@ export function makeClockSectionsArray(times: SuncalcData): ClockSection[] {
 	}
 
 	return retval;
+}
+
+function isValidTime(time: Date | null | undefined): time is Date {
+	return time != null && isValid(time);
 }

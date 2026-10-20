@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { APP_TITLE } from "$lib/constants";
+	import { APP_TITLE } from "#lib/constants.js";
 
-	import { useSwipeNavigation } from "$lib/actions/swipe.svelte";
-	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
-	import MapView from "$lib/components/MapView/MapView.svelte";
-	import ErrorPanel from "$lib/components/ErrorPanel.svelte";
-	import { webGLSupportStatus } from "$lib/utils/webGlSupportStatus";
+	import { useSwipeNavigation } from "#lib/actions/swipe.svelte.js";
+	import { AppRouteEnum } from "#lib/enums/AppRouteEnum.js";
+	import MapView from "#lib/components/MapView/MapView.svelte";
+	import ErrorPanel from "#lib/components/ErrorPanel.svelte";
+	import { webGLSupportStatus } from "#lib/utils/webGlSupportStatus.js";
 
 	useSwipeNavigation(AppRouteEnum.yearlyView, undefined);
 </script>

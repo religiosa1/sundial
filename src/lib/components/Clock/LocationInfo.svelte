@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatLatAsDegree, formatLongAsDegree } from "$lib/utils/latlong";
+	import { formatLatAsDegree, formatLongAsDegree } from "#lib/utils/latlong.js";
 
 	interface Props {
 		latitude: number;

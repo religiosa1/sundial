@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Dialog from "$lib/components/Dialog.svelte";
-	import { manualDayOfYear } from "$lib/stores/date";
+	import Dialog from "#lib/components/Dialog.svelte";
+	import { manualDayOfYear } from "#lib/stores/date.js";
 	import { getDayOfYear } from "date-fns";
 	import DateSlider from "./DateSlider.svelte";
 

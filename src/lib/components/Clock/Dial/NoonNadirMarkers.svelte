@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { DaySectionEnum, type DaySectionId } from "$lib/models/DaySection";
-	import type { SuncalcData } from "$lib/models/SuncalcData";
-	import { timeToDeg } from "$lib/utils/timeToDeg";
+	import { DaySectionEnum, type DaySectionId } from "#lib/models/DaySection.js";
+	import type { SuncalcData } from "#lib/models/SuncalcData.js";
+	import { timeToDeg } from "#lib/utils/timeToDeg.js";
 	import * as config from "./config";
 
 	interface Props {

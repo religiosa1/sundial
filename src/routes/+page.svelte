@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { APP_TITLE } from "$lib/constants";
-	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
-	import { currentTime } from "$lib/stores/currentTime";
-	import { date } from "$lib/stores/date";
-	import { latitude, longitude } from "$lib/stores/location";
-	import { suncalc } from "$lib/stores/suncalc";
-	import Clock from "$lib/components/Clock";
-	import PlaceTimeInfo from "$lib/components/Clock/LocationInfo.svelte";
-	import SunsetSunriseInfo from "$lib/components/Clock/SunsetSunriseInfo.svelte";
-	import CurrentTime from "$lib/components/Clock/TimeDisplay.svelte";
-	import { useSwipeNavigation } from "$lib/actions/swipe.svelte";
+	import { APP_TITLE } from "#lib/constants.js";
+	import { AppRouteEnum } from "#lib/enums/AppRouteEnum.js";
+	import { currentTime } from "#lib/stores/currentTime.js";
+	import { date } from "#lib/stores/date.js";
+	import { latitude, longitude } from "#lib/stores/location.js";
+	import { suncalc } from "#lib/stores/suncalc.js";
+	import Clock from "#lib/components/Clock/index.js";
+	import PlaceTimeInfo from "#lib/components/Clock/LocationInfo.svelte";
+	import SunsetSunriseInfo from "#lib/components/Clock/SunsetSunriseInfo.svelte";
+	import CurrentTime from "#lib/components/Clock/TimeDisplay.svelte";
+	import { useSwipeNavigation } from "#lib/actions/swipe.svelte.js";
 
 	useSwipeNavigation(undefined, AppRouteEnum.tableView);
 </script>

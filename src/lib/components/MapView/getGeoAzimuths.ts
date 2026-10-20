@@ -1,5 +1,6 @@
 import { isValid } from "date-fns";
-import { getPosition, type GetTimesResult } from "suncalc";
+import { getPosition } from "suncalc";
+import type { SuncalcData } from "#lib/models/SuncalcData.js";
 
 export interface AzimuthSection {
 	start: number;
@@ -24,7 +25,7 @@ export interface GeoAzimuths {
 }
 
 export function getGeoAzimuths(
-	times: GetTimesResult,
+	times: SuncalcData,
 	latitude: number,
 	longitude: number
 ): GeoAzimuths {
@@ -38,13 +39,13 @@ export function getGeoAzimuths(
 	 * @returns calculated azimuth section, or undefined if it's too far north or south to display the interval
 	 */
 	const getSection = (
-		timeStart: Date,
-		timeEnd: Date,
-		timeOverSpawn: Date
+		timeStart: Date | null,
+		timeEnd: Date | null,
+		timeOverSpawn: Date | null
 	): AzimuthSection | undefined => {
-		if (!isValid(timeStart)) return undefined;
-		const end = isValid(timeEnd) ? timeEnd : timeOverSpawn;
-		if (!isValid(end)) return undefined;
+		if (!timeStart || !isValid(timeStart)) return undefined;
+		const end = timeEnd && isValid(timeEnd) ? timeEnd : timeOverSpawn;
+		if (!end || !isValid(end)) return undefined;
 		return {
 			start: getAzimuth(timeStart),
 			end: getAzimuth(end),

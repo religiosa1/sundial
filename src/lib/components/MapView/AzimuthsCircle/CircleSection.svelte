@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { azimuthRadToUnitCircleRad } from "../azimuth";
+	import { azimuthDegToUnitCircleRad } from "../azimuth";
 	import { RADIUS, SVG_CENTER } from "./svgconsts";
 
 	interface Props {
@@ -7,9 +7,9 @@
 		id: string;
 		/** Section label*/
 		name: string;
-		/** Start azimuth in radians */
+		/** Start azimuth in degrees, clockwise from north */
 		start: number;
-		/** End azimuth in radians */
+		/** End azimuth in degrees, clockwise from north */
 		end: number;
 		/** rgb color hexvalue, without alpha */
 		color: string;
@@ -29,8 +29,8 @@
 		onmouseover,
 	}: Props = $props();
 
-	const angleStart = $derived(azimuthRadToUnitCircleRad(startAzimuth));
-	const angleEnd = $derived(azimuthRadToUnitCircleRad(endAzimuth));
+	const angleStart = $derived(azimuthDegToUnitCircleRad(startAzimuth));
+	const angleEnd = $derived(azimuthDegToUnitCircleRad(endAzimuth));
 
 	const [arcStartX, arcStartY] = $derived(angleToCoord(angleStart));
 	const [arcEndX, arcEndY] = $derived(angleToCoord(angleEnd));

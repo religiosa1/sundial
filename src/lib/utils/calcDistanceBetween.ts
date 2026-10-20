@@ -1,4 +1,4 @@
-import type { LatLngTuple as LatLngTuple } from "$lib/models/LngLatTuple";
+import type { LatLngTuple as LatLngTuple } from "#lib/models/LngLatTuple.js";
 
 // Globally average radius
 // https://en.wikipedia.org/wiki/Earth_radius

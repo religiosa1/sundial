@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Time from "$lib/components/Time.svelte";
-	import type { SuncalcData } from "$lib/models/SuncalcData";
+	import Time from "#lib/components/Time.svelte";
+	import type { SuncalcData } from "#lib/models/SuncalcData.js";
 	interface Props {
 		suncalc: SuncalcData;
 	}

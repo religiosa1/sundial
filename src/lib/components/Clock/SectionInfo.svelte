@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Time from "$lib/components/Time.svelte";
-	import { DaySectionEnum, type DaySectionId } from "$lib/models/DaySection";
-	import type { SuncalcData } from "$lib/models/SuncalcData";
+	import Time from "#lib/components/Time.svelte";
+	import { DaySectionEnum, type DaySectionId } from "#lib/models/DaySection.js";
+	import type { SuncalcData } from "#lib/models/SuncalcData.js";
 
 	interface Props {
 		sectionId: DaySectionId | undefined;

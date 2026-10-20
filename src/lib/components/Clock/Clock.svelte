@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
-	import type { SuncalcData } from "$lib/models/SuncalcData";
-	import type { DaySectionId } from "$lib/models/DaySection";
-	import { timeToDeg } from "$lib/utils/timeToDeg";
+	import type { SuncalcData } from "#lib/models/SuncalcData.js";
+	import type { DaySectionId } from "#lib/models/DaySection.js";
+	import { timeToDeg } from "#lib/utils/timeToDeg.js";
 
 	import Dial from "./Dial/Dial.svelte";
 	import SectionInfo from "./SectionInfo.svelte";

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { getMoonPosition, getPosition } from "suncalc";
-	import { suncalc } from "$lib/stores/suncalc";
-	import { latitude, longitude } from "$lib/stores/location";
-	import { date } from "$lib/stores/date";
+	import { suncalc } from "#lib/stores/suncalc.js";
+	import { latitude, longitude } from "#lib/stores/location.js";
+	import { date } from "#lib/stores/date.js";
 	import AzimuthsCircle from "./AzimuthsCircle/AzimuthsCircle.svelte";
 	import { formatAltitude, formatAzimuth } from "./azimuth";
 	import MapViewMap from "./MapViewMap.svelte";

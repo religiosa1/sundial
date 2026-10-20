@@ -1,4 +1,4 @@
-import { isValidLatitude, isValidLongitude } from "$lib/utils/latlong";
+import { isValidLatitude, isValidLongitude } from "#lib/utils/latlong.js";
 
 // Maximum age value enables browser to use cached value, which greatly improves
 // responsiveness of the functionality, while we don't need to be particularly

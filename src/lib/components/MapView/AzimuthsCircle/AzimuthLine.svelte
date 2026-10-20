@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { azimuthRadToUnitCircleRad } from "../azimuth";
+	import { azimuthDegToUnitCircleRad } from "../azimuth";
 	import { RADIUS, SVG_CENTER } from "./svgconsts";
 
 	interface Props {
@@ -19,7 +19,7 @@
 		$props();
 
 	const [x2, y2] = $derived.by(() => {
-		const angle = azimuthRadToUnitCircleRad(azimuth);
+		const angle = azimuthDegToUnitCircleRad(azimuth);
 
 		const x2 = SVG_CENTER + RADIUS * Math.cos(angle);
 		const y2 = SVG_CENTER + RADIUS * -Math.sin(angle);

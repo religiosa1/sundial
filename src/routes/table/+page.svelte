@@ -1,21 +1,23 @@
 <script lang="ts">
-	import { APP_TITLE } from "$lib/constants";
-	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
-	import type { SuncalcData } from "$lib/models/SuncalcData";
-	import { suncalc } from "$lib/stores/suncalc";
-	import { currentTime } from "$lib/stores/currentTime";
-	import { latitude, longitude } from "$lib/stores/location";
-	import { date } from "$lib/stores/date";
+	import { APP_TITLE } from "#lib/constants.js";
+	import { AppRouteEnum } from "#lib/enums/AppRouteEnum.js";
+	import type { SunTimeKey } from "#lib/models/SuncalcData.js";
+	import { suncalc } from "#lib/stores/suncalc.js";
+	import { currentTime } from "#lib/stores/currentTime.js";
+	import { latitude, longitude } from "#lib/stores/location.js";
+	import { date } from "#lib/stores/date.js";
 
-	import Time from "$lib/components/Time.svelte";
-	import PlaceTimeInfo from "$lib/components/Clock/LocationInfo.svelte";
-	import CurrentTime from "$lib/components/Clock/TimeDisplay.svelte";
-	import { DaySectionEnum } from "$lib/models/DaySection";
-	import { useSwipeNavigation } from "$lib/actions/swipe.svelte";
+	import Time from "#lib/components/Time.svelte";
+	import PlaceTimeInfo from "#lib/components/Clock/LocationInfo.svelte";
+	import CurrentTime from "#lib/components/Clock/TimeDisplay.svelte";
+	import { DaySectionEnum } from "#lib/models/DaySection.js";
+	import { useSwipeNavigation } from "#lib/actions/swipe.svelte.js";
 
 	useSwipeNavigation(AppRouteEnum.dialView, AppRouteEnum.yearlyView);
 
-	function isBetweenDates(date: Date, start: Date, end: Date): boolean {
+	function isBetweenDates(date: Date, start: Date | null, end: Date | null): boolean {
+		// null would be coerced to 0 in comparisons
+		if (!start || !end) return false;
 		// Special case for night value
 		if (start > end) {
 			return date >= start || date < end;
@@ -34,7 +36,7 @@
 <div class="table-responsive times-list">
 	<table class="table" aria-label="Daylight phases for the date {$date}">
 		<tbody>
-			{#snippet rangeEntry(section: Extract<DaySectionEnum, { end: keyof SuncalcData }>)}
+			{#snippet rangeEntry(section: Extract<DaySectionEnum, { end: SunTimeKey }>)}
 				{@const start = $suncalc[section.start]}
 				{@const end = $suncalc[section.end]}
 				{@const isCurrent = isBetweenDates($currentTime, start, end)}

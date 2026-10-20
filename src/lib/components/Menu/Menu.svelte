@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { page } from "$app/stores";
-	import { AppRouteEnum } from "$lib/enums/AppRouteEnum";
-	import { webGLSupportStatus } from "$lib/utils/webGlSupportStatus";
+	import { page } from "$app/state";
+	import { AppRouteEnum } from "#lib/enums/AppRouteEnum.js";
+	import { webGLSupportStatus } from "#lib/utils/webGlSupportStatus.js";
 
 	import DateForm from "./DateForm/DateForm.svelte";
 	import PlaceForm from "./PlaceForm";
@@ -15,7 +15,7 @@
 		<a
 			href={AppRouteEnum.dialView}
 			class="menu__button display-type display-type_dial"
-			class:active={$page.url.pathname === AppRouteEnum.dialView}
+			class:active={page.url.pathname === AppRouteEnum.dialView}
 			title="dial view"
 			aria-label="dial view"
 		>
@@ -25,7 +25,7 @@
 		<a
 			href={AppRouteEnum.tableView}
 			class="menu__button display-type display-type_table"
-			class:active={$page.url.pathname === AppRouteEnum.tableView}
+			class:active={page.url.pathname === AppRouteEnum.tableView}
 			title="table view"
 			aria-label="table view"
 		>
@@ -35,7 +35,7 @@
 		<a
 			href={AppRouteEnum.yearlyView}
 			class="menu__button display-type display-type_yearly"
-			class:active={$page.url.pathname === AppRouteEnum.yearlyView}
+			class:active={page.url.pathname === AppRouteEnum.yearlyView}
 			title="yearly view"
 			aria-label="yearly view"
 		>
@@ -46,7 +46,7 @@
 			<a
 				href={AppRouteEnum.mapView}
 				class="menu__button display-type display-type_map"
-				class:active={$page.url.pathname === AppRouteEnum.mapView}
+				class:active={page.url.pathname === AppRouteEnum.mapView}
 				title="map view"
 				aria-label="Sun positions on a map"
 			>
@@ -60,19 +60,16 @@
 			class="menu__button placeform"
 			class:active={showPlaceForm}
 			title="place"
-			onclick={() => (showPlaceForm = !showPlaceForm)}
+			onclick={() => (showPlaceForm = !showPlaceForm)}>location settings</button
 		>
-			location settings
-		</button>
+
 		<button
 			type="button"
 			class="menu__button dateform"
 			class:active={showDateForm}
 			title="date"
-			onclick={() => (showDateForm = !showDateForm)}
+			onclick={() => (showDateForm = !showDateForm)}>date settings</button
 		>
-			date settings
-		</button>
 	</div>
 </aside>
 
